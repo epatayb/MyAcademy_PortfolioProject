@@ -1,0 +1,22 @@
+﻿@model About
+@{
+    ViewData["Title"] = "Yeni Hakkımda Bilgisi Ekle";
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<form method="post">
+
+    <label>Başlık</label>
+    <input type="text" asp-for="Title" class="form-control" required/>
+    <br />
+
+    <label>Açıklama</label>
+    <textarea asp-for="Description" class="form-control" rows="5" required></textarea>
+    <br />
+
+    <label>Fotoğraf Url</label>
+    <input type="text" asp-for="ImageUrl" class="form-control" required/>
+    <br />
+
+    <button class="btn btn-outline-dark">Kaydet</button>
+</form>
