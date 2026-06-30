@@ -32,5 +32,21 @@ namespace Portfolio.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public IActionResult UpdateAbout(int id)
+        {
+            var about = _context.Abouts.Find(id);
+            return View(about);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateAbout(About about)
+        {
+            _context.Abouts.Update(about);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
     }
 }
