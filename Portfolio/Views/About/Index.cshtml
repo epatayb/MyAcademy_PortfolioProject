@@ -39,12 +39,15 @@
                             <td class="px-lg py-md text-on-surface-variant">@Model.Description</td>
                             <td class="px-lg py-md text-right">
                                 <div class="flex justify-end gap-sm">
-                                    <button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-md transition-all">
+                                    <a asp-controller="About" asp-action="UpdateAbout" asp-route-id="@Model.Id" 
+                                    class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-md transition-all">
                                         <span class="material-symbols-outlined text-[20px]">edit</span>
-                                    </button>
-                                    <button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-md transition-all">
+                                    </a>
+                                    <a asp-controller="About" asp-action="DeleteAbout" asp-route-id="@Model.Id"
+                                        onclick="return confirm('Silmek istediğinize emin misiniz?')"
+                                        class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-md transition-all">
                                         <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
+                                    </a>
                                 </div>
                             </td>
                         </tr>

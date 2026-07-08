@@ -47,6 +47,14 @@ namespace Portfolio.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult DeleteAbout(int id)
+        {
+            var about = _context.Abouts.Find(id);
+            _context.Abouts.Remove(about);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
 
     }
 }
