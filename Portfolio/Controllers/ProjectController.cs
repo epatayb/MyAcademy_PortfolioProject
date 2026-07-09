@@ -60,5 +60,17 @@ namespace Portfolio.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public IActionResult Delete(int id)
+        {
+            var project = _context.Projects.Find(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+            _context.Projects.Remove(project);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
