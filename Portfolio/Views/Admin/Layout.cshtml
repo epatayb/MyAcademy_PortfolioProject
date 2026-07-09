@@ -1,21 +1,31 @@
 ﻿@{
     Layout = null;
 }
-@*
-    
-*@
 
 <!DOCTYPE html>
 <html class="light" lang="tr">
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Portfolio Admin - Proje Yönetimi</title>
+
+@await Component.InvokeAsync("AdminHead")
+
+<body class="font-body-md text-body-md">
+
+    @await Component.InvokeAsync("_AdminSidebar")
+
+    @await Component.InvokeAsync("_AdminTopNavbar")
+    
+    <!-- Main Content Area -->    
+    <main class="ml-[260px] pt-16 min-h-screen p-lg">
+       
+        <div  class="container">
+            <!-- Page Title & Stats -->
+            <div class="mb-xl">
+                <h1 class="font-h1 text-h1 text-on-surface mb-lg">@ViewData["Title"]</h1>
+            </div>
+            @RenderBody()
+        </div>
+    </main>
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -117,103 +127,6 @@
           },
         }
     </script>
-    <style>
-        body {
-            background-color: #f8f9ff;
-            color: #0b1c30;
-            overflow-x: hidden;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .sidebar-active-indicator {
-            position: absolute;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background-color: #3525cd;
-            border-radius: 0 4px 4px 0;
-        }
-        .custom-shadow {
-            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-<body class="font-body-md text-body-md">
-    <!-- SideNavBar -->
-    <aside class="w-sidebar-width h-screen fixed left-0 top-0 bg-surface-lowest border-r border-outline-variant flex flex-col py-lg z-50">
-        <div class="px-md mb-xl">
-            <h2 class="font-h2 text-h2 font-bold text-primary">Portfolio Admin</h2>
-            <p class="text-on-surface-variant font-label-sm mt-xs">Management Suite</p>
-        </div>
-        <nav class="flex-1 space-y-1">
-            <!-- Dashboard (Inactive) -->
-            <a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span class="font-label-md text-label-md">Dashboard</span>
-            </a>
-            <!-- Projects (Active) -->
-            <a class="relative flex items-center gap-md px-md py-sm text-primary bg-surface-container-low border-l-4 border-primary cursor-pointer active:opacity-80" href="#">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_open</span>
-                <span class="font-label-md text-label-md font-semibold">Projects</span>
-            </a>
-            <!-- Categories -->
-            <a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
-                <span class="material-symbols-outlined">category</span>
-                <span class="font-label-md text-label-md">Categories</span>
-            </a>
-            <!-- Messages -->
-            <a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
-                <span class="material-symbols-outlined">mail</span>
-                <span class="font-label-md text-label-md">Messages</span>
-            </a>
-            <!-- Settings -->
-            <a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
-                <span class="material-symbols-outlined">settings</span>
-                <span class="font-label-md text-label-md">Settings</span>
-            </a>
-        </nav>
-        <div class="mt-auto px-md flex items-center gap-md pt-lg border-t border-outline-variant">
-            <img class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a senior project manager with a friendly expression, wearing a navy blue blazer against a neutral office background. The lighting is soft and professional, emphasizing a modern corporate aesthetic with high-quality, high-key values." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlqBWu1p3aEq67qLFKu3y0UlRSj2DnWM__vm_crDnbFt0J1ysDUDdO844jg0nfKyChHiwtprZpN7CA3NUWKdHRFl9P8J1GJ028acIMqkkHcyPX3vP-AB-NprsvMmxoHSenYYR-g8W4k6DVuPAXSbNCH4DrEV4_2_GzRs1fGTBkJVgBqXOhs8AL0fYxwnpir9XR3RDD69DW37S4km1I3hj57im8Qkw3l9z73SC8C7_IOQ71vqx5-6vGnu6WDoQUdm9B06QEUJwZHz3V" />
-            <div>
-                <p class="font-label-md text-label-md font-bold text-on-surface">Admin User</p>
-                <p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Super Admin</p>
-            </div>
-        </div>
-    </aside>
-    <!-- TopNavBar -->
-    <header class="h-16 fixed top-0 right-0 w-[calc(100%-260px)] bg-surface border-b border-outline-variant shadow-sm z-40 flex justify-between items-center px-lg">
-        <div class="flex items-center gap-md flex-1">
-            <div class="relative w-64">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
-                <input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-1.5 pl-10 pr-4 text-body-md focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all" placeholder="Proje ara..." type="text" />
-            </div>
-        </div>
-        <div class="flex items-center gap-lg">
-            <button class="relative p-2 rounded-full hover:bg-surface-container transition-all">
-                <span class="material-symbols-outlined text-on-surface">notifications</span>
-                <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
-            </button>
-            <div class="flex items-center gap-sm cursor-pointer hover:bg-surface-container p-1 rounded-lg transition-all">
-                <img class="w-8 h-8 rounded-full border border-outline-variant" data-alt="A clean, minimalist circular avatar placeholder icon for a profile, styled with soft gradients of cool gray and white to match a professional dashboard interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6yXRTnH-5I1Y9lwG7rqqAY0wQL5_dLBuYOcikgkmsLDaBHwYkfCWL0xY6uJTFxRJdRh5zFQVZQqKBqItDpW0WgAIzWdThP1O0XZGlNu17J7fXLIMLYSKxo1TbKI_MJDcP9qnTq4Eq6B2EXVwU-6O6vhDRhhTPyzE7XZ_MHqEwnYePUC0qtQvXKr-V3yw6ed5flvo9fN2T3wFQbiHTttuv8mEBz7hzDbUqF2wLRRtrUu6gkcqpZ28i6znDrnHTjyqD9Y8re81xWk2O" />
-                <span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
-            </div>
-        </div>
-    </header>
-    
-    <!-- Main Content Area -->    
-    <main class="ml-[260px] pt-16 min-h-screen p-lg">
-       
-        <div  class="container">
-            <!-- Page Title & Stats -->
-            <div class="mb-xl">
-                <h1 class="font-h1 text-h1 text-on-surface mb-lg">@ViewData["Title"]</h1>
-            </div>
-            @RenderBody()
-        </div>
-    </main>
-    
-    
     <script>
         // Simple micro-interactions
         document.querySelectorAll('button, a').forEach(el => {
