@@ -7,18 +7,7 @@
 <section class="col-span-12 lg:col-span-12">
     @if (Model != null)
     {
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl custom-shadow overflow-hidden">
-            <div class="px-lg py-md border-b border-outline-variant flex justify-between items-center">
-                <h3 class="font-h3 text-h3 text-on-surface"></h3>
-                <div class="flex gap-sm">
-                    <button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-all">
-                        <span class="material-symbols-outlined text-[20px] text-on-surface-variant">filter_list</span>
-                    </button>
-                    <button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-all">
-                        <span class="material-symbols-outlined text-[20px] text-on-surface-variant">download</span>
-                    </button>
-                </div>
-            </div>
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl custom-shadow overflow-hidden">            
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -53,21 +42,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="px-lg py-md bg-surface-container-lowest border-t border-outline-variant flex justify-between items-center">
-                <p class="text-on-surface-variant font-label-sm">Toplam 24 projeden 1-4 arası gösteriliyor</p>
-                <div class="flex gap-xs">
-                    <button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded hover:bg-surface-container transition-all">
-                        <span class="material-symbols-outlined text-[18px]">chevron_left</span>
-                    </button>
-                    <button class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded font-label-sm">1</button>
-                    <button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded hover:bg-surface-container transition-all font-label-sm">2</button>
-                    <button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded hover:bg-surface-container transition-all font-label-sm">3</button>
-                    <button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded hover:bg-surface-container transition-all">
-                        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
-                    </button>
-                </div>
-            </div>
+            </div>            
         </div>
     }
     else
