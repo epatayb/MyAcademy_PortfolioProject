@@ -23,7 +23,7 @@
             <td>@project.Description</td>
             <td><a href="@project.GithubUrl" target="_blank" class="btn btn-outline-dark">Github Url</a></td>
             <td>
-                <a href="@Url.Action("Edit", "Project", new { id = project.Id })" class="btn btn-outline-primary">Güncelle</a>
+                <a href="@Url.Action("Update", "Project", new { id = project.Id })" class="btn btn-outline-primary">Güncelle</a>
                 <a href="@Url.Action("Delete", "Project", new { id = project.Id })" class="btn btn-outline-danger">Sil</a>
             </td>
         </tr>

@@ -37,5 +37,28 @@ namespace Portfolio.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var project = _context.Projects.Find(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+            return View(project);
+        }
+
+        [HttpPost]
+        public IActionResult Update(Project project)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(project);
+            }
+            _context.Projects.Update(project);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
