@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Portfolio.Data.Context;
+using Portfolio.Data.Entities;
 
 namespace Portfolio.Controllers
 {
@@ -16,6 +17,25 @@ namespace Portfolio.Controllers
         {
             var projects = _context.Projects.ToList();
             return View(projects);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Project project)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(project);
+            }
+
+            _context.Projects.Add(project);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
