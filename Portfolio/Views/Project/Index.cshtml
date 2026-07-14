@@ -24,7 +24,7 @@
             <td><a href="@project.GithubUrl" target="_blank" class="btn btn-outline-dark">Github Url</a></td>
             <td>
                 <a href="@Url.Action("Update", "Project", new { id = project.Id })" class="btn btn-outline-primary">Güncelle</a>
-                <a href="@Url.Action("Delete", "Project", new { id = project.Id })" class="btn btn-outline-danger">Sil</a>
+                <button onclick="confirmDelete(@project.Id)" class="btn btn-outline-danger">Sil</button>
             </td>
         </tr>
     }
@@ -32,3 +32,26 @@
 </table>
 
 <a href="@Url.Action("Create", "Project")" class="btn btn-outline-dark">Yeni Proje Ekle</a>
+
+
+<script>
+    function confirmDelete(id) {
+
+        Swal.fire({
+      title: "Silmek istediğinize emin misiniz?",
+      text: "Bu işlemi geri alamazsınız!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Evet, Sil!",
+      cancelButtonText : "İptal"
+    }).then((result) => {
+      if (result.isConfirmed) 
+        {
+            window.location.href = '/Project/Delete/' + id;
+        }
+    });
+
+    }
+</script>
