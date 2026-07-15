@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Portfolio.Data.Context;
 using Portfolio.Data.Entities;
 
@@ -15,7 +16,9 @@ namespace Portfolio.Controllers
 
         public IActionResult Index()
         {
-            var projects = _context.Projects.ToList();
+            var projects = _context.ProjectTechStacks
+                .Include(x=>x.Project)
+                .Include(y=>y.TechStack).ToList();
             return View(projects);
         }
 
