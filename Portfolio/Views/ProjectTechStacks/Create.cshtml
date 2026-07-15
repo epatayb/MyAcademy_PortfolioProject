@@ -4,7 +4,7 @@
     Layout = "~/Views/Admin/Layout.cshtml";
 }
 
-<form action="/" method="post">
+<form method="post">
     <label>Proje Adı:</label>
     <select class="form-control" asp-for="ProjectId" asp-items="@ViewBag.projects" required>
         <option selected disabled>---Projeyi Seçiniz---</option>
@@ -16,5 +16,5 @@
     </select>
     <br />
 
-    <button type="submit" class="btn btn-outline-dark">Kaydet</button>
+    <button class="btn btn-outline-dark">Kaydet</button>
 </form>

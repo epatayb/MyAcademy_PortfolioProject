@@ -45,10 +45,6 @@ namespace Portfolio.Controllers
         [HttpPost]
         public IActionResult Create(ProjectTechStack projectTechStack)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(projectTechStack);
-            }
             _context.ProjectTechStacks.Add(projectTechStack);
             _context.SaveChanges();
             return RedirectToAction("Index");
