@@ -16,9 +16,7 @@ namespace Portfolio.Controllers
 
         public IActionResult Index()
         {
-            var projects = _context.ProjectTechStacks
-                .Include(x=>x.Project)
-                .Include(y=>y.TechStack).ToList();
+            var projects = _context.Projects.ToList();
             return View(projects);
         }
 
