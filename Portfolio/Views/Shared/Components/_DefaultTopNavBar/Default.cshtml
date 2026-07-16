@@ -1,0 +1,319 @@
+﻿@*
+    Default TopNavbar Component
+*@
+
+<nav class="fixed top-0 left-0 w-full z-[100]
+            bg-background/90 dark:bg-background/90
+            backdrop-blur-xl
+            border-b border-outline-variant/10">
+
+    <div class="flex justify-between items-center
+                max-w-[1200px] mx-auto px-gutter h-20">
+
+        <!-- Logo -->
+        <a href="#home"
+           aria-label="Ana Sayfa"
+           class="font-headline-md text-headline-md font-extrabold
+                  tracking-tighter text-on-background
+                  transition-transform active:scale-95">
+            BÜNYAMİN EPATAY
+        </a>
+
+        <!-- Masaüstü Menü -->
+        <ul class="hidden md:flex items-center gap-stack-lg list-none m-0 p-0">
+
+            <li>
+                <a href="#about"
+                   class="text-on-surface-variant hover:text-primary
+                          transition-colors duration-300">
+                    Hakkımda
+                </a>
+            </li>
+
+            <li>
+                <a href="#services"
+                   class="text-on-surface-variant hover:text-primary
+                          transition-colors duration-300">
+                    Hizmetlerim
+                </a>
+            </li>
+
+            <li>
+                <a href="#project"
+                   class="text-on-surface-variant hover:text-primary
+                          transition-colors duration-300">
+                    Projelerim
+                </a>
+            </li>
+
+            <li>
+                <a href="#experience"
+                   class="text-on-surface-variant hover:text-primary
+                          transition-colors duration-300">
+                    Deneyimlerim
+                </a>
+            </li>
+
+            <li>
+                <a href="#contact"
+                   class="text-on-surface-variant hover:text-primary
+                          transition-colors duration-300">
+                    İletişim
+                </a>
+            </li>
+        </ul>
+
+        <!-- Mobil Menü Butonu -->
+        <button id="mobile-menu-btn"
+                type="button"
+                aria-label="Mobil menüyü aç"
+                aria-expanded="false"
+                class="md:hidden flex items-center justify-center
+                       w-11 h-11 rounded-xl
+                       text-on-background
+                       hover:text-primary hover:bg-primary/10
+                       transition-all duration-300
+                       relative z-[130]">
+
+            <span id="menu-icon"
+                  class="material-symbols-outlined">
+                menu
+            </span>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobil Arka Plan -->
+<div id="mobile-menu-backdrop"
+     class="fixed inset-0 z-[105]
+            bg-black/60 backdrop-blur-sm
+            opacity-0 pointer-events-none
+            transition-opacity duration-300
+            md:hidden">
+</div>
+
+<!-- Mobil Menü Paneli -->
+<aside id="mobile-menu"
+       aria-hidden="true"
+       style="transform: translateX(100%);"
+       class="fixed top-0 right-0 bottom-0 z-[120]
+              w-[85%] max-w-[360px]
+              bg-background dark:bg-background
+              border-l border-outline-variant/20
+              shadow-2xl
+              transition-transform duration-300 ease-out
+              md:hidden
+              flex flex-col">
+
+    <!-- Menü Üst Alanı -->
+    <div class="flex items-center h-20 px-6
+                border-b border-outline-variant/10">
+
+        <div>
+            <p class="text-xs uppercase tracking-[0.2em]
+                      text-on-surface-variant font-semibold">
+                Portfolyo
+            </p>
+
+            <h2 class="text-xl font-bold text-on-background">
+                Menü
+            </h2>
+        </div>
+    </div>
+
+    <!-- Menü Linkleri -->
+    <ul class="flex flex-col gap-2 list-none m-0 p-4 overflow-y-auto">
+
+        <li>
+            <a href="#about"
+               class="mobile-nav-link group flex items-center gap-4
+                      px-4 py-4 rounded-xl
+                      text-on-surface
+                      hover:bg-primary/10 hover:text-primary
+                      transition-all duration-300">
+
+                <span class="material-symbols-outlined
+                             text-on-surface-variant
+                             group-hover:text-primary">
+                    person
+                </span>
+
+                <span class="font-medium">Hakkımda</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#services"
+               class="mobile-nav-link group flex items-center gap-4
+                      px-4 py-4 rounded-xl
+                      text-on-surface
+                      hover:bg-primary/10 hover:text-primary
+                      transition-all duration-300">
+
+                <span class="material-symbols-outlined
+                             text-on-surface-variant
+                             group-hover:text-primary">
+                    design_services
+                </span>
+
+                <span class="font-medium">Hizmetlerim</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#project"
+               class="mobile-nav-link group flex items-center gap-4
+                      px-4 py-4 rounded-xl
+                      text-on-surface
+                      hover:bg-primary/10 hover:text-primary
+                      transition-all duration-300">
+
+                <span class="material-symbols-outlined
+                             text-on-surface-variant
+                             group-hover:text-primary">
+                    terminal
+                </span>
+
+                <span class="font-medium">Projelerim</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#experience"
+               class="mobile-nav-link group flex items-center gap-4
+                      px-4 py-4 rounded-xl
+                      text-on-surface
+                      hover:bg-primary/10 hover:text-primary
+                      transition-all duration-300">
+
+                <span class="material-symbols-outlined
+                             text-on-surface-variant
+                             group-hover:text-primary">
+                    work_history
+                </span>
+
+                <span class="font-medium">Deneyimlerim</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#contact"
+               class="mobile-nav-link group flex items-center gap-4
+                      px-4 py-4 rounded-xl
+                      text-on-surface
+                      hover:bg-primary/10 hover:text-primary
+                      transition-all duration-300">
+
+                <span class="material-symbols-outlined
+                             text-on-surface-variant
+                             group-hover:text-primary">
+                    mail
+                </span>
+
+                <span class="font-medium">İletişim</span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Menü Alt Alanı -->
+    <div class="mt-auto px-6 py-6
+                border-t border-outline-variant/10">
+
+        <p class="text-xs text-on-surface-variant">
+            © @DateTime.Now.Year Bünyamin Epatay
+        </p>
+    </div>
+</aside>
+
+<script>
+    (function () {
+        const mobileButton = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuBackdrop = document.getElementById("mobile-menu-backdrop");
+        const menuIcon = document.getElementById("menu-icon");
+        const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+
+        if (!mobileButton || !mobileMenu || !menuBackdrop || !menuIcon) {
+            console.error("Mobil menü elementleri bulunamadı.");
+            return;
+        }
+
+        let menuIsOpen = false;
+
+        function openMobileMenu() {
+            menuIsOpen = true;
+
+            mobileMenu.style.transform = "translateX(0)";
+            mobileMenu.setAttribute("aria-hidden", "false");
+
+            menuBackdrop.classList.remove(
+                "opacity-0",
+                "pointer-events-none"
+            );
+
+            menuBackdrop.classList.add(
+                "opacity-100",
+                "pointer-events-auto"
+            );
+
+            mobileButton.setAttribute("aria-expanded", "true");
+            mobileButton.setAttribute("aria-label", "Mobil menüyü kapat");
+
+            menuIcon.textContent = "close";
+
+            document.documentElement.classList.add("overflow-hidden");
+            document.body.classList.add("overflow-hidden");
+        }
+
+        function closeMobileMenu() {
+            menuIsOpen = false;
+
+            mobileMenu.style.transform = "translateX(100%)";
+            mobileMenu.setAttribute("aria-hidden", "true");
+
+            menuBackdrop.classList.remove(
+                "opacity-100",
+                "pointer-events-auto"
+            );
+
+            menuBackdrop.classList.add(
+                "opacity-0",
+                "pointer-events-none"
+            );
+
+            mobileButton.setAttribute("aria-expanded", "false");
+            mobileButton.setAttribute("aria-label", "Mobil menüyü aç");
+
+            menuIcon.textContent = "menu";
+
+            document.documentElement.classList.remove("overflow-hidden");
+            document.body.classList.remove("overflow-hidden");
+        }
+
+        mobileButton.addEventListener("click", function () {
+            if (menuIsOpen) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        });
+
+        menuBackdrop.addEventListener("click", closeMobileMenu);
+
+        mobileLinks.forEach(function (link) {
+            link.addEventListener("click", closeMobileMenu);
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && menuIsOpen) {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener("resize", function () {
+            if (window.innerWidth >= 768 && menuIsOpen) {
+                closeMobileMenu();
+            }
+        });
+    })();
+</script>
