@@ -20,6 +20,9 @@ namespace Portfolio.Data.Entities
         [Required(ErrorMessage = "Github URL boş bırakılamaz.")]
         public string GithubUrl { get; set; }
 
+        [Range(1, int.MaxValue, ErrorMessage = "Sıralama değeri en az 1 olmalıdır.")]
+        public int DisplayOrder { get; set; } = 1;
+
         public List<ProjectTechStack>? ProjectTechStacks { get; set; } = [];
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Data.Context;
 using Portfolio.Data.Entities;
+using System.Threading.Tasks;
 
 namespace Portfolio.Controllers
 {
@@ -21,9 +22,17 @@ namespace Portfolio.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var lastOrder = await _context.Projects
+                .Select(x=> (int?)x.DisplayOrder)
+                .MaxAsync() ?? 0;
+
+            var project = new Project
+            {
+                DisplayOrder = lastOrder + 1
+            };
+            return View(project);
         }
 
         [HttpPost]

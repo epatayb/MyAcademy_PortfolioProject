@@ -27,5 +27,10 @@
     <span asp-validation-for="GithubUrl" class="text-danger"></span>
     <br />
 
+    <label asp-for="DisplayOrder">Gösterim Sırası</label>
+    <input asp-for="DisplayOrder" type="number" min="1" class="form-control" placeholder="Örneğin: 1" />
+    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+    <br />
+
     <button type="submit" class="btn btn-outline-dark">Güncelle</button>
 </form>

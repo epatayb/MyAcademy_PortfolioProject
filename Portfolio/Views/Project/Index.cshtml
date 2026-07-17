@@ -10,6 +10,7 @@
         <th>Proje Adı</th>
         <th>Proje Açıklaması</th>
         <th>Github Linki</th>
+        <th>Gösterim Sırası</th>
         <th>İşlemler</th>
     </tr>
 
@@ -22,6 +23,13 @@
             <td>@project.Name</td>
             <td>@project.Description</td>
             <td><a href="@project.GithubUrl" target="_blank" class="btn btn-outline-dark">Github Url</a></td>
+            <td class="px-4 py-3">
+                <span class="inline-flex items-center justify-center
+                     min-w-8 h-8 rounded-full
+                     bg-primary/10 text-primary font-semibold">
+                    @project.DisplayOrder
+                </span>
+            </td>
             <td>
                 <a href="@Url.Action("Update", "Project", new { id = project.Id })" class="btn btn-outline-primary">Güncelle</a>
                 <button onclick="confirmDelete(@project.Id)" class="btn btn-outline-danger">Sil</button>
