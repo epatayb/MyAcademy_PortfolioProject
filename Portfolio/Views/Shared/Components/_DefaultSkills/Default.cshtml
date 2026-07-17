@@ -1,0 +1,17 @@
+﻿@*
+    default skills component view
+*@
+
+@model List<Skill>
+
+<div class="mt-stack-sm">
+    <h4 class="font-label-md text-label-md text-primary mb-1">Kullandığım Teknolojiler</h4>
+
+    <p class="font-body-md text-body-md text-on-surface-variant">
+        @string.Join(", ",
+        Model
+        .Where(x => x.IsActive)
+        .Select(x => x.Name))
+    </p>
+    
+</div>
