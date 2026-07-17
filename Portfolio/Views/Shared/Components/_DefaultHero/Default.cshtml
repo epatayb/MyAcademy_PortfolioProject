@@ -1,0 +1,310 @@
+﻿@model Banner
+@*
+    default hero banners component view
+*@
+
+<section id="home"
+         class="relative min-h-screen overflow-hidden
+                flex items-center
+                px-gutter pt-28 pb-16">
+
+    <div class="relative z-10 max-w-container-max mx-auto w-full
+                grid grid-cols-1 lg:grid-cols-2
+                gap-16 lg:gap-24 items-center">
+
+        <!-- Sol içerik -->
+        <div class="max-w-3xl">
+
+            <!-- Karşılama etiketi -->
+            <div class="inline-flex items-center gap-2
+                        px-5 py-2 rounded-full
+                        border border-primary
+                        text-primary
+                        font-label-sm text-label-sm
+                        mb-8">
+
+                <span aria-hidden="true">👋</span>
+                Portfolyoma Hoş Geldiniz
+            </div>
+
+            <!-- Başlık -->
+            <h1 class="font-headline-md
+                       text-[48px] sm:text-[64px] lg:text-[76px]
+                       leading-[1.05] font-extrabold
+                       tracking-tight text-on-background">
+                @Model.Title
+                <span class="block
+                             bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500
+                             bg-clip-text text-transparent">
+                    Developer
+                </span>
+            </h1>
+
+            <!-- Değişen yazı -->
+            <div class="mt-7 flex items-center gap-3
+                        font-mono text-lg sm:text-2xl">
+
+                <span class="text-on-surface-variant">
+                    Geliştirdiğim:
+                </span>
+
+                <span id="typing-text"
+                      class="text-primary font-medium">
+                    Web Uygulamaları
+                </span>
+
+                <span class="typing-cursor text-primary"
+                      aria-hidden="true">
+                    |
+                </span>
+            </div>
+
+            <!-- Açıklama -->
+            <p class="mt-8 max-w-2xl
+                      font-body-md text-body-md
+                      sm:text-lg leading-8
+                      text-on-surface-variant">
+                @Model.Description
+            </p>
+
+            <!-- Butonlar -->
+            <div class="flex flex-col sm:flex-row
+                        gap-4 mt-10">
+
+                <a href="#project"
+                   class="inline-flex items-center justify-center gap-2
+                          min-h-14 px-7 rounded-xl
+                          bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500
+                          text-white font-semibold
+                          shadow-lg shadow-primary/20
+                          hover:-translate-y-1
+                          hover:shadow-xl hover:shadow-primary/30
+                          transition-all duration-300">
+
+                    <span class="material-symbols-outlined">
+                        visibility
+                    </span>
+
+                    Projelerimi İncele
+                </a>
+
+                <a href="#contact"
+                   class="inline-flex items-center justify-center gap-2
+                          min-h-14 px-7 rounded-xl
+                          border border-outline-variant/40
+                          text-on-background font-semibold
+                          hover:border-primary
+                          hover:text-primary
+                          hover:-translate-y-1
+                          transition-all duration-300">
+
+                    <span class="material-symbols-outlined">
+                        send
+                    </span>
+
+                    İletişime Geç
+                </a>
+            </div>
+
+            <!-- Teknolojiler -->
+            <div class="flex flex-wrap gap-2 mt-8">
+
+                <span class="px-3 py-1.5 rounded-full
+                             border border-outline-variant/20
+                             bg-surface-container/30
+                             text-sm text-on-surface-variant">
+                    ASP.NET Core
+                </span>
+
+                <span class="px-3 py-1.5 rounded-full
+                             border border-outline-variant/20
+                             bg-surface-container/30
+                             text-sm text-on-surface-variant">
+                    Web API
+                </span>
+
+                <span class="px-3 py-1.5 rounded-full
+                             border border-outline-variant/20
+                             bg-surface-container/30
+                             text-sm text-on-surface-variant">
+                    EF Core
+                </span>
+
+                <span class="px-3 py-1.5 rounded-full
+                             border border-outline-variant/20
+                             bg-surface-container/30
+                             text-sm text-on-surface-variant">
+                    SQL Server
+                </span>
+            </div>
+        </div>
+
+        <!-- Sağ proje görseli -->
+        <div class="relative flex justify-center lg:justify-end
+                    pt-16 lg:pt-24">            
+
+            <!-- Proje kartı -->
+            <div class="group relative w-full max-w-[540px]
+                        rotate-[1.5deg]
+                        hover:rotate-0 hover:-translate-y-2
+                        transition-all duration-500">
+
+                <!-- Işık -->
+                <div class="absolute -inset-5
+                            rounded-[2rem]
+                            bg-primary/10 blur-3xl
+                            opacity-50
+                            group-hover:opacity-80
+                            transition-opacity duration-500">
+                </div>
+
+                <div class="relative overflow-hidden
+                            rounded-[1.5rem]
+                            border border-outline-variant/30
+                            bg-surface-container-low/80
+                            backdrop-blur-xl
+                            shadow-2xl">
+
+                    <!-- Kart üst alanı -->
+                    <div class="flex items-center justify-between
+                                px-5 py-4
+                                border-b border-outline-variant/20">
+
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-400"></span>
+                        </div>
+
+                        <span class="font-mono text-xs
+                                     text-on-surface-variant">
+                            featured-project
+                        </span>
+                    </div>
+
+                    <!-- Görsel -->
+                    <div class="relative aspect-[4/3] overflow-hidden">
+
+                        <img src="/images/@Model.ImageUrl"
+                             alt="Öne çıkan proje ekran görüntüsü"
+                             class="w-full h-full object-cover
+                                    group-hover:scale-105
+                                    transition-transform duration-700" />
+
+                        <div class="absolute inset-0
+                                    bg-gradient-to-t
+                                    from-black/80 via-black/10 to-transparent">
+                        </div>
+
+                        <!-- Proje bilgisi -->
+                        <div class="absolute left-0 right-0 bottom-0
+                                    p-6">
+
+                            <span class="inline-flex px-3 py-1
+                                         rounded-full
+                                         bg-primary text-on-primary
+                                         text-xs font-semibold mb-3">
+                                Öne Çıkan Proje
+                            </span>
+
+                            <h2 class="text-xl sm:text-2xl
+                                       font-bold text-white">
+                                Gezgin Seyahat Blogu
+                            </h2>
+
+                            <p class="mt-2 text-sm leading-6
+                                      text-white/70 line-clamp-2">
+                                İçerik yönetimi, kullanıcı rolleri, yorumlar,
+                                beğeniler ve gelişmiş yönetim paneli içeren
+                                ASP.NET Core tabanlı web uygulaması.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Alt teknoloji alanı -->
+                    <div class="flex flex-wrap items-center gap-2
+                                px-5 py-4">
+
+                        <span class="px-3 py-1 rounded-full
+                                     bg-primary/10 text-primary
+                                     text-xs">
+                            ASP.NET Core
+                        </span>
+
+                        <span class="px-3 py-1 rounded-full
+                                     bg-primary/10 text-primary
+                                     text-xs">
+                            EF Core
+                        </span>
+
+                        <span class="px-3 py-1 rounded-full
+                                     bg-primary/10 text-primary
+                                     text-xs">
+                            Identity
+                        </span>
+
+                        <a href="https://github.com/epatayb/GezginTravelProject" target="_blank"
+                           class="ml-auto inline-flex items-center gap-1
+                                  text-sm font-medium text-primary
+                                  hover:underline">
+
+                            Detayları Gör
+
+                            <span class="material-symbols-outlined text-base">
+                                arrow_outward
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    (function () {
+        const typingElement = document.getElementById("typing-text");
+
+        if (!typingElement) {
+            return;
+        }
+
+        const texts = [
+            "Web Uygulamaları",
+            "Backend Çözümleri"
+            "REST API Sistemleri",
+            "Yönetim Panelleri",
+        ];
+
+        let textIndex = 0;
+        let characterIndex = 0;
+        let isDeleting = false;
+
+        function typeText() {
+            const currentText = texts[textIndex];
+
+            if (isDeleting) {
+                characterIndex--;
+            } else {
+                characterIndex++;
+            }
+
+            typingElement.textContent =
+                currentText.substring(0, characterIndex);
+
+            let delay = isDeleting ? 45 : 90;
+
+            if (!isDeleting && characterIndex === currentText.length) {
+                isDeleting = true;
+                delay = 1400;
+            } else if (isDeleting && characterIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                delay = 350;
+            }
+            window.setTimeout(typeText, delay);
+        }
+        typeText();
+    })();
+</script>
