@@ -34,35 +34,18 @@
         <section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative" id="experience">
             <div class="max-w-container-max mx-auto">
                 <div class="text-center mb-stack-lg">
-                    <h2 class="font-headline-md text-headline-md text-on-background">Resume</h2>
-                    <p class="font-body-md text-body-md text-on-surface-variant mt-2">My professional journey and academic background.</p>
+                    <h2 class="font-headline-md text-headline-md text-on-background">Kariyer Yolculuğum</h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant mt-2">Eğitim hayatım, deneyimlerim ve gelişim sürecim.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
                     <!-- Experience -->
                     @await Component.InvokeAsync("_DefaultExperience")
                     <!-- Education -->
-                    <div>
-                        <h3 class="font-body-lg text-body-lg font-semibold text-on-background mb-stack-md flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">school</span> Education
-                        </h3>
-                        <div class="relative border-l border-outline-variant/30 pl-6 ml-3 space-y-stack-lg">
-                            <div class="relative">
-                                <span class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary ring-4 ring-background"></span>
-                                <h4 class="font-body-lg text-body-lg text-on-background font-semibold">M.S. Computer Science</h4>
-                                <p class="font-label-sm text-label-sm text-primary mb-2">Stanford University | 2016 - 2018</p>
-                                <p class="font-body-md text-body-md text-on-surface-variant">Specialized in Human-Computer Interaction and Advanced Web Technologies.</p>
-                            </div>
-                            <div class="relative">
-                                <span class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-surface-variant ring-4 ring-background"></span>
-                                <h4 class="font-body-lg text-body-lg text-on-background font-semibold">B.S. Software Engineering</h4>
-                                <p class="font-label-sm text-label-sm text-primary mb-2">MIT | 2012 - 2016</p>
-                                <p class="font-body-md text-body-md text-on-surface-variant">Graduated with honors. Minor in Graphic Design.</p>
-                            </div>
-                        </div>
-                    </div>
+                    @await Component.InvokeAsync("_DefaultEducation")                    
                 </div>
             </div>
         </section>
+
         <!-- Services Section -->
         <section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative bg-surface-container-lowest" id="services">
             <div class="max-w-container-max mx-auto">
@@ -89,6 +72,7 @@
                 </div>
             </div>
         </section>
+
         <!-- Portfolio Slider Section -->
         <section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative overflow-hidden" id="project">
             <div class="max-w-container-max mx-auto mb-stack-lg flex justify-between items-end">
@@ -162,6 +146,7 @@
                 </div>
             </div>
         </section>
+
         <!-- Testimonials Section -->
         <section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative" id="testimonials">
             <div class="max-w-container-max mx-auto">
@@ -224,6 +209,7 @@
                 </div>
             </div>
         </section>
+
         <!-- Contact Section -->
         <section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative bg-surface-container-lowest" id="contact">
             <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
