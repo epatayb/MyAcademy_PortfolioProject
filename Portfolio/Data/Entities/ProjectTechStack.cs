@@ -7,7 +7,7 @@
         public int TechStackId { get; set; }
 
         // navigation properties
-        public Project Project { get; set; }
-        public TechStack TechStack { get; set; }
+        public Project Project { get; set; } = null!;
+        public TechStack TechStack { get; set; } = null!;
     }
 }
