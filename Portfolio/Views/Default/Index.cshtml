@@ -47,31 +47,7 @@
         </section>
 
         <!-- Services Section -->
-        <section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative bg-surface-container-lowest" id="services">
-            <div class="max-w-container-max mx-auto">
-                <h2 class="font-headline-md text-headline-md text-on-background mb-stack-lg">Specialized Services</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
-                    <!-- Service 1 -->
-                    <div class="glass-card p-stack-lg rounded-xl flex flex-col gap-stack-sm hover:-translate-y-2 transition-transform duration-300">
-                        <span class="material-symbols-outlined text-primary text-4xl mb-stack-sm" style="font-variation-settings: 'FILL' 0;">code</span>
-                        <h3 class="font-body-lg text-body-lg font-semibold text-on-background">Web Development</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant">Building robust, scalable front-end and back-end architectures using modern frameworks like React, Next.js, and Node.js.</p>
-                    </div>
-                    <!-- Service 2 -->
-                    <div class="glass-card p-stack-lg rounded-xl flex flex-col gap-stack-sm hover:-translate-y-2 transition-transform duration-300">
-                        <span class="material-symbols-outlined text-primary text-4xl mb-stack-sm" style="font-variation-settings: 'FILL' 0;">design_services</span>
-                        <h3 class="font-body-lg text-body-lg font-semibold text-on-background">UI/UX Design</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant">Crafting intuitive, user-centric interfaces with a focus on minimalist aesthetics, typography, and fluid micro-interactions.</p>
-                    </div>
-                    <!-- Service 3 -->
-                    <div class="glass-card p-stack-lg rounded-xl flex flex-col gap-stack-sm hover:-translate-y-2 transition-transform duration-300">
-                        <span class="material-symbols-outlined text-primary text-4xl mb-stack-sm" style="font-variation-settings: 'FILL' 0;">cloud</span>
-                        <h3 class="font-body-lg text-body-lg font-semibold text-on-background">Cloud Solutions</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant">Deploying and managing secure, high-availability infrastructure on AWS and Vercel for optimal performance.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        @await Component.InvokeAsync("_DefaultServices")
 
         <!-- Portfolio Slider Section -->
         <section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative overflow-hidden" id="project">
