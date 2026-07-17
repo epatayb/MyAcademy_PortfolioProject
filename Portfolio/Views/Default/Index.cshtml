@@ -49,79 +49,8 @@
         <!-- Services Section -->
         @await Component.InvokeAsync("_DefaultServices")
 
-        <!-- Portfolio Slider Section -->
-        <section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative overflow-hidden" id="project">
-            <div class="max-w-container-max mx-auto mb-stack-lg flex justify-between items-end">
-                <div>
-                    <h2 class="font-headline-md text-headline-md text-on-background">Selected Work</h2>
-                    <p class="font-body-md text-body-md text-on-surface-variant mt-2">A collection of my recent projects.</p>
-                </div>
-                <div class="hidden md:flex gap-4">
-                    <button class="p-2 rounded-full border border-outline hover:bg-surface-variant transition-colors text-on-background" id="prev-btn">
-                        <span class="material-symbols-outlined">arrow_back</span>
-                    </button>
-                    <button class="p-2 rounded-full border border-outline hover:bg-surface-variant transition-colors text-on-background" id="next-btn">
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </button>
-                </div>
-            </div>
-            <div class="flex gap-stack-md overflow-x-auto hide-scrollbar pb-8 px-gutter md:px-0 max-w-container-max mx-auto snap-x snap-mandatory" id="slider-container">
-                <!-- Project 1 -->
-                <div class="min-w-[300px] md:min-w-[400px] lg:min-w-[500px] snap-center glass-card rounded-xl overflow-hidden group">
-                    <div class="aspect-video overflow-hidden relative">
-                        <img alt="Project 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKDXSqWv9xR6q2_49o1v2ZkSNVtbgombG-1RrY7Jk6nnu-usFYjwoHPKLXKSbF0Vj3ASDnsjyHWA2WYxhpzgwWQGhCd7HfY05cK5BVHoCb_Vdy4CsMCXP_MaGchUUoS0lovp_PGK3U-7ooIbwuIstu9wMwkrukUJf41_CetYQPr0JRGVF3ipbbwX-eqOnyppZS_QIZJIca3ahqMs9wWp2iOO8Cqt7WC2s9nx_SDl7JBeamS_vs9tJoLH3ZP8TkbO38ezWEtaacgVew" />
-                        <div class="absolute inset-0 bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <a class="px-6 py-2 bg-primary text-on-primary rounded-DEFAULT font-label-sm text-label-sm" href="#">View Project</a>
-                        </div>
-                    </div>
-                    <div class="p-stack-md">
-                        <h3 class="font-body-lg text-body-lg font-semibold text-on-background mb-2">Fintech Dashboard</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2">A comprehensive analytics dashboard for financial data visualization, featuring real-time updates and customizable widgets.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-on-surface">React</span>
-                            <span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-on-surface">TypeScript</span>
-                            <span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-on-surface">D3.js</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project 2 -->
-                <div class="min-w-[300px] md:min-w-[400px] lg:min-w-[500px] snap-center glass-card rounded-xl overflow-hidden group">
-                    <div class="aspect-video overflow-hidden relative">
-                        <img alt="Project 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9fBYvb2aatnvH0y9asoNEO8El8aq7Hjxdzt96oM53qrXYvJxa_xQhDWvW7Yx3NdM8a7ACuDlAG6lcFNYYatz7qPvSfLAuhqEGVw7iLrVak2q3ZzFWZ9aRnY1_ZjSKJDq08Fm_my8wKO6So1FOy7jk5pU6IFT8HopZwVm0BEWcfU2-pi00oFmeR4X76ADuHxu_V2J6t5wZE3IWceNgpkb2oEMWzgCPCMjR8-ljsGszpw5CCNeuVWfocL8agsU0s4-3PL9SZdVBb8uG" />
-                        <div class="absolute inset-0 bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <a class="px-6 py-2 bg-primary text-on-primary rounded-DEFAULT font-label-sm text-label-sm" href="#">View Project</a>
-                        </div>
-                    </div>
-                    <div class="p-stack-md">
-                        <h3 class="font-body-lg text-body-lg font-semibold text-on-background mb-2">E-Commerce Platform</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2">A high-conversion headless e-commerce storefront with integrated CMS and seamless checkout flow.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-on-surface">Next.js</span>
-                            <span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-on-surface">Stripe</span>
-                            <span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-on-surface">Sanity CMS</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project 3 -->
-                <div class="min-w-[300px] md:min-w-[400px] lg:min-w-[500px] snap-center glass-card rounded-xl overflow-hidden group">
-                    <div class="aspect-video overflow-hidden relative">
-                        <img alt="Project 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbtvvtJI0A3PME0EmRhL3HCZdlv5dlbXCqPIHewB3DmW4oG4ZBpONFxywOQQnAo5Kd3lFKvCuzchCZ0WJVWYOTsT8AW6MxM7TJOscc0seUXzMrIKX8eJtBapCthYVCJHd4Fix0uzZfuJ2R32IzO5MQm_B_tCDC-RFy_WQmqk7E0XrmORI3PQTUn1KQxhyHCysngI1sKaPMOQmahxGR9w6eQxEQCENPBwMbxM91sOsAHmiTfQE5_X4ApjC7qFAgnY0JidMOMrzdr2xy" />
-                        <div class="absolute inset-0 bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <a class="px-6 py-2 bg-primary text-on-primary rounded-DEFAULT font-label-sm text-label-sm" href="#">View Project</a>
-                        </div>
-                    </div>
-                    <div class="p-stack-md">
-                        <h3 class="font-body-lg text-body-lg font-semibold text-on-background mb-2">AI Task Manager</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2">A smart productivity tool that uses machine learning to prioritize tasks and suggest optimal schedules.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-on-surface">Vue.js</span>
-                            <span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-on-surface">Python</span>
-                            <span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-on-surface">TensorFlow</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Project Slider Section -->
+        @await Component.InvokeAsync("_DefaultProject")        
 
         <!-- Testimonials Section -->
         <section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative" id="testimonials">
