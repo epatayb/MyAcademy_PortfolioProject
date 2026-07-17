@@ -5,6 +5,10 @@
 
 <div class="glass-card p-stack-lg rounded-xl">
     <form method="post" asp-controller="Default" asp-action="SendMessage" class="flex flex-col gap-stack-md">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly"
+             class="text-red-500 text-sm">
+        </div>
         <div>
             <label class="font-label-sm text-label-sm text-on-surface-variant block mb-2" for="name">Ad-Soyad</label>
             <input required asp-for="Name" class="w-full bg-surface-variant/50 border border-outline-variant rounded-md px-4 py-3 text-on-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Bünyamin Epatay" type="text" />
@@ -17,27 +21,21 @@
             <label class="font-label-sm text-label-sm text-on-surface-variant block mb-2" for="message">Mesajınız</label>
 <textarea required asp-for="MessageBody" class="w-full bg-surface-variant/50 border border-outline-variant rounded-md px-4 py-3 text-on-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all min-h-[150px]" placeholder="Bana Yazın..."></textarea>
         </div>
-        <button class="w-full px-8 py-4 bg-primary text-on-primary rounded-DEFAULT font-label-sm text-label-sm hover:opacity-90 transition-opacity mt-2" type="submit" onclick="sendMessage()">Mesaj Gönder</button>
+        <button class="w-full px-8 py-4 bg-primary text-on-primary rounded-DEFAULT font-label-sm text-label-sm hover:opacity-90 transition-opacity mt-2" type="submit">Mesaj Gönder</button>
     </form>
 </div>
 
-<script>
-    function sendMessage() {
 
-        Swal.fire({
-      title: "Mesajınız gönderildi!",
-      text: "Size en kısa sürede dönüş yapılacaktır.",
-      icon: "success",
-      showCancelButton: false,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Tamam",
-    }).then((result) => {
-      if (result.isConfirmed)
-        {
-            window.location.href = '/Default/Index/'
-        }
-    });
-
-    }
-</script>
+@if (TempData["MessageSent"] is not null)
+{
+    <script>
+        window.addEventListener("load", function () {
+            Swal.fire({
+                title: "Mesajınız gönderildi!",
+                text: "Size en kısa sürede dönüş yapılacaktır.",
+                icon: "success",
+                confirmButtonText: "Tamam"
+            });
+        });
+    </script>
+}

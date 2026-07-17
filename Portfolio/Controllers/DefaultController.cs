@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Portfolio.Data.Context;
 using Portfolio.Data.Entities;
+using System.Threading.Tasks;
 
 namespace Portfolio.Controllers
 {
@@ -18,11 +19,21 @@ namespace Portfolio.Controllers
             return View();
         }
 
-        public IActionResult SendMessage(UserMessage userMessage)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendMessage(UserMessage userMessage)
         {
+            if (!ModelState.IsValid)
+            {
+                return Redirect("/Default/Index#contact");
+            }
+
             _context.UserMessages.Add(userMessage);
-            _context.SaveChanges();
-            return NoContent();
+            await _context.SaveChangesAsync();
+
+            TempData["MessageSent"] = true;
+
+            return Redirect("/Default/Index#home");
         }
     }
 }
