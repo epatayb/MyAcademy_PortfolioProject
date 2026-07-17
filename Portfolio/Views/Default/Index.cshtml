@@ -39,25 +39,7 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
                     <!-- Experience -->
-                    <div>
-                        <h3 class="font-body-lg text-body-lg font-semibold text-on-background mb-stack-md flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">work</span> Experience
-                        </h3>
-                        <div class="relative border-l border-outline-variant/30 pl-6 ml-3 space-y-stack-lg">
-                            <div class="relative">
-                                <span class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary ring-4 ring-background"></span>
-                                <h4 class="font-body-lg text-body-lg text-on-background font-semibold">Senior Frontend Engineer</h4>
-                                <p class="font-label-sm text-label-sm text-primary mb-2">TechNova Inc. | 2021 - Present</p>
-                                <p class="font-body-md text-body-md text-on-surface-variant">Lead the development of core web applications, improving load times by 40% and mentoring junior developers.</p>
-                            </div>
-                            <div class="relative">
-                                <span class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-surface-variant ring-4 ring-background"></span>
-                                <h4 class="font-body-lg text-body-lg text-on-background font-semibold">Full Stack Developer</h4>
-                                <p class="font-label-sm text-label-sm text-primary mb-2">Digital Dynamics | 2018 - 2021</p>
-                                <p class="font-body-md text-body-md text-on-surface-variant">Developed robust e-commerce platforms using the MERN stack, integrating complex payment gateways.</p>
-                            </div>
-                        </div>
-                    </div>
+                    @await Component.InvokeAsync("_DefaultExperience")
                     <!-- Education -->
                     <div>
                         <h3 class="font-body-lg text-body-lg font-semibold text-on-background mb-stack-md flex items-center gap-2">
