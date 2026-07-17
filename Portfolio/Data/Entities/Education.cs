@@ -7,7 +7,7 @@
         public string Department { get; set; }
         public string Description { get; set; }
         public double GPA { get; set; }
-        public int StartYear { get; set; }
+        public string StartYear { get; set; }
         public string? GraduationYear { get; set; }        
     }
 }
