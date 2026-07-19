@@ -9,6 +9,7 @@
         <th>Görsel</th>
         <th>Proje Adı</th>
         <th>Proje Açıklaması</th>
+        <th>Teknoloiler</th>
         <th>Github Linki</th>
         <th>Gösterim Sırası</th>
         <th>İşlemler</th>
@@ -22,17 +23,51 @@
             </td>
             <td>@project.Name</td>
             <td>@project.Description</td>
-            <td><a href="@project.GithubUrl" target="_blank" class="btn btn-outline-dark">Github Url</a></td>
+            <td>
+                @if (project.ProjectTechStacks.Any())
+                {
+                    <div class="d-flex flex-wrap" style="gap: 6px;">
+                        @foreach (var relation in project.ProjectTechStacks
+                                        .OrderBy(x => x.SortOrder))
+                        {
+                            <span class="tech-badge">
+                                @relation.TechStack.Name
+                            </span>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <span class="text-muted">Teknoloji Eklenmedi</span>
+                }
+            </td>
+            <td><a href="@project.GithubUrl" target="_blank" class="btn btn-sm btn-outline-dark align-items-center">Github Url</a></td>
             <td class="px-4 py-3">
-                <span class="inline-flex items-center justify-center
-                     min-w-8 h-8 rounded-full
-                     bg-primary/10 text-primary font-semibold">
+                <span class="inline-flex items-center justify-center min-w-8 h-8 rounded-full bg-primary/10 text-primary font-semibold">
                     @project.DisplayOrder
                 </span>
             </td>
             <td>
-                <a href="@Url.Action("Update", "Project", new { id = project.Id })" class="btn btn-outline-primary">Güncelle</a>
-                <button onclick="confirmDelete(@project.Id)" class="btn btn-outline-danger">Sil</button>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+
+                    <a asp-controller="ProjectTechStacks"
+                       asp-action="Add"
+                       asp-route-projectId="@project.Id"
+                       class="btn btn-sm btn-outline-success">
+                        TeknoloJiler
+                    </a>
+
+                    <a href="@Url.Action("Update", "Project", new { id = project.Id })"
+                       class="btn btn-sm btn-outline-primary">
+                        Güncelle
+                    </a>
+
+                    <button type="button"
+                            onclick="confirmDelete(@project.Id)"
+                            class="btn btn-sm btn-outline-danger">
+                        Sil
+                    </button>
+                </div>
             </td>
         </tr>
     }
@@ -55,7 +90,7 @@
       confirmButtonText: "Evet, Sil!",
       cancelButtonText : "İptal"
     }).then((result) => {
-      if (result.isConfirmed) 
+      if (result.isConfirmed)
         {
             window.location.href = '/Project/Delete/' + id;
         }

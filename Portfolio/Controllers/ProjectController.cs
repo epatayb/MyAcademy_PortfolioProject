@@ -15,9 +15,16 @@ namespace Portfolio.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var projects = _context.Projects.ToList();
+            var projects = await _context.Projects
+                .AsNoTracking()
+                .Include(x => x.ProjectTechStacks
+                    .OrderBy(y => y.SortOrder))
+                .ThenInclude(x => x.TechStack)
+                .OrderBy(x => x.DisplayOrder)
+                .ToListAsync();
+
             return View(projects);
         }
 
@@ -25,7 +32,7 @@ namespace Portfolio.Controllers
         public async Task<IActionResult> Create()
         {
             var lastOrder = await _context.Projects
-                .Select(x=> (int?)x.DisplayOrder)
+                .Select(x => (int?)x.DisplayOrder)
                 .MaxAsync() ?? 0;
 
             var project = new Project
