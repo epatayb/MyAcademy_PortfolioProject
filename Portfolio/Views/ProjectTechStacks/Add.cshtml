@@ -1,0 +1,122 @@
+﻿@model Portfolio.ViewModels.ProjectTechStackAddViewModel
+
+@{
+    ViewData["Title"] = "Projeye Teknoloji Ekle";
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0">
+            @Model.ProjectName
+        </h5>
+
+        <small class="text-muted">
+            Projede kullanılan teknolojileri yönetin.
+        </small>
+    </div>
+
+    <div class="card-body">
+
+        <h6 class="mb-3">
+            Eklenen Teknolojiler
+        </h6>
+
+        @if (Model.AddedTechStacks.Any())
+        {
+            <div class="d-flex flex-wrap mb-4" style="gap: 8px;">
+                @foreach (var techStack in Model.AddedTechStacks.OrderBy(x => x.SortOrder))
+                {
+                    <span class="tech-badge">
+
+                        <span>
+                            @techStack.SortOrder. @techStack.Name
+                        </span>
+
+                        <form asp-controller="ProjectTechStacks"
+                              asp-action="Remove"
+                              method="post"
+                              class="d-inline m-0">
+
+                            <input type="hidden"
+                                   name="id"
+                                   value="@techStack.ProjectTechStackId" />
+
+                            <input type="hidden"
+                                   name="projectId"
+                                   value="@Model.ProjectId" />
+
+                            <button type="submit"
+                                    class="tech-remove-button"
+                                    title="@techStack.Name teknolojisini kaldır"
+                                    aria-label="@techStack.Name teknolojisini kaldır">
+                                &times;
+                            </button>
+                        </form>
+                    </span>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-muted mb-4">
+                Bu projeye henüz teknoloji eklenmedi.
+            </div>
+        }
+
+        @if (Model.AvailableTechStacks.Any())
+        {
+            <form asp-controller="ProjectTechStacks"
+                  asp-action="Add"
+                  method="post">
+
+                <input asp-for="ProjectId" type="hidden" />
+
+                <div class="mb-3">
+                    <label asp-for="TechStackId"
+                           class="form-label">
+                        Teknoloji
+                    </label>
+
+                    <select asp-for="TechStackId"
+                            asp-items="Model.AvailableTechStacks"
+                            class="form-select">
+
+                        <option value="">
+                            Teknoloji seçiniz
+                        </option>
+                    </select>
+
+                    <span asp-validation-for="TechStackId"
+                          class="text-danger">
+                    </span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Teknoloji Ekle
+                    </button>
+
+                    <a asp-controller="Project"
+                       asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Projelere Dön
+                    </a>
+                </div>
+            </form>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                Sistemdeki bütün teknolojiler bu projeye eklenmiş.
+            </div>
+
+            <a asp-controller="Project"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                Projelere Dön
+            </a>
+        }
+    </div>
+</div>
