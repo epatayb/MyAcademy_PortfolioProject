@@ -1,0 +1,196 @@
+﻿@model List<Education>
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+
+    var currentCount = Model.Count(x => x.IsCurrent);
+    var completedCount = Model.Count(x => !x.IsCurrent);
+}
+
+<div class="resume-page-header">
+    <div>
+        <h2 class="resume-page-title">Eğitimlerim</h2>
+
+        <p class="resume-page-description">
+            Eğitim geçmişinizi ve devam eden programlarınızı buradan yönetebilirsiniz.
+        </p>
+    </div>
+
+    <a asp-controller="Education"
+       asp-action="Create"
+       class="btn btn-primary">
+        Yeni Eğitim Ekle
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="resume-stat-card">
+            <div class="resume-stat-label">Toplam Eğitim</div>
+            <div class="resume-stat-value">@Model.Count</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="resume-stat-card">
+            <div class="resume-stat-label">Devam Eden</div>
+            <div class="resume-stat-value text-success">@currentCount</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="resume-stat-card">
+            <div class="resume-stat-label">Tamamlanan</div>
+            <div class="resume-stat-value text-primary">@completedCount</div>
+        </div>
+    </div>
+</div>
+
+<div class="resume-list-card shadow-sm">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Kurum ve Eğitim</th>
+                        <th>Açıklama</th>
+                        <th>Tarih</th>
+                        <th>GNO</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var education in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="resume-title">
+                                    @education.Department
+                                </div>
+
+                                <div class="resume-subtitle">
+                                    @education.SchoolName
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="resume-description">
+                                    @education.Description
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="resume-date">
+                                    @education.StartYear -
+                                    @(education.IsCurrent
+                                                                ? "Devam Ediyor" : education.GraduationYear)
+                        </span>
+                    </td>
+
+                            <td>
+                        @if (education.GPA.HasValue)
+                                {
+                                    <span class="resume-gpa">
+                                        @education.GPA.Value.ToString("0.00")
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">—</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (education.IsCurrent)
+                                {
+                                    <span class="resume-status resume-status-current">
+                                        Devam Ediyor
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="resume-status resume-status-completed">
+                                        Tamamlandı
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                <div class="resume-actions">
+                                    <a asp-controller="Education"
+                                       asp-action="Update"
+                                       asp-route-id="@education.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Güncelle
+                                    </a>
+
+                                    <form asp-controller="Education"
+                                          asp-action="Delete"
+                                          method="post"
+                                          class="m-0">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@education.Id" />
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="confirmEducationDelete(this)">
+                                            Sil
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="resume-empty">
+            <div class="resume-empty-icon">
+                <span class="material-symbols-outlined">
+                    school
+                </span>
+            </div>
+
+            <h5>Henüz eğitim bilgisi eklenmedi</h5>
+
+            <p class="text-muted mb-3">
+                Üniversite ve eğitim programlarınızı ekleyebilirsiniz.
+            </p>
+
+            <a asp-controller="Education"
+               asp-action="Create"
+               class="btn btn-primary">
+                İlk Eğitimi Ekle
+            </a>
+        </div>
+    }
+</div>
+
+<script>
+    function confirmEducationDelete(button) {
+        const form = button.closest("form");
+
+        Swal.fire({
+            title: "Eğitim kaldırılsın mı?",
+            text: "Bu eğitim portfolyo sayfasında artık gösterilmeyecektir.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Evet, kaldır",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+</script>
