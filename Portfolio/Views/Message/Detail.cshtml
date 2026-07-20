@@ -1,0 +1,205 @@
+﻿@model UserMessage
+
+@{
+    ViewData["Title"] = "Mesaj Detayı";
+    Layout = "~/Views/Admin/Layout.cshtml";
+
+    var firstLetter = string.IsNullOrWhiteSpace(Model.Name)
+        ? "?"
+        : Model.Name[..1].ToUpper();
+}
+
+<style>
+    .message-detail-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .message-detail-header {
+        padding: 24px;
+        border-bottom: 1px solid #e2e8f0;
+        background: #f8fafc;
+    }
+
+    .message-detail-avatar {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        background: #e7efff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .message-detail-name {
+        color: #0f172a;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 3px;
+    }
+
+    .message-detail-email {
+        color: #64748b;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+        .message-detail-email:hover {
+            color: #0d6efd;
+        }
+
+    .message-detail-date {
+        color: #64748b;
+        font-size: 13px;
+        text-align: right;
+    }
+
+    .message-detail-body {
+        padding: 28px;
+    }
+
+    .message-content {
+        min-height: 180px;
+        padding: 20px;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        background: #f8fafc;
+        color: #334155;
+        font-size: 15px;
+        line-height: 1.8;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .message-detail-footer {
+        padding: 18px 24px;
+        border-top: 1px solid #e2e8f0;
+        background: #ffffff;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <h2 class="mb-1 fw-bold">Mesaj Detayı</h2>
+
+        <p class="text-muted mb-0">
+            Gönderilen mesajın tüm içeriğini görüntülüyorsunuz.
+        </p>
+    </div>
+
+    <a asp-controller="Message"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+        Mesajlara Dön
+    </a>
+</div>
+
+<div class="message-detail-card shadow-sm">
+    <div class="message-detail-header">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="message-detail-avatar">
+                    @firstLetter
+                </div>
+
+                <div>
+                    <div class="message-detail-name">
+                        @Model.Name
+                    </div>
+
+                    <a href="mailto:@Model.Email"
+                       class="message-detail-email">
+                        @Model.Email
+                    </a>
+                </div>
+            </div>
+
+            <div class="message-detail-date">
+                <div>
+                    @Model.CreatedDate.ToString("dd MMMM yyyy")
+                </div>
+
+                <div>
+                    @Model.CreatedDate.ToString("HH:mm")
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-detail-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0 fw-semibold">
+                Mesaj İçeriği
+            </h6>
+        </div>
+
+        <div class="message-content">@Model.MessageBody</div>
+    </div>
+
+    <div class="message-detail-footer">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="mailto:@Model.Email"
+               class="btn btn-outline-primary">
+                E-posta ile Yanıtla
+            </a>
+
+            <form asp-controller="Message"
+                  asp-action="MarkAsUnread"
+                  method="post"
+                  class="m-0">
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.Id" />
+
+                <button type="submit"
+                        class="btn btn-outline-secondary">
+                    Okunmadı Olarak İşaretle
+                </button>
+            </form>
+
+            <form asp-controller="Message"
+                  asp-action="Delete"
+                  method="post"
+                  class="m-0">
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.Id" />
+
+                <button type="button"
+                        class="btn btn-outline-danger"
+                        onclick="confirmDetailDelete(this)">
+                    Mesajı Sil
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDetailDelete(button) {
+        const form = button.closest("form");
+
+        Swal.fire({
+            title: "Mesaj silinsin mi?",
+            text: "Bu işlemi geri alamazsınız.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Evet, sil",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+</script>
