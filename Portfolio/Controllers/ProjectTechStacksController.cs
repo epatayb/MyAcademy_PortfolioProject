@@ -18,14 +18,23 @@ namespace Portfolio.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var projectTechStacks = _context.ProjectTechStacks
-                                        .AsNoTracking()
-                                        .Where(x => x.TechStack.IsActive)
-                                        .Include(p => p.Project)
-                                        .Include(t => t.TechStack).ToList();
-            return View(projectTechStacks);
+            var model = await _context.Projects
+                .AsNoTracking()
+                .Select(p => new ProjectTechStackListViewModel
+                {
+                    ProjectId = p.Id,
+                    ProjectName = p.Name,
+                    TechStacks = string.Join(", ", p.ProjectTechStacks
+                        .Where(pts => pts.TechStack.IsActive)
+                        .OrderBy(pts => pts.SortOrder)
+                        .Select(pts => pts.TechStack.Name))
+                })
+                .OrderBy(p => p.ProjectName)
+                .ToListAsync();
+
+            return View(model);
         }
 
         [HttpGet]

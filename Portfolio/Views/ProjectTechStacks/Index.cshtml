@@ -1,26 +1,39 @@
-﻿@model List<ProjectTechStack>
+﻿@model List<ProjectTechStackListViewModel>
 @{
     ViewData["Title"] = "Proje Teknolojileri";
     Layout = "~/Views/Admin/Layout.cshtml";
     int count = 0;
 }
 
-<table class="table table-bordered table-hover">
-    <tr>
-        <td>#</td>
-        <td>Proje Adı</td>
-        <td>Kullanılan Teknolojiler</td>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        count++;
+<table class="table table-bordered table-hover align-middle">
+    <thead>
         <tr>
-            <td>@count</td>
-            <td>@item.Project.Name</td>
-            <td>@item.TechStack.Name</td>
-        </tr>    
-    }
+            <td>#</td>
+            <td>Proje Adı</td>
+            <td>Kullanılan Teknolojiler</td>
+            <td>İşlemler</td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            count++;
+            <tr>
+                <td>@count</td>
+                <td><strong>@item.ProjectName</strong></td>
+                <td>@item.TechStacks</td>
+                <td>
+                    <a asp-controller="ProjectTechStacks"
+                       asp-action="Add"
+                       asp-route-projectId="@item.ProjectId"
+                       class="btn btn-sm btn-outline-primary">
+                        Teknolojileri Yönet
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
 
