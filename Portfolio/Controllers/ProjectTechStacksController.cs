@@ -21,6 +21,8 @@ namespace Portfolio.Controllers
         public IActionResult Index()
         {
             var projectTechStacks = _context.ProjectTechStacks
+                                        .AsNoTracking()
+                                        .Where(x => x.TechStack.IsActive)
                                         .Include(p => p.Project)
                                         .Include(t => t.TechStack).ToList();
             return View(projectTechStacks);
@@ -30,7 +32,9 @@ namespace Portfolio.Controllers
         public IActionResult Create()
         {
             var projects = _context.Projects.ToList();
-            var techStacks = _context.TechStacks.ToList();
+            var techStacks = _context.TechStacks
+                                .Where(x => x.IsActive)
+                                .ToList();
 
             ViewBag.projects = (from project in projects
                                 select new SelectListItem
@@ -90,7 +94,7 @@ namespace Portfolio.Controllers
 
             var projectExists = await _context.Projects.AnyAsync(x => x.Id == model.ProjectId);
 
-            var techStackExists = await _context.TechStacks.AnyAsync(x => x.Id == model.TechStackId.Value);
+            var techStackExists = await _context.TechStacks.AnyAsync(x => x.Id == model.TechStackId.Value && x.IsActive);
 
             if (!projectExists || !techStackExists)
             {
@@ -130,16 +134,16 @@ namespace Portfolio.Controllers
         public async Task<IActionResult> Remove(int id, int projectId)
         {
             var projectTechStacks = await _context.ProjectTechStacks
-                .Where (x => x.ProjectId == projectId)
-                .OrderBy(x=> x.SortOrder)
-                .ThenBy(x=> x.Id)
+                .Where(x => x.ProjectId == projectId)
+                .OrderBy(x => x.SortOrder)
+                .ThenBy(x => x.Id)
                 .ToListAsync();
 
             var relation = projectTechStacks
                 .FirstOrDefault(x => x.Id == id);
 
-            if (relation is null) 
-            { 
+            if (relation is null)
+            {
                 return NotFound();
             }
 
@@ -174,7 +178,7 @@ namespace Portfolio.Controllers
 
             var addedTechStacks = await _context.ProjectTechStacks
                 .AsNoTracking()
-                .Where(x => x.ProjectId == projectId)
+                .Where(x => x.ProjectId == projectId && x.TechStack.IsActive)
                 .OrderBy(x => x.SortOrder)
                 .ThenBy(x => x.Id)
                 .Select(x => new AddedTechStackViewModel
@@ -192,7 +196,7 @@ namespace Portfolio.Controllers
 
             var availableTechStacks = await _context.TechStacks
                 .AsNoTracking()
-                .Where(x => !addedTechStackIds.Contains(x.Id))
+                .Where(x => x.IsActive && !addedTechStackIds.Contains(x.Id))
                 .OrderBy(x => x.Name)
                 .Select(x => new
                 {

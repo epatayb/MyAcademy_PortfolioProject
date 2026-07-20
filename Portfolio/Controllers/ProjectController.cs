@@ -20,6 +20,7 @@ namespace Portfolio.Controllers
             var projects = await _context.Projects
                 .AsNoTracking()
                 .Include(x => x.ProjectTechStacks
+                    .Where(z=> z.TechStack.IsActive)
                     .OrderBy(y => y.SortOrder))
                 .ThenInclude(x => x.TechStack)
                 .OrderBy(x => x.DisplayOrder)

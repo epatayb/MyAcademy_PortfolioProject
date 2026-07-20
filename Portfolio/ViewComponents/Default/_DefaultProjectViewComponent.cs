@@ -18,7 +18,9 @@ namespace Portfolio.ViewComponents.Default
         {
             var projects = await _context.Projects
                 .AsNoTracking()
-                .Include(x => x.ProjectTechStacks)
+                .Include(x => x.ProjectTechStacks
+                    .Where(y => y.TechStack.IsActive)
+                    .OrderBy(y => y.SortOrder))
                     .ThenInclude(x => x.TechStack)
                     .OrderBy(x => x.DisplayOrder)
                     .ThenByDescending(x => x.Id)
