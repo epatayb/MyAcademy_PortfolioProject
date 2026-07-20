@@ -21,7 +21,7 @@ namespace Portfolio.Controllers
             var techStacks = await _context.TechStacks
                 .AsNoTracking()
                 .Where(x => x.IsActive)
-                .Include(x=> x.ProjectTechStacks)
+                .Include(x => x.ProjectTechStacks)
                 .OrderBy(x => x.Name)
                 .ToListAsync();
 
@@ -47,7 +47,7 @@ namespace Portfolio.Controllers
 
             var existingTechStack = await _context.TechStacks
                 .FirstOrDefaultAsync(x => x.Name.ToLower() == cleanName.ToLower());
-            
+
             if (existingTechStack is not null)
             {
                 if (existingTechStack.IsActive)
@@ -80,60 +80,55 @@ namespace Portfolio.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var techStack = await _context.TechStacks
-                .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
+            var techStack = await _context.TechStacks.FindAsync(id);
 
             if (techStack is null)
             {
                 return NotFound();
             }
 
-            return View(techStack);
+            var model = new TechStackEditViewModel
+            {
+                Id = techStack.Id,
+                Name = techStack.Name
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(TechStack model)
+        public async Task<IActionResult> Update(TechStackEditViewModel model)
         {
-            model.Name = model.Name?.Trim() ?? string.Empty;
-
-            if (string.IsNullOrWhiteSpace(model.Name))
-            {
-                ModelState.AddModelError(
-                    nameof(model.Name),
-                    "Teknoloji adı boş bırakılamaz.");
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var techStack = await _context.TechStacks
-                .FirstOrDefaultAsync(x => x.Id == model.Id && x.IsActive);
+            var techStack = await _context.TechStacks.FindAsync(model.Id);
 
             if (techStack is null)
             {
                 return NotFound();
             }
 
-            var duplicateExists = await _context.TechStacks
+            var cleanName = model.Name.Trim();
+
+            var isDuplicate = await _context.TechStacks
                 .AnyAsync(x =>
                     x.Id != model.Id &&
-                    x.IsActive &&
-                    x.Name == model.Name);
+                    x.Name.ToLower() == cleanName.ToLower());
 
-            if (duplicateExists)
+            if (isDuplicate)
             {
                 ModelState.AddModelError(
                     nameof(model.Name),
-                    "Bu teknoloji adı zaten kullanılıyor.");
+                    "Bu isimde başka bir teknoloji zaten kayıtlı.");
 
                 return View(model);
             }
 
-            techStack.Name = model.Name;
-
+            techStack.Name = cleanName;
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
