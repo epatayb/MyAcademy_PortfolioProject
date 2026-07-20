@@ -1,0 +1,155 @@
+﻿@model List<TechStack>
+
+@{
+    ViewData["Title"] = "Yeteneklerim";
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<style>
+    .tech-list-card {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .tech-name-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 12px;
+        border-radius: 20px;
+        background: #e8efff;
+        border: 1px solid #b8ceff;
+        color: #0d6efd;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .project-count-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #f1f5f9;
+        color: #475569;
+        font-weight: 600;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1 fw-bold">Yeteneklerim</h2>
+
+        <p class="text-muted mb-0">
+            Projelerde kullandığınız teknolojileri buradan yönetebilirsiniz.
+        </p>
+    </div>
+
+    <a asp-controller="TechStack"
+       asp-action="Create"
+       class="btn btn-outline-primary">
+        Yeni Teknoloji Ekle
+    </a>
+</div>
+
+<div class="tech-list-card shadow-sm">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Teknoloji</th>
+                        <th>Kullanıldığı Proje Sayısı</th>
+                        <th style="width: 220px;">İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var techStack in Model)
+                    {
+                        var projectCount = techStack.ProjectTechStacks
+                        .Select(x => x.ProjectId)
+                        .Distinct()
+                        .Count();
+
+                        <tr>
+
+                            <td>
+                                <span class="tech-name-badge">
+                                    @techStack.Name
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="project-count-badge">
+                                    @projectCount
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a asp-controller="TechStack"
+                                       asp-action="Update"
+                                       asp-route-id="@techStack.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Güncelle
+                                    </a>
+
+                                    <form asp-controller="TechStack"
+                                          asp-action="Delete"
+                                          method="post"
+                                          class="m-0 tech-delete-form">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@techStack.Id" />
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="confirmTechDelete(this)">
+                                            Sil
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <h5>Henüz teknoloji eklenmedi</h5>
+
+            <p class="text-muted mb-0">
+                Eklediğiniz teknolojiler burada görüntülenecektir.
+            </p>
+        </div>
+    }
+</div>
+
+<script>
+    function confirmTechDelete(button) {
+        const form = button.closest("form");
+
+        Swal.fire({
+            title: "Teknoloji kaldırılsın mı?",
+            text: "Bu teknoloji projelerde artık gösterilmeyecektir.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Evet, kaldır",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+</script>
