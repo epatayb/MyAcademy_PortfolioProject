@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Data.Context;
 using Portfolio.Data.Entities;
+using Portfolio.ViewModels;
 using System.Threading.Tasks;
 
 namespace Portfolio.Controllers
@@ -35,45 +36,40 @@ namespace Portfolio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TechStack techStack)
+        public async Task<IActionResult> Create(TechStackCreateViewModel model)
         {
-            techStack.Name = techStack.Name?.Trim() ?? string.Empty;
-
-            if (string.IsNullOrWhiteSpace(techStack.Name))
-            {
-                ModelState.AddModelError(
-                    nameof(techStack.Name),
-                    "Teknoloji adı boş bırakılamaz.");
-            }
-
             if (!ModelState.IsValid)
             {
-                return View(techStack);
+                return View(model);
             }
 
-            var existingTechStack = await _context.TechStacks
-                .FirstOrDefaultAsync(x => x.Name == techStack.Name);
+            var cleanName = model.Name.Trim();
 
+            var existingTechStack = await _context.TechStacks
+                .FirstOrDefaultAsync(x => x.Name.ToLower() == cleanName.ToLower());
+            
             if (existingTechStack is not null)
             {
                 if (existingTechStack.IsActive)
                 {
                     ModelState.AddModelError(
-                        nameof(techStack.Name),
+                        nameof(model.Name),
                         "Bu teknoloji zaten kayıtlı.");
 
-                    return View(techStack);
+                    return View(model);
                 }
 
-                // Daha önce silinmişse yeniden aktif et
                 existingTechStack.IsActive = true;
-
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
 
-            techStack.IsActive = true;
+            var techStack = new TechStack
+            {
+                Name = cleanName,
+                IsActive = true
+            };
 
             _context.TechStacks.Add(techStack);
             await _context.SaveChangesAsync();

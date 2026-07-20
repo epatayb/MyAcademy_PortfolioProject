@@ -1,0 +1,53 @@
+﻿@model Portfolio.ViewModels.TechStackCreateViewModel
+
+@{
+    ViewData["Title"] = "Teknoloji Ekle";
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="mb-4">
+    <h2 class="mb-1 fw-bold">Yeni Teknoloji Ekle</h2>
+
+    <p class="text-muted mb-0">
+        Projelerinizde kullanacağınız yeni bir teknoloji ekleyin.
+    </p>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-controller="TechStack"
+              asp-action="Create"
+              method="post">
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-medium">
+                    Teknoloji Adı
+                </label>
+
+                <input asp-for="Name"
+                       class="form-control"
+                       placeholder="Örneğin: ASP.NET Core" 
+                       autocomplete="off" />
+
+                <span asp-validation-for="Name"
+                      class="text-danger small mt-1 d-block">
+                </span>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit"
+                        class="btn btn-outline-primary">
+                    Kaydet
+                </button>
+
+                <a asp-controller="TechStack"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Vazgeç
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -2,47 +2,54 @@
     admin sidebar component
 *@
 
-  <aside class="w-sidebar-width h-screen fixed left-0 top-0 bg-surface-lowest border-r border-outline-variant flex flex-col py-lg z-50">
-        <div class="px-md mb-xl">
-            <h2 class="font-h2 text-h2 font-bold text-primary">Portfolyo Admin Paneli</h2>
-            <p class="text-on-surface-variant font-label-sm mt-xs">Yönetim Sayfası</p>
+<aside class="w-sidebar-width h-screen fixed left-0 top-0 bg-surface-lowest border-r border-outline-variant flex flex-col py-lg z-50">
+    <div class="px-md mb-xl">
+        <h2 class="font-h2 text-h2 font-bold text-primary">Portfolyo Admin Paneli</h2>
+        <p class="text-on-surface-variant font-label-sm mt-xs">Yönetim Sayfası</p>
+    </div>
+    <nav class="flex-1 space-y-1">
+        <!-- Dashboard (Inactive) -->
+        <a asp-action="Index" asp-controller="Dashboard"
+           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+        <!-- Home -->
+        <a asp-action="Index" asp-controller="Default"
+           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
+            <span class="material-symbols-outlined">home</span>
+            <span class="font-label-md text-label-md font-semibold">Siteye Git</span>
+        </a>
+        <!-- Projects (Active) -->
+        <a asp-action="Index" asp-controller="Project"
+           class="relative flex items-center gap-md px-md py-sm text-primary bg-surface-container-low border-l-4 border-primary cursor-pointer active:opacity-80">
+            <span class="material-symbols-outlined">folder_open</span>
+            <span class="font-label-md text-label-md font-semibold">Projelerim</span>
+        </a>
+        <!-- Abouts -->
+        <a asp-action="Index" asp-controller="About"
+           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
+            <span class="material-symbols-outlined">category</span>
+            <span class="font-label-md text-label-md">Hakkımızda</span>
+        </a>
+        <!-- Messages -->
+        <a asp-action="Index" asp-controller="Message"
+           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="font-label-md text-label-md">Gelen Mesajlar</span>
+        </a>
+        <!-- TechStack -->
+        <a asp-action="Index" asp-controller="TechStack"
+           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
+            <span class="material-symbols-outlined">code</span>
+            <span class="font-label-md text-label-md">Yeteneklerim</span>
+        </a>
+    </nav>
+    <div class="mt-auto px-md flex items-center gap-md pt-lg border-t border-outline-variant">
+        <img class="w-10 h-10 rounded-full object-cover" src="~/images/admin.jpeg" />
+        <div>
+            <p class="font-label-md text-label-md font-bold text-on-surface">Admin User</p>
+            <p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Super Admin</p>
         </div>
-        <nav class="flex-1 space-y-1">
-            <!-- Dashboard (Inactive) -->
-            <a asp-action="Index" asp-controller="Dashboard"
-                class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span class="font-label-md text-label-md">Dashboard</span>
-            </a>
-            <!-- Projects (Active) -->
-            <a asp-action="Index" asp-controller="Project"
-                class="relative flex items-center gap-md px-md py-sm text-primary bg-surface-container-low border-l-4 border-primary cursor-pointer active:opacity-80">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_open</span>
-                <span class="font-label-md text-label-md font-semibold">Projelerim</span>
-            </a>
-            <!-- Abouts -->
-            <a asp-action="Index" asp-controller="About"
-                class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
-                <span class="material-symbols-outlined">category</span>
-                <span class="font-label-md text-label-md">Hakkımızda</span>
-            </a>
-            <!-- Messages -->
-            <a asp-action="Index" asp-controller="Message"
-                class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
-                <span class="material-symbols-outlined">mail</span>
-                <span class="font-label-md text-label-md">Gelen Mesajlar</span>
-            </a>
-            <!-- Settings -->
-            <a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
-                <span class="material-symbols-outlined">settings</span>
-                <span class="font-label-md text-label-md">Yeteneklerim</span>
-            </a>
-        </nav>
-        <div class="mt-auto px-md flex items-center gap-md pt-lg border-t border-outline-variant">
-            <img class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a senior project manager with a friendly expression, wearing a navy blue blazer against a neutral office background. The lighting is soft and professional, emphasizing a modern corporate aesthetic with high-quality, high-key values." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlqBWu1p3aEq67qLFKu3y0UlRSj2DnWM__vm_crDnbFt0J1ysDUDdO844jg0nfKyChHiwtprZpN7CA3NUWKdHRFl9P8J1GJ028acIMqkkHcyPX3vP-AB-NprsvMmxoHSenYYR-g8W4k6DVuPAXSbNCH4DrEV4_2_GzRs1fGTBkJVgBqXOhs8AL0fYxwnpir9XR3RDD69DW37S4km1I3hj57im8Qkw3l9z73SC8C7_IOQ71vqx5-6vGnu6WDoQUdm9B06QEUJwZHz3V" />
-            <div>
-                <p class="font-label-md text-label-md font-bold text-on-surface">Admin User</p>
-                <p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Super Admin</p>
-            </div>
-        </div>
+    </div>
 </aside>
