@@ -1,5 +1,4 @@
-﻿
-@*
+﻿@*
     admin sidebar component
 *@
 
@@ -10,7 +9,8 @@
         </div>
         <nav class="flex-1 space-y-1">
             <!-- Dashboard (Inactive) -->
-            <a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
+            <a asp-action="Index" asp-controller="Dashboard"
+                class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="font-label-md text-label-md">Dashboard</span>
             </a>
@@ -27,7 +27,8 @@
                 <span class="font-label-md text-label-md">Hakkımızda</span>
             </a>
             <!-- Messages -->
-            <a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
+            <a asp-action="Index" asp-controller="Message"
+                class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
                 <span class="material-symbols-outlined">mail</span>
                 <span class="font-label-md text-label-md">Gelen Mesajlar</span>
             </a>

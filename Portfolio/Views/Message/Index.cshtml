@@ -1,0 +1,350 @@
+﻿@model List<UserMessage>
+
+@{
+    ViewData["Title"] = "Gelen Mesajlar";
+    Layout = "~/Views/Admin/Layout.cshtml";
+
+    var unreadCount = Model.Count(x => !x.IsRead);
+    var readCount = Model.Count(x => x.IsRead);
+}
+
+<style>
+    .message-stat-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 18px 20px;
+        height: 100%;
+    }
+
+    .message-stat-title {
+        color: #64748b;
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+
+    .message-stat-value {
+        color: #0f172a;
+        font-size: 25px;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .message-list-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .message-table {
+        margin-bottom: 0;
+    }
+
+        .message-table thead th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 16px;
+            white-space: nowrap;
+        }
+
+        .message-table tbody td {
+            padding: 14px 16px;
+            vertical-align: middle;
+            border-color: #edf2f7;
+        }
+
+    .unread-message-row {
+        background: #f3f7ff;
+    }
+
+        .unread-message-row:hover {
+            background: #edf4ff !important;
+        }
+
+    .sender-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #e7efff;
+        color: #0d6efd;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .sender-name {
+        color: #0f172a;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .sender-email {
+        color: #64748b;
+        font-size: 12px;
+        text-decoration: none;
+    }
+
+        .sender-email:hover {
+            color: #0d6efd;
+        }
+
+    .message-summary {
+        color: #475569;
+        line-height: 1.5;
+        max-width: 420px;
+    }
+
+    .message-date {
+        color: #64748b;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .message-status {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .message-status-new {
+        color: #047857;
+        background: #d1fae5;
+    }
+
+    .message-status-read {
+        color: #64748b;
+        background: #f1f5f9;
+    }
+
+    .message-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .message-empty {
+        padding: 70px 20px;
+        text-align: center;
+    }
+
+    .message-empty-icon {
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: #eff6ff;
+        color: #0d6efd;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="mb-4">
+    <h2 class="mb-1 fw-bold">Gelen Mesajlar</h2>
+
+    <p class="text-muted mb-0">
+        İletişim formundan gönderilen mesajları buradan yönetebilirsiniz.
+    </p>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="message-stat-card">
+            <div class="message-stat-title">Toplam Mesaj</div>
+            <div class="message-stat-value">@Model.Count</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="message-stat-card">
+            <div class="message-stat-title">Yeni Mesaj</div>
+            <div class="message-stat-value text-primary">@unreadCount</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="message-stat-card">
+            <div class="message-stat-title">Okunan Mesaj</div>
+            <div class="message-stat-value text-success">@readCount</div>
+        </div>
+    </div>
+</div>
+
+<div class="message-list-card">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover message-table">
+                <thead>
+                    <tr>
+                        <th>Gönderen</th>
+                        <th>Mesaj</th>
+                        <th>Tarih</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var message in Model)
+                    {
+                        var summary = message.MessageBody.Length > 90
+                        ? message.MessageBody[..90] + "..."
+                        : message.MessageBody;
+
+                        var firstLetter = string.IsNullOrWhiteSpace(message.Name)
+                        ? "?"
+                        : message.Name[..1].ToUpper();
+
+                        <tr class="@(!message.IsRead ? "unread-message-row" : "")">
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="sender-avatar">
+                                        @firstLetter
+                                    </span>
+
+                                    <div>
+                                        <div class="sender-name">
+                                            @message.Name
+                                        </div>
+
+                                        <a href="mailto:@message.Email"
+                                           class="sender-email">
+                                            @message.Email
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="message-summary">
+                                    @summary
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="message-date">
+                                    <div>
+                                        @message.CreatedDate.ToString("dd.MM.yyyy")
+                                    </div>
+
+                                    <div>
+                                        @message.CreatedDate.ToString("HH:mm")
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                @if (message.IsRead)
+                                {
+                                    <span class="message-status message-status-read">
+                                        Okundu
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="message-status message-status-new">
+                                        Yeni
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                <div class="message-actions">
+                                    <a asp-controller="Message"
+                                       asp-action="Detail"
+                                       asp-route-id="@message.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Görüntüle
+                                    </a>
+
+                                    @if (message.IsRead)
+                                    {
+                                        <form asp-controller="Message"
+                                              asp-action="MarkAsUnread"
+                                              method="post"
+                                              class="m-0">
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@message.Id" />
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">
+                                                Okunmadı Yap
+                                            </button>
+                                        </form>
+                                    }
+
+                                    <form asp-controller="Message"
+                                          asp-action="Delete"
+                                          method="post"
+                                          class="m-0 delete-message-form">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@message.Id" />
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="confirmDelete(this)">
+                                            Sil
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="message-empty">
+            <div class="message-empty-icon">
+                <span class="material-symbols-outlined">
+                    mail
+                </span>
+            </div>
+
+            <h5 class="mb-2">Henüz mesaj bulunmuyor</h5>
+
+            <p class="text-muted mb-0">
+                İletişim formundan gönderilen mesajlar burada görüntülenecektir.
+            </p>
+        </div>
+    }
+</div>
+
+<script>
+    function confirmDelete(button) {
+        const form = button.closest("form");
+
+        Swal.fire({
+            title: "Mesaj silinsin mi?",
+            text: "Bu işlemi geri alamazsınız.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Evet, sil",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+</script>

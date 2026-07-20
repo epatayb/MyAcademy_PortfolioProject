@@ -26,8 +26,8 @@ namespace Portfolio.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
-            var message = _context.UserMessages
-                .FirstOrDefault(x => x.Id == id);
+            var message = await _context.UserMessages
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (message is null)
             {
