@@ -4,11 +4,11 @@
     Layout = "~/Views/Admin/Layout.cshtml";
 }
 
-<div class="resume-page-header">
+<div class="admin-page-header">
     <div>
-        <h2 class="resume-page-title">Yeni Eğitim Ekle</h2>
+        <h2 class="admin-page-title">Yeni Eğitim Ekle</h2>
 
-        <p class="resume-page-description">
+        <p class="admin-page-description">
             Üniversite veya devam ettiğiniz eğitim programının bilgilerini girin.
         </p>
     </div>
@@ -16,12 +16,16 @@
     <a asp-controller="Education"
        asp-action="Index"
        class="btn btn-outline-secondary">
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 19px;">
+            arrow_back
+        </span>
         Listeye Dön
     </a>
 </div>
 
-<div class="resume-form-card shadow-sm">
-    <div class="resume-form-header">
+<div class="admin-form-card shadow-sm">
+    <div class="admin-form-header">
         <h5 class="mb-1">Eğitim Bilgileri</h5>
         <p class="text-muted mb-0 small">
             Yıldızlı alanların doldurulması zorunludur.
@@ -32,19 +36,19 @@
           asp-action="Create"
           method="post">
 
-        <div class="resume-form-body">
+        <div class="admin-form-body">
             <div asp-validation-summary="ModelOnly"
                  class="text-danger mb-3">
             </div>
 
             <div class="row g-4">
                 <div class="col-md-6">
-                    <label asp-for="SchoolName" class="resume-form-label">
+                    <label asp-for="SchoolName" class="admin-form-label">
                         Okul veya Kurum Adı
                     </label>
 
                     <input asp-for="SchoolName"
-                           class="form-control resume-form-control"
+                           class="form-control admin-form-control"
                            placeholder="Örneğin: Fırat Üniversitesi" />
 
                     <span asp-validation-for="SchoolName"
@@ -53,12 +57,12 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label asp-for="Department" class="resume-form-label">
+                    <label asp-for="Department" class="admin-form-label">
                         Bölüm veya Eğitim Programı
                     </label>
 
                     <input asp-for="Department"
-                           class="form-control resume-form-control"
+                           class="form-control admin-form-control"
                            placeholder="Örneğin: Yazılım Mühendisliği" />
 
                     <span asp-validation-for="Department"
@@ -67,12 +71,12 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label asp-for="StartYear" class="resume-form-label">
+                    <label asp-for="StartYear" class="admin-form-label">
                         Başlangıç Tarihi
                     </label>
 
                     <input asp-for="StartYear"
-                           class="form-control resume-form-control"
+                           class="form-control admin-form-control"
                            placeholder="04.09.2020" />
 
                     <span asp-validation-for="StartYear"
@@ -81,13 +85,13 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label asp-for="GraduationYear" class="resume-form-label">
+                    <label asp-for="GraduationYear" class="admin-form-label">
                         Mezuniyet Tarihi
                     </label>
 
                     <input asp-for="GraduationYear"
                            id="graduationYear"
-                           class="form-control resume-form-control"
+                           class="form-control admin-form-control"
                            placeholder="15.06.2024" />
 
                     <span asp-validation-for="GraduationYear"
@@ -96,7 +100,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label asp-for="GPA" class="resume-form-label">
+                    <label asp-for="GPA" class="admin-form-label">
                         Genel Not Ortalaması
                     </label>
 
@@ -105,7 +109,7 @@
                            min="0"
                            max="4"
                            step="0.01"
-                           class="form-control resume-form-control"
+                           class="form-control admin-form-control"
                            placeholder="3.20" />
 
                     <span asp-validation-for="GPA"
@@ -114,7 +118,7 @@
                 </div>
 
                 <div class="col-12">
-                    <div class="current-switch-box">
+                    <div class="admin-option-box">
                         <div class="form-check form-switch">
                             <input asp-for="IsCurrent"
                                    id="educationCurrent"
@@ -127,7 +131,7 @@
                             </label>
                         </div>
 
-                        <p class="current-switch-description">
+                        <p class="admin-option-description">
                             Seçildiğinde mezuniyet yılı boş bırakılır ve
                             “Devam Ediyor” olarak gösterilir.
                         </p>
@@ -135,13 +139,13 @@
                 </div>
 
                 <div class="col-12">
-                    <label asp-for="Description" class="resume-form-label">
+                    <label asp-for="Description" class="admin-form-label">
                         Açıklama
                     </label>
 
                     <textarea asp-for="Description"
                               maxlength="1000"
-                              class="form-control resume-form-control"
+                              class="form-control admin-form-control"
                               placeholder="Eğitim sürecinizi ve kazandığınız yetkinlikleri açıklayın."></textarea>
 
                     <span asp-validation-for="Description"
@@ -151,8 +155,12 @@
             </div>
         </div>
 
-        <div class="resume-form-footer">
+        <div class="admin-form-footer">
             <button type="submit" class="btn btn-primary">
+                <span class="material-symbols-outlined align-middle me-1"
+                      style="font-size: 19px;">
+                    check
+                </span>
                 Eğitimi Kaydet
             </button>
         </div>

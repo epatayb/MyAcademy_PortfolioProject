@@ -4,11 +4,11 @@
     Layout = "~/Views/Admin/Layout.cshtml";
 }
 
-<div class="resume-page-header">
+<div class="admin-page-header">
     <div>
-        <h2 class="resume-page-title">İş Deneyimlerim</h2>
+        <h2 class="admin-page-title">İş Deneyimlerim</h2>
 
-        <p class="resume-page-description">
+        <p class="admin-page-description">
             İş, staj ve profesyonel deneyimlerinizi buradan yönetebilirsiniz.
         </p>
     </div>
@@ -16,15 +16,19 @@
     <a asp-controller="Experience"
        asp-action="Create"
        class="btn btn-primary">
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 19px;">
+            add
+        </span>
         Yeni Deneyim Ekle
     </a>
 </div>
 
-<div class="resume-list-card shadow-sm">
+<div class="admin-table-card shadow-sm">
     @if (Model.Any())
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
+        <div class="admin-table-scroll">
+            <table class="admin-table">
                 <thead>
                     <tr>
                         <th>Pozisyon ve Şirket</th>
@@ -39,23 +43,23 @@
                     {
                         <tr>
                             <td>
-                                <div class="resume-title">
+                                <div class="admin-item-title">
                                     @experience.Title
                                 </div>
 
-                                <div class="resume-subtitle">
+                                <div class="admin-item-subtitle">
                                     @experience.Company
                                 </div>
                             </td>
 
                             <td>
-                                <div class="resume-description">
+                                <div class="admin-item-description">
                                     @experience.Description
                                 </div>
                             </td>
 
                             <td>
-                                <span class="resume-date">
+                                <span class="admin-date-badge">
                                     @experience.StartYear -
                                     @(experience.IsCurrent
                                                                 ? "Devam Ediyor"
@@ -64,11 +68,15 @@
                     </td>
 
                             <td>
-                                <div class="resume-actions">
+                                <div class="admin-actions">
                                     <a asp-controller="Experience"
                                        asp-action="Update"
                                        asp-route-id="@experience.Id"
                                        class="btn btn-sm btn-outline-primary">
+                                        <span class="material-symbols-outlined align-middle"
+                                              style="font-size: 17px;">
+                                            edit
+                                        </span>
                                         Güncelle
                                     </a>
 
@@ -84,6 +92,11 @@
                                         <button type="button"
                                                 class="btn btn-sm btn-outline-danger"
                                                 onclick="confirmExperienceDelete(this)">
+
+                                            <span class="material-symbols-outlined align-middle"
+                                                  style="font-size: 17px;">
+                                                delete
+                                            </span>
                                             Sil
                                         </button>
                                     </form>
@@ -97,8 +110,8 @@
     }
     else
     {
-        <div class="resume-empty">
-            <div class="resume-empty-icon">
+        <div class="admin-empty">
+            <div class="admin-empty-icon">
                 <span class="material-symbols-outlined">
                     work
                 </span>
@@ -113,6 +126,10 @@
             <a asp-controller="Experience"
                asp-action="Create"
                class="btn btn-primary">
+                <span class="material-symbols-outlined align-middle me-1"
+                      style="font-size: 19px;">
+                    add
+                </span>
                 İlk Deneyimi Ekle
             </a>
         </div>

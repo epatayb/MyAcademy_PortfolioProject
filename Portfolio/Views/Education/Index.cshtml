@@ -7,11 +7,11 @@
     var completedCount = Model.Count(x => !x.IsCurrent);
 }
 
-<div class="resume-page-header">
+<div class="admin-page-header">
     <div>
-        <h2 class="resume-page-title">Eğitimlerim</h2>
+        <h2 class="admin-page-title">Eğitimlerim</h2>
 
-        <p class="resume-page-description">
+        <p class="admin-page-description">
             Eğitim geçmişinizi ve devam eden programlarınızı buradan yönetebilirsiniz.
         </p>
     </div>
@@ -19,38 +19,42 @@
     <a asp-controller="Education"
        asp-action="Create"
        class="btn btn-primary">
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 19px;">
+            add
+        </span>
         Yeni Eğitim Ekle
     </a>
 </div>
 
 <div class="row g-3 mb-4">
     <div class="col-md-4">
-        <div class="resume-stat-card">
-            <div class="resume-stat-label">Toplam Eğitim</div>
-            <div class="resume-stat-value">@Model.Count</div>
+        <div class="admin-stat-card">
+            <div class="admin-stat-label">Toplam Eğitim</div>
+            <div class="admin-stat-value">@Model.Count</div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="resume-stat-card">
-            <div class="resume-stat-label">Devam Eden</div>
-            <div class="resume-stat-value text-success">@currentCount</div>
+        <div class="admin-stat-card">
+            <div class="admin-stat-label">Devam Eden</div>
+            <div class="admin-stat-value text-success">@currentCount</div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="resume-stat-card">
-            <div class="resume-stat-label">Tamamlanan</div>
-            <div class="resume-stat-value text-primary">@completedCount</div>
+        <div class="admin-stat-card">
+            <div class="admin-stat-label">Tamamlanan</div>
+            <div class="admin-stat-value text-primary">@completedCount</div>
         </div>
     </div>
 </div>
 
-<div class="resume-list-card shadow-sm">
+<div class="admin-table-card shadow-sm">
     @if (Model.Any())
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
+        <div class="admin-table-scroll">
+            <table class="admin-table">
                 <thead>
                     <tr>
                         <th>Kurum ve Eğitim</th>
@@ -67,23 +71,23 @@
                     {
                         <tr>
                             <td>
-                                <div class="resume-title">
+                                <div class="admin-item-title">
                                     @education.Department
                                 </div>
 
-                                <div class="resume-subtitle">
+                                <div class="admin-item-subtitle">
                                     @education.SchoolName
                                 </div>
                             </td>
 
                             <td>
-                                <div class="resume-description">
+                                <div class="admin-item-description">
                                     @education.Description
                                 </div>
                             </td>
 
                             <td>
-                                <span class="resume-date">
+                                <span class="admin-date-badge">
                                     @education.StartYear -
                                     @(education.IsCurrent
                                                                 ? "Devam Ediyor" : education.GraduationYear)
@@ -93,7 +97,7 @@
                             <td>
                         @if (education.GPA.HasValue)
                                 {
-                                    <span class="resume-gpa">
+                                    <span class="admin-info-badge">
                                         @education.GPA.Value.ToString("0.00")
                                     </span>
                                 }
@@ -106,24 +110,28 @@
                             <td>
                                 @if (education.IsCurrent)
                                 {
-                                    <span class="resume-status resume-status-current">
+                                    <span class="admin-status-badge admin-status-success">
                                         Devam Ediyor
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="resume-status resume-status-completed">
+                                    <span class="admin-status-badge admin-status-neutral">
                                         Tamamlandı
                                     </span>
                                 }
                             </td>
 
                             <td>
-                                <div class="resume-actions">
+                                <div class="admin-actions">
                                     <a asp-controller="Education"
                                        asp-action="Update"
                                        asp-route-id="@education.Id"
                                        class="btn btn-sm btn-outline-primary">
+                                        <span class="material-symbols-outlined align-middle"
+                                              style="font-size: 17px;">
+                                            edit
+                                        </span>
                                         Güncelle
                                     </a>
 
@@ -139,6 +147,11 @@
                                         <button type="button"
                                                 class="btn btn-sm btn-outline-danger"
                                                 onclick="confirmEducationDelete(this)">
+
+                                            <span class="material-symbols-outlined align-middle"
+                                                  style="font-size: 17px;">
+                                                delete
+                                            </span>
                                             Sil
                                         </button>
                                     </form>
@@ -152,8 +165,8 @@
     }
     else
     {
-        <div class="resume-empty">
-            <div class="resume-empty-icon">
+        <div class="admin-empty">
+            <div class="admin-empty-icon">
                 <span class="material-symbols-outlined">
                     school
                 </span>
@@ -168,6 +181,10 @@
             <a asp-controller="Education"
                asp-action="Create"
                class="btn btn-primary">
+                <span class="material-symbols-outlined align-middle me-1"
+                      style="font-size: 19px;">
+                    add
+                </span>
                 İlk Eğitimi Ekle
             </a>
         </div>

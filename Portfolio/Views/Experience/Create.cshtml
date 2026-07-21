@@ -4,11 +4,11 @@
     Layout = "~/Views/Admin/Layout.cshtml";
 }
 
-<div class="resume-page-header">
+<div class="admin-page-header">
     <div>
-        <h2 class="resume-page-title">Yeni İş Deneyimi Ekle</h2>
+        <h2 class="admin-page-title">Yeni İş Deneyimi Ekle</h2>
 
-        <p class="resume-page-description">
+        <p class="admin-page-description">
             İş, staj veya proje bazlı deneyiminizin bilgilerini girin.
         </p>
     </div>
@@ -16,12 +16,16 @@
     <a asp-controller="Experience"
        asp-action="Index"
        class="btn btn-outline-secondary">
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 19px;">
+            arrow_back
+        </span>
         Listeye Dön
     </a>
 </div>
 
-<div class="resume-form-card shadow-sm">
-    <div class="resume-form-header">
+<div class="admin-form-card shadow-sm">
+    <div class="admin-form-header">
         <h5 class="mb-1">Deneyim Bilgileri</h5>
 
         <p class="text-muted mb-0 small">
@@ -33,19 +37,19 @@
           asp-action="Create"
           method="post">
 
-        <div class="resume-form-body">
+        <div class="admin-form-body">
             <div asp-validation-summary="ModelOnly"
                  class="text-danger mb-3">
             </div>
 
             <div class="row g-4">
                 <div class="col-md-6">
-                    <label asp-for="Title" class="resume-form-label">
+                    <label asp-for="Title" class="admin-form-label">
                         Pozisyon
                     </label>
 
                     <input asp-for="Title"
-                           class="form-control resume-form-control"
+                           class="form-control admin-form-control"
                            placeholder="Örneğin: Full-Stack Developer" />
 
                     <span asp-validation-for="Title"
@@ -54,12 +58,12 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label asp-for="Company" class="resume-form-label">
+                    <label asp-for="Company" class="admin-form-label">
                         Şirket
                     </label>
 
                     <input asp-for="Company"
-                           class="form-control resume-form-control"
+                           class="form-control admin-form-control"
                            placeholder="Şirket adı" />
 
                     <span asp-validation-for="Company"
@@ -68,12 +72,12 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label asp-for="StartYear" class="resume-form-label">
+                    <label asp-for="StartYear" class="admin-form-label">
                         Başlangıç Tarihi
                     </label>
 
                     <input asp-for="StartYear"
-                           class="form-control resume-form-control"
+                           class="form-control admin-form-control"
                            placeholder="30.09.2025" />
 
                     <span asp-validation-for="StartYear"
@@ -82,13 +86,13 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label asp-for="EndYear" class="resume-form-label">
+                    <label asp-for="EndYear" class="admin-form-label">
                         Bitiş Tarihi
                     </label>
 
                     <input asp-for="EndYear"
                            id="endYear"
-                           class="form-control resume-form-control"
+                           class="form-control admin-form-control"
                            placeholder="15.01.2026" />
 
                     <span asp-validation-for="EndYear"
@@ -97,7 +101,7 @@
                 </div>
 
                 <div class="col-12">
-                    <div class="current-switch-box">
+                    <div class="admin-option-box">
                         <div class="form-check form-switch">
                             <input asp-for="IsCurrent"
                                    id="experienceCurrent"
@@ -110,7 +114,7 @@
                             </label>
                         </div>
 
-                        <p class="current-switch-description">
+                        <p class="admin-option-description">
                             Seçildiğinde bitiş tarihi boş bırakılır ve
                             “Devam Ediyor” olarak gösterilir.
                         </p>
@@ -118,13 +122,13 @@
                 </div>
 
                 <div class="col-12">
-                    <label asp-for="Description" class="resume-form-label">
+                    <label asp-for="Description" class="admin-form-label">
                         Görev ve Sorumluluklar
                     </label>
 
                     <textarea asp-for="Description"
                               maxlength="1000"
-                              class="form-control resume-form-control"
+                              class="form-control admin-form-control"
                               placeholder="Yaptığınız çalışmaları ve kazandığınız deneyimleri açıklayın."></textarea>
 
                     <span asp-validation-for="Description"
@@ -134,8 +138,12 @@
             </div>
         </div>
 
-        <div class="resume-form-footer">
+        <div class="admin-form-footer">
             <button type="submit" class="btn btn-primary">
+                <span class="material-symbols-outlined align-middle me-1"
+                      style="font-size: 19px;">
+                    check
+                </span>
                 Deneyimi Kaydet
             </button>
         </div>
