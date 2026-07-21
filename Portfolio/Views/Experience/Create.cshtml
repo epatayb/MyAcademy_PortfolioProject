@@ -1,0 +1,168 @@
+﻿@model Experience
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="resume-page-header">
+    <div>
+        <h2 class="resume-page-title">Yeni İş Deneyimi Ekle</h2>
+
+        <p class="resume-page-description">
+            İş, staj veya proje bazlı deneyiminizin bilgilerini girin.
+        </p>
+    </div>
+
+    <a asp-controller="Experience"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+        Listeye Dön
+    </a>
+</div>
+
+<div class="resume-form-card shadow-sm">
+    <div class="resume-form-header">
+        <h5 class="mb-1">Deneyim Bilgileri</h5>
+
+        <p class="text-muted mb-0 small">
+            Pozisyonunuzu, şirketi ve görevlerinizi açıklayın.
+        </p>
+    </div>
+
+    <form asp-controller="Experience"
+          asp-action="Create"
+          method="post">
+
+        <div class="resume-form-body">
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label asp-for="Title" class="resume-form-label">
+                        Pozisyon
+                    </label>
+
+                    <input asp-for="Title"
+                           class="form-control resume-form-control"
+                           placeholder="Örneğin: Full-Stack Developer" />
+
+                    <span asp-validation-for="Title"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Company" class="resume-form-label">
+                        Şirket
+                    </label>
+
+                    <input asp-for="Company"
+                           class="form-control resume-form-control"
+                           placeholder="Şirket adı" />
+
+                    <span asp-validation-for="Company"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="StartYear" class="resume-form-label">
+                        Başlangıç Tarihi
+                    </label>
+
+                    <input asp-for="StartYear"
+                           class="form-control resume-form-control"
+                           placeholder="30.09.2025" />
+
+                    <span asp-validation-for="StartYear"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="EndYear" class="resume-form-label">
+                        Bitiş Tarihi
+                    </label>
+
+                    <input asp-for="EndYear"
+                           id="endYear"
+                           class="form-control resume-form-control"
+                           placeholder="15.01.2026" />
+
+                    <span asp-validation-for="EndYear"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-12">
+                    <div class="current-switch-box">
+                        <div class="form-check form-switch">
+                            <input asp-for="IsCurrent"
+                                   id="experienceCurrent"
+                                   class="form-check-input"
+                                   type="checkbox" />
+
+                            <label asp-for="IsCurrent"
+                                   class="form-check-label fw-semibold">
+                                Bu pozisyonda hâlâ çalışıyorum
+                            </label>
+                        </div>
+
+                        <p class="current-switch-description">
+                            Seçildiğinde bitiş tarihi boş bırakılır ve
+                            “Devam Ediyor” olarak gösterilir.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Description" class="resume-form-label">
+                        Görev ve Sorumluluklar
+                    </label>
+
+                    <textarea asp-for="Description"
+                              maxlength="1000"
+                              class="form-control resume-form-control"
+                              placeholder="Yaptığınız çalışmaları ve kazandığınız deneyimleri açıklayın."></textarea>
+
+                    <span asp-validation-for="Description"
+                          class="text-danger small">
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="resume-form-footer">
+            <button type="submit" class="btn btn-primary">
+                Deneyimi Kaydet
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentCheckbox =
+            document.getElementById("experienceCurrent");
+
+        const endYear =
+            document.getElementById("endYear");
+
+        function updateEndYear() {
+            endYear.disabled = currentCheckbox.checked;
+
+            if (currentCheckbox.checked) {
+                endYear.value = "";
+            }
+        }
+
+        currentCheckbox.addEventListener(
+            "change",
+            updateEndYear
+        );
+
+        updateEndYear();
+    });
+</script>
