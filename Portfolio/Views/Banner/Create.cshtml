@@ -1,0 +1,147 @@
+﻿@model Banner
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<style>
+    .banner-form-card {
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+    }
+
+    .banner-form-header {
+        padding: 22px 25px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .banner-form-body {
+        padding: 26px;
+    }
+
+    .banner-form-footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 18px 26px;
+        background: #f8fafc;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .banner-form-label {
+        margin-bottom: 7px;
+        color: #334155;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .banner-form-control {
+        min-height: 45px;
+        border-color: #cbd5e1;
+        border-radius: 9px;
+    }
+
+    textarea.banner-form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <h2 class="mb-1 fw-bold">Yeni Banner Ekle</h2>
+
+        <p class="text-muted mb-0">
+            Ana sayfanın karşılama bölümünde gösterilecek bilgileri girin.
+        </p>
+    </div>
+
+    <a asp-controller="Banner"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+        Listeye Dön
+    </a>
+</div>
+
+<div class="banner-form-card shadow-sm">
+    <div class="banner-form-header">
+        <h5 class="mb-1">Banner Bilgileri</h5>
+
+        <p class="text-muted small mb-0">
+            Sistemde yalnızca bir banner kaydı bulunabilir.
+        </p>
+    </div>
+
+    <form asp-controller="Banner"
+          asp-action="Create"
+          method="post">
+
+        <div class="banner-form-body">
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <div class="row g-4">
+                <div class="col-12">
+                    <label asp-for="Title"
+                           class="banner-form-label">
+                        Başlık
+                    </label>
+
+                    <input asp-for="Title"
+                           class="form-control banner-form-control"
+                           placeholder="Örneğin: Modern Web Uygulamaları Geliştiriyorum" />
+
+                    <span asp-validation-for="Title"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="ImageUrl"
+                           class="banner-form-label">
+                        Görsel Dosya Adı
+                    </label>
+
+                    <input asp-for="ImageUrl"
+                           class="form-control banner-form-control"
+                           placeholder="Örneğin: hero-project.png" />
+
+                    <div class="form-text">
+                        Görselin wwwroot/images klasöründe bulunması gerekir.
+                    </div>
+
+                    <span asp-validation-for="ImageUrl"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Description"
+                           class="banner-form-label">
+                        Açıklama
+                    </label>
+
+                    <textarea asp-for="Description"
+                              maxlength="1000"
+                              class="form-control banner-form-control"
+                              placeholder="Kendinizi ve geliştirdiğiniz çözümleri kısaca anlatın."></textarea>
+
+                    <span asp-validation-for="Description"
+                          class="text-danger small">
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner-form-footer">
+            <button type="submit"
+                    class="btn btn-primary">
+                Bannerı Kaydet
+            </button>
+        </div>
+    </form>
+</div>
