@@ -2,50 +2,383 @@
     admin sidebar component
 *@
 
-<aside class="w-sidebar-width h-screen fixed left-0 top-0 bg-surface-lowest border-r border-outline-variant flex flex-col py-lg z-50">
+@{
+    var currentController =
+        ViewContext.RouteData.Values["controller"]?.ToString();
+
+    var currentAction =
+        ViewContext.RouteData.Values["action"]?.ToString();
+
+    string ActiveLink(string controller, string? action = null)
+    {
+        var controllerMatches = string.Equals(
+            currentController,
+            controller,
+            StringComparison.OrdinalIgnoreCase);
+
+        var actionMatches = string.IsNullOrWhiteSpace(action) ||
+                            string.Equals(
+                                currentAction,
+                                action,
+                                StringComparison.OrdinalIgnoreCase);
+
+        return controllerMatches && actionMatches
+            ? "active"
+            : string.Empty;
+    }
+}
+<style>
+    .sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+        padding: 10px 8px 25px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .sidebar-section-title {
+        margin: 22px 14px 8px;
+        color: #94a3b8;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        white-space: nowrap;
+    }
+
+    .sidebar-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-height: 46px;
+        margin: 3px 4px;
+        padding: 7px 12px;
+        color: #64748b;
+        text-decoration: none !important;
+        border: 1px solid transparent;
+        border-radius: 11px;
+        transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+        .sidebar-link:hover {
+            color: #2563eb;
+            background: #eff6ff;
+            border-color: #dbeafe;
+            transform: translateX(3px);
+        }
+
+    .sidebar-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        border-radius: 9px;
+        background: #f1f5f9;
+        color: #64748b;
+        transition: all 0.2s ease;
+    }
+
+        .sidebar-icon .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+    .sidebar-text {
+        overflow: hidden;
+        font-size: 13px;
+        font-weight: 500;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .sidebar-external-icon {
+        margin-left: auto;
+        color: #94a3b8;
+        font-size: 16px;
+    }
+
+    /* Aktif sayfa */
+    .sidebar-link.active {
+        color: #ffffff;
+        background: linear-gradient( 135deg, #2563eb 0%, #4f46e5 100% );
+        border-color: transparent;
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.23);
+        transform: translateX(3px);
+    }
+
+        .sidebar-link.active::before {
+            position: absolute;
+            top: 50%;
+            left: -5px;
+            width: 4px;
+            height: 24px;
+            content: "";
+            background: #60a5fa;
+            border-radius: 0 6px 6px 0;
+            transform: translateY(-50%);
+        }
+
+        .sidebar-link.active .sidebar-icon {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        .sidebar-link.active .sidebar-text {
+            font-weight: 600;
+        }
+
+        .sidebar-link.active:hover {
+            color: #ffffff;
+            background: linear-gradient( 135deg, #1d4ed8 0%, #4338ca 100% );
+        }
+
+    .sidebar-menu::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .sidebar-menu::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .sidebar-menu::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+    }
+
+        .sidebar-menu::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+</style>
+
+<aside class="w-sidebar-width h-screen fixed left-0 top-0 bg-surface-lowest border-r border-outline-variant flex flex-col py-lg z-50 overflow-hidden">
     <div class="px-md mb-xl">
         <h2 class="font-h2 text-h2 font-bold text-primary">Portfolyo Admin Paneli</h2>
         <p class="text-on-surface-variant font-label-sm mt-xs">Yönetim Sayfası</p>
     </div>
-    <nav class="flex-1 space-y-1">
-        <!-- Dashboard (Inactive) -->
-        <a asp-action="Index" asp-controller="Dashboard"
-           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
-            <span class="material-symbols-outlined">dashboard</span>
-            <span class="font-label-md text-label-md">Dashboard</span>
+
+    <nav class="sidebar-menu">
+
+        <!-- Genel -->
+        <div class="sidebar-section-title">
+            GENEL
+        </div>
+
+        <a asp-controller="Dashboard"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Dashboard")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    dashboard
+                </span>
+            </span>
+
+            <span class="sidebar-text">Dashboard</span>
         </a>
-        <!-- Home -->
-        <a asp-action="Index" asp-controller="Default"
-           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
-            <span class="material-symbols-outlined">home</span>
-            <span class="font-label-md text-label-md font-semibold">Siteye Git</span>
+
+        <a asp-controller="Default"
+           asp-action="Index"
+           target="_blank"
+           class="sidebar-link">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    home
+                </span>
+            </span>
+
+            <span class="sidebar-text">Siteyi Görüntüle</span>
+
+            <span class="material-symbols-outlined sidebar-external-icon">
+                open_in_new
+            </span>
         </a>
-        <!-- Projects (Active) -->
-        <a asp-action="Index" asp-controller="Project"
-           class="relative flex items-center gap-md px-md py-sm text-primary bg-surface-container-low border-l-4 border-primary cursor-pointer active:opacity-80">
-            <span class="material-symbols-outlined">folder_open</span>
-            <span class="font-label-md text-label-md font-semibold">Projelerim</span>
+
+
+        <!-- İçerik Yönetimi -->
+        <div class="sidebar-section-title">
+            İÇERİK YÖNETİMİ
+        </div>
+
+        <a asp-controller="Banner"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Banner")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    web_asset
+                </span>
+            </span>
+
+            <span class="sidebar-text">Banner</span>
         </a>
-        <!-- Abouts -->
-        <a asp-action="Index" asp-controller="About"
-           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
-            <span class="material-symbols-outlined">category</span>
-            <span class="font-label-md text-label-md">Hakkımızda</span>
+
+        <a asp-controller="About"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("About")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    person
+                </span>
+            </span>
+
+            <span class="sidebar-text">Hakkımda</span>
         </a>
-        <!-- Messages -->
-        <a asp-action="Index" asp-controller="Message"
-           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
-            <span class="material-symbols-outlined">mail</span>
-            <span class="font-label-md text-label-md">Gelen Mesajlar</span>
+
+        <a asp-controller="Service"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Service")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    design_services
+                </span>
+            </span>
+
+            <span class="sidebar-text">Hizmetlerim</span>
         </a>
-        <!-- TechStack -->
-        <a asp-action="Index" asp-controller="TechStack"
-           class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-200 cursor-pointer active:opacity-80">
-            <span class="material-symbols-outlined">code</span>
-            <span class="font-label-md text-label-md">Yeteneklerim</span>
+
+        <a asp-controller="Contact"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Contact")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    contact_mail
+                </span>
+            </span>
+
+            <span class="sidebar-text">İletişim Bilgileri</span>
+        </a>
+
+
+        <!-- Proje Yönetimi -->
+        <div class="sidebar-section-title">
+            PROJE YÖNETİMİ
+        </div>
+
+        <a asp-controller="Project"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Project")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    deployed_code
+                </span>
+            </span>
+
+            <span class="sidebar-text">Projelerim</span>
+        </a>
+
+        <a asp-controller="TechStack"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("TechStack")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    terminal
+                </span>
+            </span>
+
+            <span class="sidebar-text">Teknolojiler</span>
+        </a>
+
+        <a asp-controller="ProjectTechStacks"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("ProjectTechStacks")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    account_tree
+                </span>
+            </span>
+
+            <span class="sidebar-text">Proje Teknolojileri</span>
+        </a>
+
+
+        <!-- Özgeçmiş -->
+        <div class="sidebar-section-title">
+            ÖZGEÇMİŞ
+        </div>
+
+        <a asp-controller="Education"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Education")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    school
+                </span>
+            </span>
+
+            <span class="sidebar-text">Eğitimlerim</span>
+        </a>
+
+        <a asp-controller="Experience"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Experience")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    work_history
+                </span>
+            </span>
+
+            <span class="sidebar-text">İş Deneyimlerim</span>
+        </a>
+
+        <a asp-controller="Skill"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Skill")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    code_blocks
+                </span>
+            </span>
+
+            <span class="sidebar-text">Yeteneklerim</span>
+        </a>
+
+
+        <!-- İletişim ve Analiz -->
+        <div class="sidebar-section-title">
+            İLETİŞİM VE ANALİZ
+        </div>
+
+        <a asp-controller="Message"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Message")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    mail
+                </span>
+            </span>
+
+            <span class="sidebar-text">Gelen Mesajlar</span>
+        </a>
+
+        <a asp-controller="Statistic"
+           asp-action="Index"
+           class="sidebar-link @ActiveLink("Statistic")">
+
+            <span class="sidebar-icon">
+                <span class="material-symbols-outlined">
+                    monitoring
+                </span>
+            </span>
+
+            <span class="sidebar-text">İstatistikler</span>
         </a>
     </nav>
-    <div class="mt-auto px-md flex items-center gap-md pt-lg border-t border-outline-variant">
+
+    <div class="px-md flex items-center gap-md pt-lg border-t border-outline-variant">
         <img class="w-10 h-10 rounded-full object-cover" src="~/images/admin.jpeg" />
         <div>
             <p class="font-label-md text-label-md font-bold text-on-surface">Admin User</p>
