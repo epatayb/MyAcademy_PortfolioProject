@@ -1,0 +1,203 @@
+﻿@model Banner?
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<style>
+    .banner-page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .banner-card {
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+    }
+
+    .banner-preview {
+        position: relative;
+        min-height: 390px;
+        overflow: hidden;
+        background: #0f172a;
+    }
+
+    .banner-preview-image {
+        width: 100%;
+        height: 390px;
+        object-fit: cover;
+        opacity: .65;
+    }
+
+    .banner-preview-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: flex-end;
+        padding: 36px;
+        background: linear-gradient( to top, rgba(15, 23, 42, .95), rgba(15, 23, 42, .15) );
+    }
+
+    .banner-preview-content {
+        max-width: 720px;
+        color: #fff;
+    }
+
+    .banner-preview-title {
+        margin-bottom: 12px;
+        font-size: 34px;
+        font-weight: 750;
+    }
+
+    .banner-preview-description {
+        margin: 0;
+        color: rgba(255, 255, 255, .78);
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .banner-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        padding: 18px 22px;
+    }
+
+    .banner-image-path {
+        max-width: 600px;
+        overflow: hidden;
+        color: #64748b;
+        font-size: 13px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .banner-empty {
+        padding: 75px 20px;
+        text-align: center;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+    }
+
+    .banner-empty-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 72px;
+        height: 72px;
+        margin-bottom: 18px;
+        color: #2563eb;
+        background: #eff6ff;
+        border-radius: 50%;
+    }
+
+    @@media (max-width: 768px) {
+        .banner-page-header,
+        .banner-card-footer {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .banner-preview,
+        .banner-preview-image {
+            height: 330px;
+            min-height: 330px;
+        }
+
+        .banner-preview-overlay {
+            padding: 24px;
+        }
+
+        .banner-preview-title {
+            font-size: 27px;
+        }
+    }
+</style>
+
+<div class="banner-page-header">
+    <div>
+        <h2 class="mb-1 fw-bold">Banner Yönetimi</h2>
+
+        <p class="text-muted mb-0">
+            Portfolyo ana sayfasında gösterilen karşılama alanını yönetin.
+        </p>
+    </div>
+
+    @if (Model is null)
+    {
+        <a asp-controller="Banner"
+           asp-action="Create"
+           class="btn btn-primary">
+            Banner Ekle
+        </a>
+    }
+</div>
+
+@if (Model is not null)
+{
+    <div class="banner-card shadow-sm">
+        <div class="banner-preview">
+            <img src="/images/@Model.ImageUrl"
+                 alt="@Model.Title"
+                 class="banner-preview-image" />
+
+            <div class="banner-preview-overlay">
+                <div class="banner-preview-content">
+                    <span class="badge bg-primary mb-3">
+                        Ana Sayfa Bannerı
+                    </span>
+
+                    <h3 class="banner-preview-title">
+                        @Model.Title
+                    </h3>
+
+                    <p class="banner-preview-description">
+                        @Model.Description
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner-card-footer">
+            <div class="banner-image-path">
+                Görsel: /images/@Model.ImageUrl
+            </div>
+
+            <a asp-controller="Banner"
+               asp-action="Update"
+               asp-route-id="@Model.Id"
+               class="btn btn-outline-primary">
+                Bannerı Güncelle
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="banner-empty shadow-sm">
+        <div class="banner-empty-icon">
+            <span class="material-symbols-outlined">
+                image
+            </span>
+        </div>
+
+        <h4 class="mb-2">Henüz banner eklenmedi</h4>
+
+        <p class="text-muted mb-4">
+            Ana sayfanın üst bölümünde gösterilecek banner içeriğini oluşturun.
+        </p>
+
+        <a asp-controller="Banner"
+           asp-action="Create"
+           class="btn btn-primary">
+            İlk Bannerı Ekle
+        </a>
+    </div>
+}
