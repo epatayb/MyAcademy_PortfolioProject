@@ -1,0 +1,175 @@
+﻿@model List<Service>
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">Hizmetlerim</h2>
+
+        <p class="admin-page-description">
+            Portfolyo sayfasında gösterilecek hizmetleri buradan yönetebilirsiniz.
+        </p>
+    </div>
+
+    <a asp-controller="Service"
+       asp-action="Create"
+       class="btn btn-primary">
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 19px;">
+            add
+        </span>
+
+        Yeni Hizmet Ekle
+    </a>
+</div>
+
+<div class="admin-table-card shadow-sm">
+    @if (Model.Any())
+    {
+        <div class="admin-table-scroll">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Hizmet</th>
+                        <th>İkon Adı</th>
+                        <th>Açıklama</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var service in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="admin-item-with-icon">
+                                    <div class="admin-item-icon">
+                                        <span class="material-symbols-outlined">
+                                            @service.Icon
+                                        </span>
+                                    </div>
+
+                                    <div>
+                                        <div class="admin-item-title">
+                                            @service.Title
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="admin-info-badge">
+                                    @service.Icon
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="admin-item-description">
+                                    @service.Description
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="admin-actions justify-content-end">
+                                    <a asp-controller="Service"
+                                       asp-action="Update"
+                                       asp-route-id="@service.Id"
+                                       class="btn btn-sm btn-outline-primary">
+
+                                        <span class="material-symbols-outlined align-middle"
+                                              style="font-size: 17px;">
+                                            edit
+                                        </span>
+
+                                        Güncelle
+                                    </a>
+
+                                    <form asp-controller="Service"
+                                          asp-action="Delete"
+                                          method="post"
+                                          class="m-0">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@service.Id" />
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="confirmServiceDelete(this)">
+
+                                            <span class="material-symbols-outlined align-middle"
+                                                  style="font-size: 17px;">
+                                                delete
+                                            </span>
+
+                                            Sil
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="admin-empty">
+            <div class="admin-empty-icon">
+                <span class="material-symbols-outlined">
+                    design_services
+                </span>
+            </div>
+
+            <h5>Henüz hizmet eklenmedi</h5>
+
+            <p class="text-muted mb-3">
+                Portfolyonuzda sunduğunuz hizmetleri ekleyebilirsiniz.
+            </p>
+
+            <a asp-controller="Service"
+               asp-action="Create"
+               class="btn btn-primary">
+                İlk Hizmeti Ekle
+            </a>
+        </div>
+    }
+</div>
+
+@if (TempData["SuccessMessage"] is not null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                icon: "success",
+                title: "İşlem Başarılı",
+                text: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["SuccessMessage"]?.ToString())),
+                confirmButtonText: "Tamam"
+            });
+        });
+    </script>
+}
+
+<script>
+    function confirmServiceDelete(button) {
+        const form = button.closest("form");
+
+        Swal.fire({
+            title: "Hizmet silinsin mi?",
+            text: "Bu hizmet kalıcı olarak silinecektir.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#64748b",
+            confirmButtonText: "Evet, sil",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+</script>
