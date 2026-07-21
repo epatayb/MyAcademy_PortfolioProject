@@ -1,0 +1,141 @@
+﻿@model List<Experience>
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="resume-page-header">
+    <div>
+        <h2 class="resume-page-title">İş Deneyimlerim</h2>
+
+        <p class="resume-page-description">
+            İş, staj ve profesyonel deneyimlerinizi buradan yönetebilirsiniz.
+        </p>
+    </div>
+
+    <a asp-controller="Experience"
+       asp-action="Create"
+       class="btn btn-primary">
+        Yeni Deneyim Ekle
+    </a>
+</div>
+
+<div class="resume-list-card shadow-sm">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Pozisyon ve Şirket</th>
+                        <th>Açıklama</th>
+                        <th>Tarih</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var experience in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="resume-title">
+                                    @experience.Title
+                                </div>
+
+                                <div class="resume-subtitle">
+                                    @experience.Company
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="resume-description">
+                                    @experience.Description
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="resume-date">
+                                    @experience.StartYear -
+                                    @(experience.IsCurrent
+                                                                ? "Devam Ediyor"
+                                                                : experience.EndYear)
+                        </span>
+                    </td>
+
+                            <td>
+                                <div class="resume-actions">
+                                    <a asp-controller="Experience"
+                                       asp-action="Update"
+                                       asp-route-id="@experience.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Güncelle
+                                    </a>
+
+                                    <form asp-controller="Experience"
+                                          asp-action="Delete"
+                                          method="post"
+                                          class="m-0">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@experience.Id" />
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="confirmExperienceDelete(this)">
+                                            Sil
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="resume-empty">
+            <div class="resume-empty-icon">
+                <span class="material-symbols-outlined">
+                    work
+                </span>
+            </div>
+
+            <h5>Henüz deneyim eklenmedi</h5>
+
+            <p class="text-muted mb-3">
+                İş ve staj deneyimlerinizi ekleyebilirsiniz.
+            </p>
+
+            <a asp-controller="Experience"
+               asp-action="Create"
+               class="btn btn-primary">
+                İlk Deneyimi Ekle
+            </a>
+        </div>
+    }
+</div>
+
+<script>
+    function confirmExperienceDelete(button) {
+        const form = button.closest("form");
+
+        Swal.fire({
+            title: "Deneyim kaldırılsın mı?",
+            text: "Bu deneyim portfolyo sayfasında artık gösterilmeyecektir.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Evet, kaldır",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+</script>

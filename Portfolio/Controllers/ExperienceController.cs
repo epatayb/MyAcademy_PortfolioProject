@@ -18,6 +18,7 @@ namespace Portfolio.Controllers
         {
             var experiences = await _context.Experiences
                 .AsNoTracking()
+                .Where(x => x.IsActive)
                 .OrderByDescending(x => x.IsCurrent)
                 .ThenByDescending(x => x.Id)
                 .ToListAsync();
@@ -30,7 +31,7 @@ namespace Portfolio.Controllers
         {
             return View(new Experience());
         }
-                
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Experience model)
@@ -57,13 +58,12 @@ namespace Portfolio.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-                
+
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
             var experience = await _context.Experiences
-                .FirstOrDefaultAsync(x =>
-                    x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
 
             if (experience is null)
             {
@@ -93,8 +93,7 @@ namespace Portfolio.Controllers
             }
 
             var experience = await _context.Experiences
-                .FirstOrDefaultAsync(x =>
-                    x.Id == model.Id);
+                .FirstOrDefaultAsync(x => x.Id == model.Id && x.IsActive);
 
             if (experience is null)
             {
@@ -112,20 +111,20 @@ namespace Portfolio.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-                
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ToggleStatus(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var experience = await _context.Experiences
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
 
             if (experience is null)
             {
                 return NotFound();
             }
 
-            experience.IsActive = !experience.IsActive;
+            experience.IsActive = false;
 
             await _context.SaveChangesAsync();
 
