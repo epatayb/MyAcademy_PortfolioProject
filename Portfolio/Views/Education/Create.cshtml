@@ -1,0 +1,185 @@
+﻿@model Education
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="resume-page-header">
+    <div>
+        <h2 class="resume-page-title">Yeni Eğitim Ekle</h2>
+
+        <p class="resume-page-description">
+            Üniversite veya devam ettiğiniz eğitim programının bilgilerini girin.
+        </p>
+    </div>
+
+    <a asp-controller="Education"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+        Listeye Dön
+    </a>
+</div>
+
+<div class="resume-form-card shadow-sm">
+    <div class="resume-form-header">
+        <h5 class="mb-1">Eğitim Bilgileri</h5>
+        <p class="text-muted mb-0 small">
+            Yıldızlı alanların doldurulması zorunludur.
+        </p>
+    </div>
+
+    <form asp-controller="Education"
+          asp-action="Create"
+          method="post">
+
+        <div class="resume-form-body">
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label asp-for="SchoolName" class="resume-form-label">
+                        Okul veya Kurum Adı
+                    </label>
+
+                    <input asp-for="SchoolName"
+                           class="form-control resume-form-control"
+                           placeholder="Örneğin: Fırat Üniversitesi" />
+
+                    <span asp-validation-for="SchoolName"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Department" class="resume-form-label">
+                        Bölüm veya Eğitim Programı
+                    </label>
+
+                    <input asp-for="Department"
+                           class="form-control resume-form-control"
+                           placeholder="Örneğin: Yazılım Mühendisliği" />
+
+                    <span asp-validation-for="Department"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="StartYear" class="resume-form-label">
+                        Başlangıç Tarihi
+                    </label>
+
+                    <input asp-for="StartYear"
+                           class="form-control resume-form-control"
+                           placeholder="04.09.2020" />
+
+                    <span asp-validation-for="StartYear"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="GraduationYear" class="resume-form-label">
+                        Mezuniyet Tarihi
+                    </label>
+
+                    <input asp-for="GraduationYear"
+                           id="graduationYear"
+                           class="form-control resume-form-control"
+                           placeholder="15.06.2024" />
+
+                    <span asp-validation-for="GraduationYear"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="GPA" class="resume-form-label">
+                        Genel Not Ortalaması
+                    </label>
+
+                    <input asp-for="GPA"
+                           type="number"
+                           min="0"
+                           max="4"
+                           step="0.01"
+                           class="form-control resume-form-control"
+                           placeholder="3.20" />
+
+                    <span asp-validation-for="GPA"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-12">
+                    <div class="current-switch-box">
+                        <div class="form-check form-switch">
+                            <input asp-for="IsCurrent"
+                                   id="educationCurrent"
+                                   class="form-check-input"
+                                   type="checkbox" />
+
+                            <label asp-for="IsCurrent"
+                                   class="form-check-label fw-semibold">
+                                Bu eğitime hâlâ devam ediyorum
+                            </label>
+                        </div>
+
+                        <p class="current-switch-description">
+                            Seçildiğinde mezuniyet yılı boş bırakılır ve
+                            “Devam Ediyor” olarak gösterilir.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Description" class="resume-form-label">
+                        Açıklama
+                    </label>
+
+                    <textarea asp-for="Description"
+                              maxlength="1000"
+                              class="form-control resume-form-control"
+                              placeholder="Eğitim sürecinizi ve kazandığınız yetkinlikleri açıklayın."></textarea>
+
+                    <span asp-validation-for="Description"
+                          class="text-danger small">
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="resume-form-footer">
+            <button type="submit" class="btn btn-primary">
+                Eğitimi Kaydet
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentCheckbox =
+            document.getElementById("educationCurrent");
+
+        const graduationYear =
+            document.getElementById("graduationYear");
+
+        function updateGraduationYear() {
+            graduationYear.disabled = currentCheckbox.checked;
+
+            if (currentCheckbox.checked) {
+                graduationYear.value = "";
+            }
+        }
+
+        currentCheckbox.addEventListener(
+            "change",
+            updateGraduationYear
+        );
+
+        updateGraduationYear();
+    });
+</script>

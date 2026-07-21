@@ -23,7 +23,7 @@ namespace Portfolio.Data.Entities
 
         [Required(ErrorMessage = "Başlangıç yılı boş bırakılamaz.")]
         [MaxLength(30)]
-        public string StartYear { get; set; }
+        public string StartYear { get; set; } = string.Empty;
 
         [MaxLength(30)]
         public string? GraduationYear { get; set; }
