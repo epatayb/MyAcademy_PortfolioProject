@@ -1,0 +1,257 @@
+﻿@model ContactInfo?
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">
+            İletişim Bilgileri
+        </h2>
+
+        <p class="admin-page-description">
+            Portfolyo sayfasında gösterilecek iletişim ve sosyal medya
+            bağlantılarını yönetin.
+        </p>
+    </div>
+
+    @if (Model is null)
+    {
+        <a asp-controller="Contact"
+           asp-action="Create"
+           class="btn btn-primary">
+
+            <span class="material-symbols-outlined align-middle me-1"
+                  style="font-size: 18px;">
+                add
+            </span>
+
+            İletişim Bilgisi Ekle
+        </a>
+    }
+    else
+    {
+        <a asp-controller="Contact"
+           asp-action="Update"
+           asp-route-id="@Model.Id"
+           class="btn btn-primary">
+
+            <span class="material-symbols-outlined align-middle me-1"
+                  style="font-size: 18px;">
+                edit
+            </span>
+
+            Bilgileri Güncelle
+        </a>
+    }
+</div>
+
+<div class="admin-table-card shadow-sm">
+    @if (Model is not null)
+    {
+        <div class="admin-table-scroll">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Bilgi Türü</th>
+                        <th>Değer</th>
+                        <th class="text-end">İşlem</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="admin-item-with-icon">
+                                <div class="admin-item-icon">
+                                    <span class="material-symbols-outlined">
+                                        mail
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <div class="admin-item-title">
+                                        E-posta Adresi
+                                    </div>
+
+                                    <div class="admin-item-subtitle">
+                                        İletişim formu ve doğrudan iletişim
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <a href="mailto:@Model.Email"
+                               class="text-decoration-none">
+                                @Model.Email
+                            </a>
+                        </td>
+
+                        <td class="text-end">
+                            <a href="mailto:@Model.Email"
+                               class="btn btn-sm btn-outline-primary">
+                                E-posta Gönder
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="admin-item-with-icon">
+                                <div class="admin-item-icon">
+                                    <span class="material-symbols-outlined">
+                                        location_on
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <div class="admin-item-title">
+                                        Adres
+                                    </div>
+
+                                    <div class="admin-item-subtitle">
+                                        Portfolyoda gösterilen konum
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td colspan="2">
+                            <div class="admin-item-description">
+                                @Model.Address
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="admin-item-with-icon">
+                                <div class="admin-item-icon">
+                                    <span class="material-symbols-outlined">
+                                        work
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <div class="admin-item-title">
+                                        LinkedIn
+                                    </div>
+
+                                    <div class="admin-item-subtitle">
+                                        Profesyonel profil bağlantısı
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="admin-item-description">
+                                @Model.LinkedinUrl
+                            </div>
+                        </td>
+
+                        <td class="text-end">
+                            <a href="@Model.LinkedinUrl"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn btn-sm btn-outline-dark">
+
+                                <span class="material-symbols-outlined align-middle"
+                                      style="font-size: 17px;">
+                                    open_in_new
+                                </span>
+
+                                Profili Aç
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="admin-item-with-icon">
+                                <div class="admin-item-icon">
+                                    <span class="material-symbols-outlined">
+                                        code
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <div class="admin-item-title">
+                                        GitHub
+                                    </div>
+
+                                    <div class="admin-item-subtitle">
+                                        Proje ve kaynak kod profili
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="admin-item-description">
+                                @Model.GithubUrl
+                            </div>
+                        </td>
+
+                        <td class="text-end">
+                            <a href="@Model.GithubUrl"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn btn-sm btn-outline-dark">
+
+                                <span class="material-symbols-outlined align-middle"
+                                      style="font-size: 17px;">
+                                    open_in_new
+                                </span>
+
+                                Profili Aç
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="admin-empty">
+            <div class="admin-empty-icon">
+                <span class="material-symbols-outlined">
+                    contact_mail
+                </span>
+            </div>
+
+            <h5>Henüz iletişim bilgisi eklenmedi</h5>
+
+            <p class="text-muted mb-4">
+                E-posta, adres, LinkedIn ve GitHub bilgilerinizi ekleyin.
+            </p>
+
+            <a asp-controller="Contact"
+               asp-action="Create"
+               class="btn btn-primary">
+                İlk İletişim Bilgisini Ekle
+            </a>
+        </div>
+    }
+</div>
+
+@if (TempData["SuccessMessage"] is not null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                icon: "success",
+                title: "İşlem başarılı",
+                text: @Html.Raw(
+                                    System.Text.Json.JsonSerializer.Serialize(
+                                            TempData["SuccessMessage"]?.ToString()
+                                    )
+                            ),
+            confirmButtonText: "Tamam"
+        });
+    });
+</script>
+}
