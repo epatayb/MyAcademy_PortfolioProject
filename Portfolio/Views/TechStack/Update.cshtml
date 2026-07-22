@@ -1,54 +1,100 @@
-﻿@model Portfolio.ViewModels.TechStackEditViewModel
+﻿@model TechStackEditViewModel
 
 @{
-    ViewData["Title"] = "Teknoloji Güncelle";
     Layout = "~/Views/Admin/Layout.cshtml";
 }
 
-<div class="mb-4">
-    <h2 class="mb-1 fw-bold">Teknoloji Güncelle</h2>
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">
+            Teknolojiyi Güncelle
+        </h2>
 
-    <p class="text-muted mb-0">
-        Seçilen teknolojinin adını güncelleyin.
-    </p>
+        <p class="admin-page-description">
+            Seçilen teknolojinin görünen adını değiştirebilirsiniz.
+        </p>
+    </div>
+
+    <a asp-controller="TechStack"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 18px;">
+            arrow_back
+        </span>
+
+        Listeye Dön
+    </a>
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-body">
-        <form asp-controller="TechStack"
-              asp-action="Update"
-              method="post">
+<div class="admin-form-card shadow-sm">
 
-              <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3" role="alert"></div>
+    <form asp-controller="TechStack"
+          asp-action="Update"
+          method="post">
 
-            <input asp-for="Id" type="hidden" />
+        <input asp-for="Id" type="hidden" />
 
-            <div class="mb-3">
-                <label asp-for="Name" class="form-label fw-medium">
-                    Teknoloji Adı
-                </label>
+        <div class="admin-form-body">
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger mb-4">
+            </div>
 
-                <input asp-for="Name"
-                       class="form-control"
-                       autocomplete="off" />
+            <div class="row g-4">
+                <div class="col-lg-12">
+                    <label asp-for="Name"
+                           class="admin-form-label">
+                        Teknoloji Adı
+                    </label>
 
-                <span asp-validation-for="Name"
-                      class="text-danger small mt-1 d-block">
+                    <input asp-for="Name"
+                           class="form-control admin-form-control"
+                           placeholder="Örneğin: Entity Framework Core"
+                           autocomplete="off" />
+
+                    <div class="admin-form-help">
+                        Bu değişiklik teknolojinin bağlı olduğu tüm projelerde
+                        geçerli olacaktır.
+                    </div>
+
+                    <span asp-validation-for="Name"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-12">
+                    <div class="admin-info-box">
+                        <span class="material-symbols-outlined">
+                            sync
+                        </span>
+
+                        <div>
+                            <div class="fw-semibold">
+                                Bağlı projeler korunur
+                            </div>
+
+                            <div class="small mt-1">
+                                Teknolojinin adını güncellemek mevcut proje
+                                bağlantılarını veya sıralamalarını değiştirmez.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-form-footer">
+            <button type="submit"
+                    class="btn btn-primary">
+
+                <span class="material-symbols-outlined align-middle me-1"
+                      style="font-size: 18px;">
+                    check
                 </span>
-            </div>
 
-            <div class="d-flex gap-2">
-                <button type="submit"
-                        class="btn btn-primary">
-                    Değişiklikleri Kaydet
-                </button>
-
-                <a asp-controller="TechStack"
-                   asp-action="Index"
-                   class="btn btn-outline-secondary">
-                    Vazgeç
-                </a>
-            </div>
-        </form>
-    </div>
+                Değişiklikleri Kaydet
+            </button>
+        </div>
+    </form>
 </div>
