@@ -1,0 +1,214 @@
+﻿@model Service
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">Hizmeti Güncelle</h2>
+
+        <p class="admin-page-description">
+            Hizmetin başlığını, ikonunu ve açıklamasını düzenleyebilirsiniz.
+        </p>
+    </div>
+
+    <a asp-controller="Service"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 18px;">
+            arrow_back
+        </span>
+        Listeye Dön
+    </a>
+</div>
+
+<div class="admin-form-card shadow-sm">
+
+    <form asp-controller="Service"
+          asp-action="Update"
+          method="post">
+
+        <input asp-for="Id" type="hidden" />
+
+        <div class="admin-form-body">
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-7">
+                    <label asp-for="Title"
+                           class="admin-form-label">
+                        Hizmet Başlığı
+                    </label>
+
+                    <input asp-for="Title"
+                           class="form-control admin-form-control"
+                           placeholder="Örneğin: Backend Geliştirme" />
+
+                    <span asp-validation-for="Title"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-5">
+                    <label asp-for="Icon"
+                           class="admin-form-label">
+                        Material Symbol İkonu
+                    </label>
+
+                    <input asp-for="Icon"
+                           id="iconInput"
+                           class="form-control admin-form-control"
+                           placeholder="Örneğin: code" />
+
+                    <span asp-validation-for="Icon"
+                          class="text-danger small">
+                    </span>
+
+                    <div class="admin-icon-options">
+                        <button type="button"
+                                class="admin-icon-option"
+                                data-icon="code">
+                            code
+                        </button>
+
+                        <button type="button"
+                                class="admin-icon-option"
+                                data-icon="api">
+                            api
+                        </button>
+
+                        <button type="button"
+                                class="admin-icon-option"
+                                data-icon="database">
+                            database
+                        </button>
+
+                        <button type="button"
+                                class="admin-icon-option"
+                                data-icon="cloud">
+                            cloud
+                        </button>
+
+                        <button type="button"
+                                class="admin-icon-option"
+                                data-icon="web">
+                            web
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="admin-icon-preview-box">
+                        <div class="admin-icon-preview">
+                            <span class="material-symbols-outlined"
+                                  id="iconPreview">
+                                @(string.IsNullOrWhiteSpace(Model.Icon)
+                                                                ? "design_services"
+                                                                : Model.Icon)
+                            </span>
+                        </div>
+
+                        <div>
+                            <div class="fw-semibold text-dark">
+                                İkon Önizlemesi
+                            </div>
+
+                            <div class="text-muted small" id="iconPreviewName">
+                                @(string.IsNullOrWhiteSpace(Model.Icon)
+                                                                ? "design_services"
+                                                                : Model.Icon)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Description"
+                           class="admin-form-label">
+                        Hizmet Açıklaması
+                    </label>
+
+                    <textarea asp-for="Description"
+                              id="descriptionInput"
+                              rows="5"
+                              maxlength="500"
+                              class="form-control admin-form-control"
+                              placeholder="Hizmet kapsamında sunduğunuz çalışmaları açıklayın."></textarea>
+
+                    <div class="d-flex justify-content-between mt-1">
+                        <span asp-validation-for="Description"
+                              class="text-danger small">
+                        </span>
+
+                        <small class="text-muted">
+                            <span id="descriptionCount">0</span>/500
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-form-footer">
+            <button type="submit"
+                    class="btn btn-primary">
+                <span class="material-symbols-outlined align-middle me-1"
+                      style="font-size: 18px;">
+                    check
+                </span>
+                Değişiklikleri Kaydet
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const iconInput = document.getElementById("iconInput");
+        const iconPreview = document.getElementById("iconPreview");
+        const iconPreviewName =
+            document.getElementById("iconPreviewName");
+
+        const iconButtons =
+            document.querySelectorAll(".admin-icon-option");
+
+        const descriptionInput =
+            document.getElementById("descriptionInput");
+
+        const descriptionCount =
+            document.getElementById("descriptionCount");
+
+        function updateIconPreview() {
+            const iconName = iconInput.value.trim() ||
+                "design_services";
+
+            iconPreview.textContent = iconName;
+            iconPreviewName.textContent = iconName;
+        }
+
+        function updateDescriptionCount() {
+            descriptionCount.textContent =
+                descriptionInput.value.length;
+        }
+
+        iconInput.addEventListener("input", updateIconPreview);
+
+        descriptionInput.addEventListener(
+            "input",
+            updateDescriptionCount
+        );
+
+        iconButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                iconInput.value = button.dataset.icon;
+                updateIconPreview();
+            });
+        });
+
+        updateIconPreview();
+        updateDescriptionCount();
+    });
+</script>
