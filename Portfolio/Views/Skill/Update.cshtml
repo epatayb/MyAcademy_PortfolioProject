@@ -1,0 +1,75 @@
+﻿@model Skill
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">
+            Yeteneği Güncelle
+        </h2>
+
+        <p class="admin-page-description">
+            Seçilen yeteneğin adını değiştirebilirsiniz.
+        </p>
+    </div>
+
+    <a asp-controller="Skill"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 18px;">
+            arrow_back
+        </span>
+
+        Listeye Dön
+    </a>
+</div>
+
+<div class="admin-form-card shadow-sm">
+
+    <form asp-controller="Skill"
+          asp-action="Update"
+          method="post">
+
+        <input asp-for="Id" type="hidden" />
+
+        <div class="admin-form-body">
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger mb-4">
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <label asp-for="Name"
+                           class="admin-form-label">
+                        Yetenek Adı
+                    </label>
+
+                    <input asp-for="Name"
+                           class="form-control admin-form-control"
+                           autocomplete="off" />
+
+                    <span asp-validation-for="Name"
+                          class="text-danger small">
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-form-footer">
+            <button type="submit"
+                    class="btn btn-primary">
+
+                <span class="material-symbols-outlined align-middle me-1"
+                      style="font-size: 18px;">
+                    check
+                </span>
+
+                Değişiklikleri Kaydet
+            </button>
+        </div>
+    </form>
+</div>
