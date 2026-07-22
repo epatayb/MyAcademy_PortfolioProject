@@ -1,0 +1,184 @@
+﻿@model List<Skill>
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">
+            Yeteneklerim
+        </h2>
+
+        <p class="admin-page-description">
+            Portfolyo sayfasında gösterilecek uzmanlık ve yetenek alanlarını yönetin.
+        </p>
+    </div>
+
+    <a asp-controller="Skill"
+       asp-action="Create"
+       class="btn btn-primary">
+
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 18px;">
+            add
+        </span>
+
+        Yeni Yetenek Ekle
+    </a>
+</div>
+
+<div class="admin-table-card shadow-sm">
+    @if (Model.Any())
+    {
+        <div class="admin-table-scroll">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Yetenek</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (var index = 0; index < Model.Count; index++)
+                    {
+                        var skill = Model[index];
+
+                        <tr>
+                            <td>
+                                <span class="admin-order-badge">
+                                    @(index + 1)
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="admin-item-with-icon">
+                                    <div class="admin-item-icon">
+                                        <span class="material-symbols-outlined">
+                                            code_blocks
+                                        </span>
+                                    </div>
+
+                                    <div>
+                                        <div class="admin-item-title">
+                                            @skill.Name
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="admin-status-badge admin-status-success">
+                                    Aktif
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="admin-actions justify-content-end">
+                                    <a asp-controller="Skill"
+                                       asp-action="Update"
+                                       asp-route-id="@skill.Id"
+                                       class="btn btn-sm btn-outline-primary">
+
+                                        <span class="material-symbols-outlined align-middle"
+                                              style="font-size: 17px;">
+                                            edit
+                                        </span>
+
+                                        Güncelle
+                                    </a>
+
+                                    <form asp-controller="Skill"
+                                          asp-action="Delete"
+                                          method="post"
+                                          class="m-0">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@skill.Id" />
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="confirmSkillDelete(this)">
+
+                                            <span class="material-symbols-outlined align-middle"
+                                                  style="font-size: 17px;">
+                                                delete
+                                            </span>
+
+                                            Kaldır
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="admin-empty">
+            <div class="admin-empty-icon">
+                <span class="material-symbols-outlined">
+                    psychology
+                </span>
+            </div>
+
+            <h5>Henüz yetenek eklenmedi</h5>
+
+            <p class="text-muted mb-4">
+                Uzmanlık ve yetenek alanlarınızı ekleyebilirsiniz.
+            </p>
+
+            <a asp-controller="Skill"
+               asp-action="Create"
+               class="btn btn-primary">
+                İlk Yeteneği Ekle
+            </a>
+        </div>
+    }
+</div>
+
+@if (TempData["SuccessMessage"] is not null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                icon: "success",
+                title: "İşlem başarılı",
+                text: @Html.Raw(
+                                    System.Text.Json.JsonSerializer.Serialize(
+                                            TempData["SuccessMessage"]?.ToString()
+                                    )
+                            ),
+            confirmButtonText: "Tamam"
+        });
+    });
+</script>
+}
+
+<script>
+    function confirmSkillDelete(button) {
+        const form = button.closest("form");
+
+        Swal.fire({
+            title: "Yetenek kaldırılsın mı?",
+            text: "Bu yetenek portfolyo sayfasında artık gösterilmeyecektir.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#64748b",
+            confirmButtonText: "Evet, kaldır",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+</script>
