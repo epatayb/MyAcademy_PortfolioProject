@@ -1,0 +1,155 @@
+﻿@model ContactInfo
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+}
+
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">
+            İletişim Bilgisi Ekle
+        </h2>
+
+        <p class="admin-page-description">
+            Portfolyo sayfasında gösterilecek iletişim bilgilerini oluşturun.
+        </p>
+    </div>
+
+    <a asp-controller="Contact"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 18px;">
+            arrow_back
+        </span>
+
+        Listeye Dön
+    </a>
+</div>
+
+<div class="admin-form-card shadow-sm">
+    <div class="admin-form-header">
+        <h5 class="mb-1">
+            İletişim ve Sosyal Medya Bilgileri
+        </h5>
+
+        <p class="text-muted small mb-0">
+            Sistemde yalnızca bir iletişim bilgisi kaydı bulunabilir.
+        </p>
+    </div>
+
+    <form asp-controller="Contact"
+          asp-action="Create"
+          method="post">
+
+        <div class="admin-form-body">
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-4">
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label asp-for="Email"
+                           class="admin-form-label">
+                        E-posta Adresi
+                    </label>
+
+                    <input asp-for="Email"
+                           type="email"
+                           class="form-control admin-form-control"
+                           placeholder="ornek@email.com" />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Address"
+                           class="admin-form-label">
+                        Adres
+                    </label>
+
+                    <input asp-for="Address"
+                           class="form-control admin-form-control"
+                           placeholder="Örneğin: İstanbul, Türkiye" />
+
+                    <span asp-validation-for="Address"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="LinkedinUrl"
+                           class="admin-form-label">
+                        LinkedIn Bağlantısı
+                    </label>
+
+                    <input asp-for="LinkedinUrl"
+                           type="url"
+                           class="form-control admin-form-control"
+                           placeholder="https://www.linkedin.com/in/kullanici" />
+
+                    <span asp-validation-for="LinkedinUrl"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="GithubUrl"
+                           class="admin-form-label">
+                        GitHub Bağlantısı
+                    </label>
+
+                    <input asp-for="GithubUrl"
+                           type="url"
+                           class="form-control admin-form-control"
+                           placeholder="https://github.com/kullanici" />
+
+                    <span asp-validation-for="GithubUrl"
+                          class="text-danger small">
+                    </span>
+                </div>
+
+                <div class="col-12">
+                    <div class="admin-info-box">
+                        <span class="material-symbols-outlined">
+                            info
+                        </span>
+
+                        <div>
+                            <div class="fw-semibold">
+                                Bağlantıları tam adres olarak girin
+                            </div>
+
+                            <div class="small mt-1">
+                                LinkedIn ve GitHub bağlantılarının
+                                <strong>https://</strong> ile başlaması gerekir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-form-footer">
+            <button type="submit"
+                    class="btn btn-primary">
+
+                <span class="material-symbols-outlined align-middle me-1"
+                      style="font-size: 18px;">
+                    check
+                </span>
+
+                Bilgileri Kaydet
+            </button>
+
+            <a asp-controller="Contact"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                Vazgeç
+            </a>
+        </div>
+    </form>
+</div>
