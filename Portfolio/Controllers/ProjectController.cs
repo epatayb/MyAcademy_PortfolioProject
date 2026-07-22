@@ -79,15 +79,19 @@ namespace Portfolio.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
         {
-            var project = _context.Projects.Find(id);
+            var project = await _context.Projects.FindAsync(id);
             if (project == null)
             {
                 return NotFound();
             }
             _context.Projects.Remove(project);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Proje başarıyla silindi.";
             return RedirectToAction("Index");
         }
     }

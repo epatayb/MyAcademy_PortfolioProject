@@ -1,41 +1,186 @@
 ﻿@model List<ProjectTechStackListViewModel>
 @{
-    ViewData["Title"] = "Proje Teknolojileri";
     Layout = "~/Views/Admin/Layout.cshtml";
-    int count = 0;
 }
 
-<table class="table table-bordered table-hover align-middle">
-    <thead>
-        <tr>
-            <td>#</td>
-            <td>Proje Adı</td>
-            <td>Kullanılan Teknolojiler</td>
-            <td>İşlemler</td>
-        </tr>
-    </thead>
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">
+            Proje Teknolojileri
+        </h2>
 
-    <tbody>
-        @foreach (var item in Model)
-        {
-            count++;
-            <tr>
-                <td>@count</td>
-                <td><strong>@item.ProjectName</strong></td>
-                <td>@item.TechStacks</td>
-                <td>
-                    <a asp-controller="ProjectTechStacks"
-                       asp-action="Add"
-                       asp-route-projectId="@item.ProjectId"
-                       class="btn btn-sm btn-outline-primary">
-                        Teknolojileri Yönet
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
+        <p class="admin-page-description">
+            Projelerde kullanılan teknolojileri görüntüleyebilir ve
+            proje bazında yönetebilirsiniz.
+        </p>
+    </div>
 
-</table>
+    <a asp-controller="Project"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
 
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 18px;">
+            folder_open
+        </span>
 
-<a href="@Url.Action("Create", "ProjectTechStacks")" class="btn btn-outline-dark">Yeni Giriş</a>
+        Projelere Dön
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="admin-stat-card">
+            <div class="admin-stat-label">
+                Toplam Proje
+            </div>
+
+            <p class="admin-stat-value">
+                @Model.Count
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="admin-stat-card">
+            <div class="admin-stat-label">
+                Teknoloji Eklenen Proje
+            </div>
+
+            <p class="admin-stat-value">
+                @Model.Count(x => !string.IsNullOrWhiteSpace(x.TechStacks))
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="admin-stat-card">
+            <div class="admin-stat-label">
+                Teknoloji Eklenmeyen Proje
+            </div>
+
+            <p class="admin-stat-value">
+                @Model.Count(x => string.IsNullOrWhiteSpace(x.TechStacks))
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="admin-table-card shadow-sm">
+    @if (Model.Any())
+    {
+        <div class="admin-table-scroll">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Proje</th>
+                        <th>Kullanılan Teknolojiler</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (var index = 0; index < Model.Count; index++)
+                    {
+                        var item = Model[index];
+
+                        var technologies = string.IsNullOrWhiteSpace(item.TechStacks)
+                        ? Array.Empty<string>()
+                        : item.TechStacks.Split(
+                        ',',
+                        StringSplitOptions.RemoveEmptyEntries |
+                        StringSplitOptions.TrimEntries);
+
+                        <tr>
+                            <td>
+                                <span class="admin-order-badge">
+                                    @(index + 1)
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="admin-item-with-icon">
+                                    <div class="admin-item-icon">
+                                        <span class="material-symbols-outlined">
+                                            deployed_code
+                                        </span>
+                                    </div>
+
+                                    <div>
+                                        <div class="admin-item-title">
+                                            @item.ProjectName
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                @if (technologies.Length > 0)
+                                {
+                                    <div class="admin-project-tech-list">
+                                        @foreach (var technology in technologies)
+                                        {
+                                            <span class="admin-project-tech-badge">
+                                                <span class="material-symbols-outlined">
+                                                    terminal
+                                                </span>
+
+                                                @technology
+                                            </span>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="admin-status-badge admin-status-neutral">
+                                        Teknoloji eklenmedi
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                <div class="admin-actions justify-content-end">
+                                    <a asp-controller="ProjectTechStacks"
+                                       asp-action="Add"
+                                       asp-route-projectId="@item.ProjectId"
+                                       class="btn btn-sm btn-outline-primary">
+
+                                        <span class="material-symbols-outlined align-middle"
+                                              style="font-size: 17px;">
+                                            settings
+                                        </span>
+
+                                        Teknolojileri Yönet
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="admin-empty">
+            <div class="admin-empty-icon">
+                <span class="material-symbols-outlined">
+                    account_tree
+                </span>
+            </div>
+
+            <h5>Henüz proje bulunmuyor</h5>
+
+            <p class="text-muted mb-4">
+                Teknoloji bağlamak için önce bir proje eklemelisiniz.
+            </p>
+
+            <a asp-controller="Project"
+               asp-action="Create"
+               class="btn btn-primary">
+                Yeni Proje Ekle
+            </a>
+        </div>
+    }
+</div>

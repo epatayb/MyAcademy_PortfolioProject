@@ -1,122 +1,250 @@
-﻿@model Portfolio.ViewModels.ProjectTechStackAddViewModel
+﻿@model ProjectTechStackAddViewModel
 
 @{
-    ViewData["Title"] = "Projeye Teknoloji Ekle";
     Layout = "~/Views/Admin/Layout.cshtml";
 }
 
-<div class="card shadow-sm">
-    <div class="card-header">
-        <h5 class="mb-0">
-            @Model.ProjectName
-        </h5>
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">
+            Proje Teknolojilerini Yönet
+        </h2>
 
-        <small class="text-muted">
-            Projede kullanılan teknolojileri yönetin.
-        </small>
+        <p class="admin-page-description">
+            Seçilen projede kullanılan teknolojileri ekleyebilir veya kaldırabilirsiniz.
+        </p>
     </div>
 
-    <div class="card-body">
+    <a asp-controller="ProjectTechStacks"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
 
-        <h6 class="mb-3">
-            Eklenen Teknolojiler
-        </h6>
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 18px;">
+            arrow_back
+        </span>
 
-        @if (Model.AddedTechStacks.Any())
-        {
-            <div class="d-flex flex-wrap mb-4" style="gap: 8px;">
-                @foreach (var techStack in Model.AddedTechStacks.OrderBy(x => x.SortOrder))
-                {
-                    <span class="tech-badge">
+        Listeye Dön
+    </a>
+</div>
 
-                        <span>
-                            @techStack.SortOrder. @techStack.Name
-                        </span>
+<div class="admin-form-card shadow-sm">
 
-                        <form asp-controller="ProjectTechStacks"
-                              asp-action="Remove"
-                              method="post"
-                              class="d-inline m-0">
+    <div class="admin-form-body">
+        <div class="admin-project-tech-summary">
+            <div class="admin-project-tech-summary-icon">
+                <span class="material-symbols-outlined">
+                    deployed_code
+                </span>
+            </div>
 
-                            <input type="hidden"
-                                   name="id"
-                                   value="@techStack.ProjectTechStackId" />
+            <div>
+                <div class="admin-item-title">
+                    @Model.ProjectName
+                </div>
 
-                            <input type="hidden"
-                                   name="projectId"
-                                   value="@Model.ProjectId" />
+                <div class="admin-item-subtitle">
+                    @(Model.AddedTechStacks?.Count ?? 0) teknoloji kullanılıyor
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-project-tech-section">
+            <h3 class="admin-project-tech-section-title">
+                <span class="material-symbols-outlined">
+                    check_circle
+                </span>
+
+                Eklenen Teknolojiler
+            </h3>
+
+            <p class="admin-project-tech-section-description">
+                Teknolojiler gösterim sırasına göre listelenir.
+                Kaldırılan teknoloji silinmez, yalnızca bu projeyle bağlantısı kaldırılır.
+            </p>
+
+            @if (Model.AddedTechStacks?.Any() == true)
+            {
+                <div class="admin-selected-tech-list">
+                    @foreach (var techStack in Model.AddedTechStacks
+                                    .OrderBy(x => x.SortOrder))
+                    {
+                        <div class="admin-selected-tech">
+                            <span class="admin-tech-order">
+                                @techStack.SortOrder
+                            </span>
+
+                            <span>
+                                @techStack.Name
+                            </span>
+
+                            <form asp-controller="ProjectTechStacks"
+                                  asp-action="Remove"
+                                  method="post"
+                                  class="m-0">
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@techStack.ProjectTechStackId" />
+
+                                <input type="hidden"
+                                       name="projectId"
+                                       value="@Model.ProjectId" />
+
+                                <button type="button"
+                                        class="admin-tech-remove-button"
+                                        onclick="confirmTechnologyRemove(this, '@techStack.Name')"
+                                        title="@techStack.Name teknolojisini kaldır"
+                                        aria-label="@techStack.Name teknolojisini kaldır">
+
+                                    <span class="material-symbols-outlined">
+                                        close
+                                    </span>
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="admin-info-box">
+                    <span class="material-symbols-outlined">
+                        info
+                    </span>
+
+                    <div>
+                        <div class="fw-semibold">
+                            Henüz teknoloji eklenmedi
+                        </div>
+
+                        <div class="small mt-1">
+                            Aşağıdaki alandan bu projede kullanılan ilk teknolojiyi seçebilirsiniz.
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="admin-project-tech-section">
+            <h3 class="admin-project-tech-section-title">
+                <span class="material-symbols-outlined">
+                    add_circle
+                </span>
+
+                Yeni Teknoloji Ekle
+            </h3>
+
+            <p class="admin-project-tech-section-description">
+                Yalnızca aktif ve henüz bu projeye eklenmemiş teknolojiler gösterilir.
+            </p>
+
+            @if (Model.AvailableTechStacks?.Any() == true)
+            {
+                <form asp-controller="ProjectTechStacks"
+                      asp-action="Add"
+                      method="post">
+
+                    <input asp-for="ProjectId" type="hidden" />
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger mb-3">
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="TechStackId"
+                               class="admin-form-label">
+                            Teknoloji
+                        </label>
+
+                        <div class="d-flex gap-2">
+
+                            <select asp-for="TechStackId"
+                                    asp-items="Model.AvailableTechStacks"
+                                    class="form-select admin-form-control">
+
+                                <option value="">
+                                    Teknoloji seçiniz
+                                </option>
+                            </select>
 
                             <button type="submit"
-                                    class="tech-remove-button"
-                                    title="@techStack.Name teknolojisini kaldır"
-                                    aria-label="@techStack.Name teknolojisini kaldır">
-                                &times;
+                                    class="btn btn-primary text-nowrap d-inline-flex align-items-center">
+
+                                <span class="material-symbols-outlined me-1" style="font-size: 18px;">add</span>
+
+                                Teknolojiyi Ekle
                             </button>
-                        </form>
-                    </span>
-                }
-            </div>
-        }
-        else
-        {
-            <div class="text-muted mb-4">
-                Bu projeye henüz teknoloji eklenmedi.
-            </div>
-        }
+                        </div>
+                        <span asp-validation-for="TechStackId"
+                              class="text-danger small mt-1 d-block">
+                        </span>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="alert alert-success mb-0">
+                    <div class="d-flex align-items-start gap-2">
+                        <span class="material-symbols-outlined">
+                            task_alt
+                        </span>
 
-        @if (Model.AvailableTechStacks.Any())
-        {
-            <form asp-controller="ProjectTechStacks"
-                  asp-action="Add"
-                  method="post">
+                        <div>
+                            <div class="fw-semibold">
+                                Tüm teknolojiler eklendi
+                            </div>
 
-                <input asp-for="ProjectId" type="hidden" />
-
-                <div class="mb-3">
-                    <label asp-for="TechStackId"
-                           class="form-label">
-                        Teknoloji
-                    </label>
-
-                    <select asp-for="TechStackId"
-                            asp-items="Model.AvailableTechStacks"
-                            class="form-select">
-
-                        <option value="">
-                            Teknoloji seçiniz
-                        </option>
-                    </select>
-
-                    <span asp-validation-for="TechStackId"
-                          class="text-danger">
-                    </span>
+                            <div class="small mt-1">
+                                Sistemdeki aktif teknolojilerin tamamı bu projede kullanılıyor.
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            }
+        </div>
+    </div>
 
-                <div class="d-flex gap-2">
-                    <button type="submit"
-                            class="btn btn-primary">
-                        Teknoloji Ekle
-                    </button>
+    <div class="admin-form-footer">
+        <a asp-controller="ProjectTechStacks"
+           asp-action="Index"
+           class="btn btn-primary d-inline-flex align-items-center">
+            <span class="material-symbols-outlined me-1" style="font-size: 19px;">
+                check_circle
+            </span>
+            İşlemi Tamamla
+        </a>
 
-                    <a asp-controller="Project"
-                       asp-action="Index"
-                       class="btn btn-outline-secondary">
-                        Projelere Dön
-                    </a>
-                </div>
-            </form>
-        }
-        else
-        {
-            <div class="alert alert-success">
-                Sistemdeki bütün teknolojiler bu projeye eklenmiş.
-            </div>
-
-            <a asp-controller="Project"
-               asp-action="Index"
-               class="btn btn-outline-secondary">
-                Projelere Dön
-            </a>
-        }
+        <a asp-controller="Project"
+           asp-action="Update"
+           asp-route-id="@Model.ProjectId"
+           class="btn btn-outline-secondary d-inline-flex align-items-center">
+            <span class="material-symbols-outlined me-1" style="font-size: 19px;">
+                edit
+            </span>
+            Projeyi Güncelle
+        </a>
     </div>
 </div>
+
+<script>
+    function confirmTechnologyRemove(button, technologyName) {
+        const form = button.closest("form");
+
+        Swal.fire({
+            title: "Teknoloji kaldırılsın mı?",
+            text: technologyName +
+                " teknolojisinin bu projeyle bağlantısı kaldırılacaktır.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#64748b",
+            confirmButtonText: "Evet, kaldır",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+</script>

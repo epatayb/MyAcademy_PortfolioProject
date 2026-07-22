@@ -22,6 +22,8 @@ namespace Portfolio.Controllers
         {
             var model = await _context.Projects
                 .AsNoTracking()
+                .OrderBy(p => p.DisplayOrder)
+                .ThenBy(p => p.Name)
                 .Select(p => new ProjectTechStackListViewModel
                 {
                     ProjectId = p.Id,
@@ -31,44 +33,10 @@ namespace Portfolio.Controllers
                         .OrderBy(pts => pts.SortOrder)
                         .Select(pts => pts.TechStack.Name))
                 })
-                .OrderBy(p => p.ProjectName)
                 .ToListAsync();
 
             return View(model);
         }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            var projects = _context.Projects.ToList();
-            var techStacks = _context.TechStacks
-                                .Where(x => x.IsActive)
-                                .ToList();
-
-            ViewBag.projects = (from project in projects
-                                select new SelectListItem
-                                {
-                                    Text = project.Name,
-                                    Value = project.Id.ToString()
-                                }).ToList();
-
-            ViewBag.techStacks = (from techStack in techStacks
-                                  select new SelectListItem
-                                  {
-                                      Text = techStack.Name,
-                                      Value = techStack.Id.ToString()
-                                  }).ToList();
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Create(ProjectTechStack projectTechStack)
-        {
-            _context.ProjectTechStacks.Add(projectTechStack);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
 
         [HttpGet]
         public async Task<IActionResult> Add(int projectId)
