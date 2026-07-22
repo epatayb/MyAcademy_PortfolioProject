@@ -96,6 +96,9 @@
     <a asp-controller="Message"
        asp-action="Index"
        class="btn btn-outline-secondary">
+        <span class="material-symbols-outlined align-middle me-1" style="font-size: 19px;">
+            arrow_back
+        </span>
         Mesajlara Dön
     </a>
 </div>
@@ -146,6 +149,9 @@
         <div class="d-flex flex-wrap gap-2">
             <a href="mailto:@Model.Email"
                class="btn btn-outline-primary">
+                <span class="material-symbols-outlined align-middle me-1" style="font-size: 19px;">
+                    reply
+                </span>
                 E-posta ile Yanıtla
             </a>
 
@@ -160,6 +166,9 @@
 
                 <button type="submit"
                         class="btn btn-outline-secondary">
+                    <span class="material-symbols-outlined align-middle me-1" style="font-size: 19px;">
+                        mark_email_unread
+                    </span>
                     Okunmadı Olarak İşaretle
                 </button>
             </form>
@@ -176,6 +185,9 @@
                 <button type="button"
                         class="btn btn-outline-danger"
                         onclick="confirmDetailDelete(this)">
+                    <span class="material-symbols-outlined align-middle me-1" style="font-size: 19px;">
+                        delete
+                    </span>
                     Mesajı Sil
                 </button>
             </form>

@@ -15,6 +15,9 @@
         border-radius: 12px;
         padding: 18px 20px;
         height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .message-stat-title {
@@ -148,6 +151,36 @@
         justify-content: center;
         margin-bottom: 15px;
     }
+
+    .stat-icon-wrapper {
+        width: 46px;
+        height: 46px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+        .stat-icon-wrapper .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+    /* Renk temaları */
+    .stat-icon-total {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .stat-icon-unread {
+        background: #eff6ff;
+        color: #0d6efd;
+    }
+
+    .stat-icon-read {
+        background: #d1fae5;
+        color: #047857;
+    }
 </style>
 
 <div class="mb-4">
@@ -161,22 +194,43 @@
 <div class="row g-3 mb-4">
     <div class="col-md-4">
         <div class="message-stat-card">
-            <div class="message-stat-title">Toplam Mesaj</div>
-            <div class="message-stat-value">@Model.Count</div>
+            <div>
+                <div class="message-stat-title">Toplam Mesaj</div>
+                <div class="message-stat-value">@Model.Count</div>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-total">
+                <span class="material-symbols-outlined">
+                    inbox
+                </span>
+            </div>
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="message-stat-card">
-            <div class="message-stat-title">Yeni Mesaj</div>
-            <div class="message-stat-value text-primary">@unreadCount</div>
+            <div>
+                <div class="message-stat-title">Yeni Mesaj</div>
+                <div class="message-stat-value text-primary">@unreadCount</div>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-unread">
+                <span class="material-symbols-outlined">
+                    mark_email_unread
+                </span>
+            </div>
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="message-stat-card">
-            <div class="message-stat-title">Okunan Mesaj</div>
-            <div class="message-stat-value text-success">@readCount</div>
+            <div>
+                <div class="message-stat-title">Okunan Mesaj</div>
+                <div class="message-stat-value text-success">@readCount</div>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-read">
+                <span class="material-symbols-outlined">
+                    mark_email_read
+                </span>
+            </div>
         </div>
     </div>
 </div>
@@ -266,6 +320,10 @@
                                        asp-action="Detail"
                                        asp-route-id="@message.Id"
                                        class="btn btn-sm btn-outline-primary">
+                                        <span class="material-symbols-outlined align-middle me-1"
+                                              style="font-size: 17px;">
+                                            visibility
+                                        </span>
                                         Görüntüle
                                     </a>
 
@@ -282,6 +340,9 @@
 
                                             <button type="submit"
                                                     class="btn btn-sm btn-outline-secondary">
+                                                <span class="material-symbols-outlined align-middle me-1" style="font-size: 17px;">
+                                                    mark_email_unread
+                                                </span>
                                                 Okunmadı Yap
                                             </button>
                                         </form>
@@ -299,6 +360,9 @@
                                         <button type="button"
                                                 class="btn btn-sm btn-outline-danger"
                                                 onclick="confirmDelete(this)">
+                                            <span class="material-symbols-outlined align-middle me-1" style="font-size: 17px;">
+                                                delete
+                                            </span>
                                             Sil
                                         </button>
                                     </form>
