@@ -1,36 +1,334 @@
 ﻿@model Project
 @{
-    ViewData["Title"] = "Projeyi Güncelle";
     Layout = "~/Views/Admin/Layout.cshtml";
 }
 
-<form method="post">
-    <input type="hidden" asp-for="Id" />
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">
+            Proje Bilgisini Güncelle
+        </h2>
 
-    <label>Proje Adı</label>
-    <input type="text" asp-for="Name" class="form-control" />
-    <span asp-validation-for="Name" class="text-danger"></span>
-    <br />
+        <p class="admin-page-description">
+            Seçilen projenin içerik ve görüntülenme bilgilerini düzenleyin.
+        </p>
+    </div>
 
-    <label>Görsel Url</label>
-    <input type="text" asp-for="ImageUrl" class="form-control" />
-    <span asp-validation-for="ImageUrl" class="text-danger"></span>
-    <br />
+    <a asp-controller="Project"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 19px;">
+            arrow_back
+        </span>
+        Listeye Dön
+    </a>
+</div>
 
-    <label>Proje Açıklaması</label>
-    <textarea type="text" asp-for="Description" class="form-control rows="3"> </textarea>
-    <span asp-validation-for="Description" class="text-danger"></span>
-    <br />
+<div class="admin-project-form-grid">
 
-    <label>Github URL</label>
-    <input type="url" asp-for="GithubUrl" class="form-control" />
-    <span asp-validation-for="GithubUrl" class="text-danger"></span>
-    <br />
+    <div class="admin-form-card shadow-sm">
 
-    <label asp-for="DisplayOrder">Gösterim Sırası</label>
-    <input asp-for="DisplayOrder" type="number" min="1" class="form-control" placeholder="Örneğin: 1" />
-    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-    <br />
+        <form asp-controller="Project"
+              asp-action="Update"
+              method="post">
 
-    <button type="submit" class="btn btn-outline-dark">Güncelle</button>
-</form>
+            <input asp-for="Id" type="hidden" />
+
+            <div class="admin-form-body">
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger mb-4">
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-12">
+                        <label asp-for="Name"
+                               class="admin-form-label">
+                            Proje Adı
+                        </label>
+
+                        <input asp-for="Name"
+                               id="projectNameInput"
+                               class="form-control admin-form-control"
+                               placeholder="Proje adını girin" />
+
+                        <span asp-validation-for="Name"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="ImageUrl"
+                               class="admin-form-label">
+                            Proje Görseli
+                        </label>
+
+                        <input asp-for="ImageUrl"
+                               id="projectImageInput"
+                               class="form-control admin-form-control"
+                               placeholder="Örneğin: project-image.png" />
+                        
+                        <span asp-validation-for="ImageUrl"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Description"
+                               class="admin-form-label">
+                            Proje Açıklaması
+                        </label>
+
+                        <textarea asp-for="Description"
+                                  id="projectDescriptionInput"
+                                  rows="6"
+                                  maxlength="1000"
+                                  class="form-control admin-form-control"
+                                  placeholder="Projenin özelliklerini açıklayın."></textarea>
+
+                        <div class="d-flex justify-content-between mt-1">
+                            <span asp-validation-for="Description"
+                                  class="text-danger small">
+                            </span>
+
+                            <span class="admin-character-counter">
+                                <span id="descriptionCount">0</span>/500
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label asp-for="GithubUrl"
+                               class="admin-form-label">
+                            GitHub Bağlantısı
+                        </label>
+
+                        <input asp-for="GithubUrl"
+                               type="url"
+                               class="form-control admin-form-control"
+                               placeholder="https://github.com/kullanici/proje" />
+
+                        <span asp-validation-for="GithubUrl"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="DisplayOrder"
+                               class="admin-form-label">
+                            Gösterim Sırası
+                        </label>
+
+                        <input asp-for="DisplayOrder"
+                               id="displayOrderInput"
+                               type="number"
+                               min="1"
+                               class="form-control admin-form-control" />
+
+                        <span asp-validation-for="DisplayOrder"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="admin-info-box">
+                            <span class="material-symbols-outlined">
+                                account_tree
+                            </span>
+
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold">
+                                    Proje teknolojileri
+                                </div>
+
+                                <div class="small mt-1">
+                                    Bu projeye bağlı teknolojileri ayrı yönetim
+                                    ekranından ekleyebilir, kaldırabilir ve sıralayabilirsiniz.
+                                </div>
+
+                                <a asp-controller="ProjectTechStacks"
+                                   asp-action="Add"
+                                   asp-route-projectId="@Model.Id"
+                                   class="btn btn-sm btn-outline-primary mt-3">
+
+                                    <span class="material-symbols-outlined align-middle me-1"
+                                          style="font-size: 17px;">
+                                        settings
+                                    </span>
+
+                                    Teknolojileri Yönet
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-form-footer">
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <span class="material-symbols-outlined align-middle me-1"
+                          style="font-size: 18px;">
+                        check
+                    </span>
+
+                    Değişiklikleri Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+    <aside class="admin-project-preview-card shadow-sm">
+        <div class="admin-project-preview-header">
+            <div class="fw-semibold text-dark">
+                Güncel Önizleme
+            </div>
+
+            <div class="text-muted small">
+                Değişiklikler kaydetmeden önce burada görüntülenir.
+            </div>
+        </div>
+
+        <div class="admin-project-preview-body">
+            <div class="admin-project-preview-image-wrapper">
+                <img id="projectPreviewImage"
+                     src="/images/@Model.ImageUrl"
+                     alt="@Model.Name"
+                     class="admin-project-preview-image" />
+
+                <div id="projectPreviewEmpty"
+                     class="admin-project-preview-empty d-none">
+
+                    <span class="material-symbols-outlined">
+                        broken_image
+                    </span>
+
+                    <span>Görsel bulunamadı</span>
+                </div>
+            </div>
+
+            <h3 id="projectPreviewTitle"
+                class="admin-project-preview-title">
+                @Model.Name
+            </h3>
+
+            <p id="projectPreviewDescription"
+               class="admin-project-preview-description">
+                @Model.Description
+            </p>
+
+            <div class="admin-project-preview-meta">
+                <span class="text-muted small">
+                    Gösterim sırası
+                </span>
+
+                <span id="projectPreviewOrder"
+                      class="admin-order-badge">
+                    @Model.DisplayOrder
+                </span>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.GithubUrl))
+            {
+                <a href="@Model.GithubUrl"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn btn-sm btn-outline-dark w-100 mt-3">
+
+                    <span class="material-symbols-outlined align-middle me-1"
+                          style="font-size: 17px;">
+                        open_in_new
+                    </span>
+
+                    GitHub Sayfasını Aç
+                </a>
+            }
+        </div>
+    </aside>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const nameInput =
+            document.getElementById("projectNameInput");
+
+        const imageInput =
+            document.getElementById("projectImageInput");
+
+        const descriptionInput =
+            document.getElementById("projectDescriptionInput");
+
+        const displayOrderInput =
+            document.getElementById("displayOrderInput");
+
+        const previewTitle =
+            document.getElementById("projectPreviewTitle");
+
+        const previewDescription =
+            document.getElementById("projectPreviewDescription");
+
+        const previewImage =
+            document.getElementById("projectPreviewImage");
+
+        const previewEmpty =
+            document.getElementById("projectPreviewEmpty");
+
+        const previewOrder =
+            document.getElementById("projectPreviewOrder");
+
+        const descriptionCount =
+            document.getElementById("descriptionCount");
+
+        function updateTitle() {
+            previewTitle.textContent =
+                nameInput.value.trim() || "Proje adı";
+        }
+
+        function updateDescription() {
+            previewDescription.textContent =
+                descriptionInput.value.trim() ||
+                "Proje açıklaması bulunmuyor.";
+
+            descriptionCount.textContent =
+                descriptionInput.value.length;
+        }
+
+        function updateOrder() {
+            previewOrder.textContent =
+                displayOrderInput.value || "1";
+        }
+
+        function updateImage() {
+            const imageName = imageInput.value.trim();
+
+            if (!imageName) {
+                previewImage.classList.add("d-none");
+                previewEmpty.classList.remove("d-none");
+                previewImage.removeAttribute("src");
+                return;
+            }
+
+            previewImage.src = "/images/" + imageName;
+        }
+
+        previewImage.addEventListener("load", function () {
+            previewImage.classList.remove("d-none");
+            previewEmpty.classList.add("d-none");
+        });
+
+        previewImage.addEventListener("error", function () {
+            previewImage.classList.add("d-none");
+            previewEmpty.classList.remove("d-none");
+        });
+
+        nameInput.addEventListener("input", updateTitle);
+        imageInput.addEventListener("input", updateImage);
+        descriptionInput.addEventListener("input", updateDescription);
+        displayOrderInput.addEventListener("input", updateOrder);
+
+        updateTitle();
+        updateDescription();
+        updateOrder();
+        updateImage();
+    });
+</script>

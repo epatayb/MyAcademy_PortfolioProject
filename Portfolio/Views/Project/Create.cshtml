@@ -1,34 +1,322 @@
 ﻿@model Project
 @{
-    ViewData["Title"] = "Yeni Proje Ekle";
     Layout = "~/Views/Admin/Layout.cshtml";
+
+    var initialImageUrl = Model?.ImageUrl ?? string.Empty;
+    var initialTitle = Model?.Name ?? string.Empty;
+    var initialDescription = Model?.Description ?? string.Empty;
 }
 
-<form method="post">
-    <label>Proje Adı</label>
-    <input type="text" asp-for="Name" class="form-control"/>
-    <span asp-validation-for="Name" class="text-danger"></span>
-    <br />
+<div class="admin-page-header">
+    <div>
+        <h2 class="admin-page-title">
+            Yeni Proje Ekle
+        </h2>
 
-    <label>Görsel Url</label>
-    <input type="text" asp-for="ImageUrl" class="form-control"/>
-    <span asp-validation-for="ImageUrl" class="text-danger"></span>
-    <br />
+        <p class="admin-page-description">
+            Portfolyo sayfanızda göstereceğiniz projenin bilgilerini oluşturun.
+        </p>
+    </div>
 
-    <label>Proje Açıklaması</label>
-    <textarea type="text" asp-for="Description" class="form-control rows="3"> </textarea>
-    <span asp-validation-for="Description" class="text-danger"></span>
-    <br />
+    <a asp-controller="Project"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 19px;">
+            arrow_back
+        </span>
+        Listeye Dön
+    </a>
+</div>
 
-    <label>Github URL</label>
-    <input type="url" asp-for="GithubUrl" class="form-control"/>
-    <span asp-validation-for="GithubUrl" class="text-danger"></span>
-    <br />
+<div class="admin-project-form-grid">
+    <div class="admin-form-card shadow-sm">
 
-    <label asp-for="DisplayOrder">Gösterim Sırası</label>
-    <input asp-for="DisplayOrder" type="number" min="1" class="form-control" placeholder="Örneğin: 1" />
-    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-    <br />
+        <div class="admin-form-header">
+            <h5 class="mb-1">Proje Bilgileri</h5>
 
-    <button type="submit" class="btn btn-outline-dark">Kaydet</button>
-</form>
+            <p class="text-muted small mb-0">
+                Projenin adı, görseli, açıklaması ve bağlantı bilgilerini girin.
+            </p>
+        </div>
+
+        <form asp-controller="Project"
+              asp-action="Create"
+              method="post">
+
+            <div class="admin-form-body">
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-12">
+                        <label asp-for="Name"
+                               class="admin-form-label">
+                            Proje Adı
+                        </label>
+
+                        <input asp-for="Name"
+                               id="projectNameInput"
+                               class="form-control admin-form-control"
+                               placeholder="Örneğin: Gezgin Seyahat Blogu" />
+
+                        <span asp-validation-for="Name"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="ImageUrl"
+                               class="admin-form-label">
+                            Proje Görseli
+                        </label>
+
+                        <input asp-for="ImageUrl"
+                               id="projectImageInput"
+                               class="form-control admin-form-control"
+                               placeholder="Örneğin: gezgin-project.png" />
+
+                        <span asp-validation-for="ImageUrl"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Description"
+                               class="admin-form-label">
+                            Proje Açıklaması
+                        </label>
+
+                        <textarea asp-for="Description"
+                                  id="projectDescriptionInput"
+                                  rows="6"
+                                  maxlength="1000"
+                                  class="form-control admin-form-control"
+                                  placeholder="Projenin amacını, özelliklerini ve geliştirme sürecini açıklayın."></textarea>
+
+                        <div class="d-flex justify-content-between mt-1">
+                            <span asp-validation-for="Description"
+                                  class="text-danger small">
+                            </span>
+
+                            <span class="admin-character-counter">
+                                <span id="descriptionCount">0</span>/500
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label asp-for="GithubUrl"
+                               class="admin-form-label">
+                            GitHub Bağlantısı
+                        </label>
+
+                        <input asp-for="GithubUrl"
+                               type="url"
+                               class="form-control admin-form-control"
+                               placeholder="https://github.com/kullanici/proje" />
+
+                        <span asp-validation-for="GithubUrl"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="DisplayOrder"
+                               class="admin-form-label">
+                            Gösterim Sırası
+                        </label>
+
+                        <input asp-for="DisplayOrder"
+                               id="displayOrderInput"
+                               type="number"
+                               min="1"
+                               class="form-control admin-form-control"
+                               placeholder="1" />
+
+                        <span asp-validation-for="DisplayOrder"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="admin-info-box">
+                            <span class="material-symbols-outlined">
+                                info
+                            </span>
+
+                            <div>
+                                <div class="fw-semibold">
+                                    Proje teknolojileri daha sonra eklenecek
+                                </div>
+
+                                <div class="small mt-1">
+                                    Projeyi kaydettikten sonra proje listesindeki
+                                    “Teknolojiler” butonuyla kullanılan teknolojileri
+                                    seçebilir ve sıralayabilirsiniz.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-form-footer">
+                <button type="submit" class="btn btn-primary">
+                    <span class="material-symbols-outlined align-middle me-1"
+                          style="font-size: 18px;">
+                        check
+                    </span>
+                    Projeyi Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <aside class="admin-project-preview-card shadow-sm">
+        <div class="admin-project-preview-header">
+            <div class="fw-semibold text-dark">
+                Proje Önizlemesi
+            </div>
+
+            <div class="text-muted small">
+                Formdaki değişiklikler burada gösterilir.
+            </div>
+        </div>
+
+        <div class="admin-project-preview-body">
+            <div class="admin-project-preview-image-wrapper">
+                <img id="projectPreviewImage"
+                     src=""
+                     alt="Proje önizlemesi"
+                     class="admin-project-preview-image d-none" />
+
+                <div id="projectPreviewEmpty"
+                     class="admin-project-preview-empty">
+
+                    <span class="material-symbols-outlined">
+                        image
+                    </span>
+
+                    <span>Görsel dosya adını girin</span>
+                </div>
+            </div>
+
+            <h3 id="projectPreviewTitle"
+                class="admin-project-preview-title">
+                @(string.IsNullOrWhiteSpace(initialTitle)
+                                ? "Proje adı"
+                                : initialTitle)
+            </h3>
+
+            <p id="projectPreviewDescription"
+               class="admin-project-preview-description">
+                @(string.IsNullOrWhiteSpace(initialDescription)
+                                ? "Proje açıklaması burada görüntülenecek."
+                                : initialDescription)
+            </p>
+
+            <div class="admin-project-preview-meta">
+                <span class="text-muted small">
+                    Gösterim sırası
+                </span>
+
+                <span id="projectPreviewOrder"
+                      class="admin-order-badge">
+                    @(Model?.DisplayOrder > 0
+                                        ? Model.DisplayOrder
+                                        : 1)
+                </span>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const nameInput =
+            document.getElementById("projectNameInput");
+
+        const imageInput =
+            document.getElementById("projectImageInput");
+
+        const descriptionInput =
+            document.getElementById("projectDescriptionInput");
+
+        const displayOrderInput =
+            document.getElementById("displayOrderInput");
+
+        const previewTitle =
+            document.getElementById("projectPreviewTitle");
+
+        const previewDescription =
+            document.getElementById("projectPreviewDescription");
+
+        const previewImage =
+            document.getElementById("projectPreviewImage");
+
+        const previewEmpty =
+            document.getElementById("projectPreviewEmpty");
+
+        const previewOrder =
+            document.getElementById("projectPreviewOrder");
+
+        const descriptionCount =
+            document.getElementById("descriptionCount");
+
+        function updateTitle() {
+            previewTitle.textContent =
+                nameInput.value.trim() || "Proje adı";
+        }
+
+        function updateDescription() {
+            previewDescription.textContent =
+                descriptionInput.value.trim() ||
+                "Proje açıklaması burada görüntülenecek.";
+
+            descriptionCount.textContent =
+                descriptionInput.value.length;
+        }
+
+        function updateOrder() {
+            previewOrder.textContent =
+                displayOrderInput.value || "1";
+        }
+
+        function updateImage() {
+            const imageName = imageInput.value.trim();
+
+            if (!imageName) {
+                previewImage.classList.add("d-none");
+                previewEmpty.classList.remove("d-none");
+                previewImage.removeAttribute("src");
+                return;
+            }
+
+            previewImage.src = "/images/" + imageName;
+            previewImage.classList.remove("d-none");
+            previewEmpty.classList.add("d-none");
+        }
+
+        previewImage.addEventListener("error", function () {
+            previewImage.classList.add("d-none");
+            previewEmpty.classList.remove("d-none");
+        });
+
+        previewImage.addEventListener("load", function () {
+            previewImage.classList.remove("d-none");
+            previewEmpty.classList.add("d-none");
+        });
+
+        nameInput.addEventListener("input", updateTitle);
+        imageInput.addEventListener("input", updateImage);
+        descriptionInput.addEventListener("input", updateDescription);
+        displayOrderInput.addEventListener("input", updateOrder);
+
+        updateTitle();
+        updateDescription();
+        updateOrder();
+        updateImage();
+    });
+</script>
