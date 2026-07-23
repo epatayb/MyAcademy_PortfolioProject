@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Portfolio.Data.Context;
+using System.Threading.Tasks;
 
 namespace Portfolio.ViewComponents.Default
 {
@@ -12,9 +14,14 @@ namespace Portfolio.ViewComponents.Default
             _context = context;
         }
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var skills = _context.Skills.ToList();
+            var skills = await _context.Skills
+                .AsNoTracking()
+                .Where(x => x.IsActive)
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+
             return View(skills);
         }
     }
