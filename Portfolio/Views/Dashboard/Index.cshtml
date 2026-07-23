@@ -1,0 +1,696 @@
+﻿@model Portfolio.ViewModels.Dashboard.DashboardViewModel
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+
+    var completedSectionCount = Model.CompletionItems
+        .Count(x => x.IsCompleted);
+}
+
+<div class="dashboard-welcome">
+    <div>
+        <h1 class="dashboard-welcome-title">
+            Hoş geldin
+        </h1>
+
+        <p class="dashboard-welcome-description">
+            Portfolyonun genel durumunu inceleyebilir ve içeriklerini hızlıca yönetebilirsin.
+        </p>
+    </div>
+
+    <div class="dashboard-header-actions">
+        <a asp-controller="Project"
+           asp-action="Create"
+           class="btn btn-primary">
+
+            <span class="material-symbols-outlined align-middle me-1"
+                  style="font-size: 18px;">
+                add
+            </span>
+
+            Yeni Proje Ekle
+        </a>
+    </div>
+</div>
+
+
+<!-- Ana istatistikler -->
+<div class="dashboard-stat-grid">
+
+    <a asp-controller="Project"
+       asp-action="Index"
+       class="dashboard-stat-link">
+
+        <div class="dashboard-stat-card">
+            <div class="dashboard-stat-icon dashboard-stat-icon-primary">
+                <span class="material-symbols-outlined">
+                    deployed_code
+                </span>
+            </div>
+
+            <div>
+                <p class="dashboard-stat-value">
+                    @Model.ProjectCount
+                </p>
+
+                <p class="dashboard-stat-label">
+                    Toplam Proje
+                </p>
+
+                <p class="dashboard-stat-note">
+                    Portfolyoda gösterilen projeler
+                </p>
+            </div>
+        </div>
+    </a>
+
+    <a asp-controller="TechStack"
+       asp-action="Index"
+       class="dashboard-stat-link">
+
+        <div class="dashboard-stat-card">
+            <div class="dashboard-stat-icon dashboard-stat-icon-purple">
+                <span class="material-symbols-outlined">
+                    terminal
+                </span>
+            </div>
+
+            <div>
+                <p class="dashboard-stat-value">
+                    @Model.TechnologyCount
+                </p>
+
+                <p class="dashboard-stat-label">
+                    Aktif Teknoloji
+                </p>
+
+                <p class="dashboard-stat-note">
+                    Projelerde kullanılan teknolojiler
+                </p>
+            </div>
+        </div>
+    </a>
+
+    <a asp-controller="Message"
+       asp-action="Index"
+       class="dashboard-stat-link">
+
+        <div class="dashboard-stat-card">
+            <div class="dashboard-stat-icon dashboard-stat-icon-warning">
+                <span class="material-symbols-outlined">
+                    mark_email_unread
+                </span>
+            </div>
+
+            <div>
+                <p class="dashboard-stat-value">
+                    @Model.UnReadMessageCount
+                </p>
+
+                <p class="dashboard-stat-label">
+                    Okunmamış Mesaj
+                </p>
+
+                <p class="dashboard-stat-note">
+                    Yanıt veya inceleme bekleyen mesaj
+                </p>
+            </div>
+        </div>
+    </a>
+
+    <a asp-controller="Service"
+       asp-action="Index"
+       class="dashboard-stat-link">
+
+        <div class="dashboard-stat-card">
+            <div class="dashboard-stat-icon dashboard-stat-icon-success">
+                <span class="material-symbols-outlined">
+                    design_services
+                </span>
+            </div>
+
+            <div>
+                <p class="dashboard-stat-value">
+                    @Model.ServiceCount
+                </p>
+
+                <p class="dashboard-stat-label">
+                    Toplam Hizmet
+                </p>
+
+                <p class="dashboard-stat-note">
+                    Portfolyoda sunulan hizmetler
+                </p>
+            </div>
+        </div>
+    </a>
+
+</div>
+
+
+<!-- Küçük istatistikler -->
+<div class="dashboard-mini-summary">
+    <div class="dashboard-mini-item">
+        <span class="material-symbols-outlined"
+              style="font-size: 17px;">
+            psychology
+        </span>
+
+        Yetenekler:
+        <strong>@Model.SkillCount</strong>
+    </div>
+
+    <div class="dashboard-mini-item">
+        <span class="material-symbols-outlined"
+              style="font-size: 17px;">
+            school
+        </span>
+
+        Eğitimler:
+        <strong>@Model.EducationCount</strong>
+    </div>
+
+    <div class="dashboard-mini-item">
+        <span class="material-symbols-outlined"
+              style="font-size: 17px;">
+            work_history
+        </span>
+
+        Deneyimler:
+        <strong>@Model.ExperienceCount</strong>
+    </div>
+</div>
+
+
+<!-- Tamamlanma ve hızlı işlemler -->
+<div class="dashboard-grid">
+
+    <section class="dashboard-panel shadow-sm">
+        <div class="dashboard-panel-header">
+            <div>
+                <h2 class="dashboard-panel-title">
+                    <span class="material-symbols-outlined">
+                        task_alt
+                    </span>
+
+                    Portfolyo Tamamlanma Durumu
+                </h2>
+
+                <p class="dashboard-panel-description">
+                    Temel içerik bölümlerinin hazırlanma durumunu görüntüleyin.
+                </p>
+            </div>
+
+            <span class="admin-info-badge">
+                @completedSectionCount / @Model.CompletionItems.Count hazır
+            </span>
+        </div>
+
+        <div class="dashboard-panel-body">
+            <div class="dashboard-completion-top">
+                <div class="dashboard-progress-circle"
+                     style="--dashboard-progress: @Model.CompletionPercentage;">
+
+                    <span class="dashboard-progress-value">
+                        %@Model.CompletionPercentage
+                    </span>
+                </div>
+
+                <div class="dashboard-completion-info">
+                    <h4>
+                        @if (Model.CompletionPercentage == 100)
+                        {
+                            <text>Portfolyon hazır</text>
+                        }
+                        else if (Model.CompletionPercentage >= 75)
+                        {
+                            <text>Neredeyse tamamlandı</text>
+                        }
+                        else if (Model.CompletionPercentage >= 50)
+                        {
+                            <text>İyi ilerliyorsun</text>
+                        }
+                        else
+                        {
+                            <text>İçerikleri tamamlamaya devam et</text>
+                        }
+                    </h4>
+
+                    <p>
+                        Eksik bölümleri tamamlayarak portfolyonun
+                        ziyaretçilere daha güçlü ve kapsamlı görünmesini sağlayabilirsin.
+                    </p>
+                </div>
+            </div>
+
+            <div class="dashboard-completion-list">
+                @foreach (var item in Model.CompletionItems)
+                {
+                    <a asp-controller="@item.Controller"
+                       asp-action="@item.Action"
+                       class="dashboard-completion-item @(item.IsCompleted ? "completed" : "") text-decoration-none">
+
+                        <div class="dashboard-completion-icon">
+                            <span class="material-symbols-outlined">
+                                @item.Icon
+                            </span>
+                        </div>
+
+                        <div class="dashboard-completion-content">
+                            <div class="dashboard-completion-title">
+                                @item.Title
+                            </div>
+
+                            <div class="dashboard-completion-description">
+                                @item.Description
+                            </div>
+                        </div>
+
+                        <span class="dashboard-completion-status">
+                            @(item.IsCompleted ? "Hazır" : "Eksik")
+                        </span>
+                    </a>
+                }
+            </div>
+        </div>
+    </section>
+
+
+    <section class="dashboard-panel shadow-sm">
+        <div class="dashboard-panel-header">
+            <div>
+                <h2 class="dashboard-panel-title">
+                    <span class="material-symbols-outlined">
+                        bolt
+                    </span>
+
+                    Hızlı İşlemler
+                </h2>
+
+                <p class="dashboard-panel-description">
+                    Sık kullanılan yönetim sayfalarına hızlıca ulaşın.
+                </p>
+            </div>
+        </div>
+
+        <div class="dashboard-panel-body">
+            <div class="dashboard-quick-actions">
+
+                <a asp-controller="Project"
+                   asp-action="Create"
+                   class="dashboard-quick-action">
+
+                    <span class="dashboard-quick-action-icon">
+                        <span class="material-symbols-outlined">
+                            add_box
+                        </span>
+                    </span>
+
+                    <span>
+                        <span class="dashboard-quick-action-title">
+                            Proje Ekle
+                        </span>
+
+                        <span class="dashboard-quick-action-description">
+                            Yeni portfolyo projesi
+                        </span>
+                    </span>
+                </a>
+
+                <a asp-controller="TechStack"
+                   asp-action="Create"
+                   class="dashboard-quick-action">
+
+                    <span class="dashboard-quick-action-icon">
+                        <span class="material-symbols-outlined">
+                            terminal
+                        </span>
+                    </span>
+
+                    <span>
+                        <span class="dashboard-quick-action-title">
+                            Teknoloji Ekle
+                        </span>
+
+                        <span class="dashboard-quick-action-description">
+                            Yeni teknoloji tanımla
+                        </span>
+                    </span>
+                </a>
+
+                <a asp-controller="Service"
+                   asp-action="Create"
+                   class="dashboard-quick-action">
+
+                    <span class="dashboard-quick-action-icon">
+                        <span class="material-symbols-outlined">
+                            design_services
+                        </span>
+                    </span>
+
+                    <span>
+                        <span class="dashboard-quick-action-title">
+                            Hizmet Ekle
+                        </span>
+
+                        <span class="dashboard-quick-action-description">
+                            Yeni hizmet oluştur
+                        </span>
+                    </span>
+                </a>
+
+                <a asp-controller="Message"
+                   asp-action="Index"
+                   class="dashboard-quick-action">
+
+                    <span class="dashboard-quick-action-icon">
+                        <span class="material-symbols-outlined">
+                            mail
+                        </span>
+                    </span>
+
+                    <span>
+                        <span class="dashboard-quick-action-title">
+                            Mesajları Gör
+                        </span>
+
+                        <span class="dashboard-quick-action-description">
+                            Gelen mesajları incele
+                        </span>
+                    </span>
+                </a>
+
+                <a asp-controller="Banner"
+                   asp-action="Index"
+                   class="dashboard-quick-action">
+
+                    <span class="dashboard-quick-action-icon">
+                        <span class="material-symbols-outlined">
+                            web_asset
+                        </span>
+                    </span>
+
+                    <span>
+                        <span class="dashboard-quick-action-title">
+                            Banner
+                        </span>
+
+                        <span class="dashboard-quick-action-description">
+                            Karşılama alanını düzenle
+                        </span>
+                    </span>
+                </a>
+
+                <a asp-controller="ContactInfo"
+                   asp-action="Index"
+                   class="dashboard-quick-action">
+
+                    <span class="dashboard-quick-action-icon">
+                        <span class="material-symbols-outlined">
+                            contact_mail
+                        </span>
+                    </span>
+
+                    <span>
+                        <span class="dashboard-quick-action-title">
+                            İletişim
+                        </span>
+
+                        <span class="dashboard-quick-action-description">
+                            İletişim bilgilerini düzenle
+                        </span>
+                    </span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+<!-- Son mesajlar ve uyarılar -->
+<div class="dashboard-grid">
+
+    <section class="dashboard-panel shadow-sm">
+        <div class="dashboard-panel-header">
+            <div>
+                <h2 class="dashboard-panel-title">
+                    <span class="material-symbols-outlined">
+                        forum
+                    </span>
+
+                    Son Gelen Mesajlar
+                </h2>
+
+                <p class="dashboard-panel-description">
+                    En son gönderilen beş iletişim mesajı.
+                </p>
+            </div>
+
+            <a asp-controller="Message"
+               asp-action="Index"
+               class="btn btn-sm btn-outline-primary">
+                Tüm Mesajlar
+            </a>
+        </div>
+
+        <div class="dashboard-panel-body">
+            @if (Model.RecentMessages.Any())
+            {
+                <div class="dashboard-message-list">
+                    @foreach (var message in Model.RecentMessages)
+                    {
+                        var firstLetter = string.IsNullOrWhiteSpace(message.Name)
+                        ? "?"
+                        : message.Name.Trim()[0].ToString();
+
+                        <div class="dashboard-message-item @(!message.IsRead ? "unread" : "")">
+                            <div class="dashboard-message-avatar">
+                                @firstLetter
+                            </div>
+
+                            <div class="dashboard-message-content">
+                                <div class="dashboard-message-name">
+                                    @message.Name
+
+                                    @if (!message.IsRead)
+                                    {
+                                        <span class="dashboard-unread-dot"
+                                              title="Okunmadı">
+                                        </span>
+                                    }
+                                </div>
+
+                                <div class="dashboard-message-email">
+                                    @message.Email
+                                </div>
+
+                                <div class="dashboard-message-preview">
+                                    @message.MessagePreview
+                                </div>
+                            </div>
+
+                            <div class="dashboard-message-meta">
+                                <span class="dashboard-message-date">
+                                    @message.CreatedDate.ToString("dd.MM.yyyy HH:mm")
+                                </span>
+
+                                <a asp-controller="Message"
+                                   asp-action="Detail"
+                                   asp-route-id="@message.Id"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Detay
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="dashboard-empty-state">
+                    <span class="material-symbols-outlined">
+                        inbox
+                    </span>
+
+                    <div>Henüz gelen mesaj bulunmuyor.</div>
+                </div>
+            }
+        </div>
+    </section>
+
+
+    <section class="dashboard-panel shadow-sm">
+        <div class="dashboard-panel-header">
+            <div>
+                <h2 class="dashboard-panel-title">
+                    <span class="material-symbols-outlined">
+                        notification_important
+                    </span>
+
+                    Dikkat Gerektirenler
+                </h2>
+
+                <p class="dashboard-panel-description">
+                    Eksik veya kontrol edilmesi gereken içerikler.
+                </p>
+            </div>
+        </div>
+
+        <div class="dashboard-panel-body">
+            <div class="dashboard-alert-list">
+                @foreach (var alert in Model.Alerts)
+                {
+                    var alertCssClass = alert.Type switch
+                    {
+                        "danger" => "dashboard-alert-danger",
+                        "info" => "dashboard-alert-info",
+                        "success" => "dashboard-alert-success",
+                        _ => "dashboard-alert-warning"
+                    };
+
+                    <div class="dashboard-alert @alertCssClass">
+                        <div class="dashboard-alert-icon">
+                            <span class="material-symbols-outlined">
+                                @alert.Icon
+                            </span>
+                        </div>
+
+                        <div class="dashboard-alert-content">
+                            <div class="dashboard-alert-title">
+                                @alert.Title
+                            </div>
+
+                            <p class="dashboard-alert-description">
+                                @alert.Description
+                            </p>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(alert.Controller))
+                        {
+                            <a asp-controller="@alert.Controller"
+                               asp-action="@alert.Action"
+                               asp-route-id="@alert.RouteId"
+                               class="btn btn-sm btn-outline-secondary">
+                                Aç
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+<!-- Teknoloji kullanım analizi -->
+<section class="dashboard-panel shadow-sm">
+    <div class="dashboard-panel-header">
+        <div>
+            <h2 class="dashboard-panel-title">
+                <span class="material-symbols-outlined">
+                    monitoring
+                </span>
+
+                En Çok Kullanılan Teknolojiler
+            </h2>
+
+            <p class="dashboard-panel-description">
+                Projelerde en fazla kullanılan ilk beş teknoloji.
+            </p>
+        </div>
+
+        <a asp-controller="TechStack"
+           asp-action="Index"
+           class="btn btn-sm btn-outline-primary">
+            Teknolojileri Yönet
+        </a>
+    </div>
+
+    <div class="dashboard-panel-body">
+        @if (Model.TopTechnologies.Any())
+        {
+            <div class="dashboard-technology-list">
+                @for (var index = 0;
+                            index < Model.TopTechnologies.Count;
+                            index++)
+                {
+                    var technology = Model.TopTechnologies[index];
+
+                    <div class="dashboard-technology-item">
+                        <div class="dashboard-technology-rank">
+                            @(index + 1)
+                        </div>
+
+                        <div class="dashboard-technology-icon">
+                            <span class="material-symbols-outlined">
+                                terminal
+                            </span>
+                        </div>
+
+                        <div class="dashboard-technology-content">
+                            <div class="dashboard-technology-name">
+                                @technology.Name
+                            </div>
+
+                            <div class="dashboard-technology-description">
+                                Projelerde kullanılan aktif teknoloji
+                            </div>
+                        </div>
+
+                        <div class="dashboard-technology-meta">
+                            <span class="dashboard-technology-count-badge">
+                                @technology.ProjectCount "proje"
+                            </span>
+
+                            @if (index == 0)
+                            {
+                                <span class="dashboard-technology-leader">
+                                    <span class="material-symbols-outlined">
+                                        workspace_premium
+                                    </span>
+
+                                    En çok kullanılan
+                                </span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="dashboard-technology-footer">
+                <span>
+                    En çok kullanılan
+                    <strong>@Model.TopTechnologies.Count</strong>
+                    teknoloji gösteriliyor.
+                </span>
+
+                <a asp-controller="ProjectTechStacks"
+                   asp-action="Index"
+                   class="text-decoration-none fw-semibold">
+                    Proje bağlantılarını yönet
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="dashboard-empty-state">
+                <span class="material-symbols-outlined">
+                    bar_chart
+                </span>
+
+                <div>
+                    Henüz projelere bağlanmış teknoloji bulunmuyor.
+                </div>
+
+                <a asp-controller="ProjectTechStacks"
+                   asp-action="Index"
+                   class="btn btn-sm btn-outline-primary mt-3">
+                    Proje Teknolojilerini Yönet
+                </a>
+            </div>
+        }
+    </div>
+</section>
