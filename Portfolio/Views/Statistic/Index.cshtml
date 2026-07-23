@@ -1,0 +1,731 @@
+﻿@model Portfolio.ViewModels.Statistics.StatisticsViewModel
+
+@{
+    Layout = "~/Views/Admin/Layout.cshtml";
+
+    var maximumDailyMessageCount = Model.DailyMessageStatistics
+        .Select(x => x.MessageCount)
+        .DefaultIfEmpty(0)
+        .Max();
+
+    if (maximumDailyMessageCount == 0)
+    {
+        maximumDailyMessageCount = 1;
+    }
+}
+
+<div class="admin-page-header">
+    <div>
+        <h1 class="admin-page-title">
+            İstatistikler
+        </h1>
+
+        <p class="admin-page-description">
+            Portfolyo içeriklerinin, teknolojilerin ve iletişim mesajlarının
+            ayrıntılı analizlerini görüntüleyin.
+        </p>
+    </div>
+
+    <a asp-controller="Dashboard"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+
+        <span class="material-symbols-outlined align-middle me-1"
+              style="font-size: 18px;">
+            dashboard
+        </span>
+
+        Dashboard'a Dön
+    </a>
+</div>
+
+
+<!-- Analitik özet kartları -->
+<div class="statistics-summary-grid">
+
+    <div class="statistics-summary-card shadow-sm">
+        <div class="statistics-summary-icon">
+            <span class="material-symbols-outlined">
+                analytics
+            </span>
+        </div>
+
+        <div class="statistics-summary-content">
+            <p class="statistics-summary-value">
+                @Model.AverageTechnologyPerProject.ToString("0.0")
+            </p>
+
+            <p class="statistics-summary-label">
+                Proje Başına Teknoloji
+            </p>
+
+            <p class="statistics-summary-description">
+                Projelerde kullanılan ortalama aktif teknoloji sayısı
+            </p>
+        </div>
+    </div>
+
+    <div class="statistics-summary-card shadow-sm">
+        <div class="statistics-summary-icon statistics-summary-icon-purple">
+            <span class="material-symbols-outlined">
+                workspace_premium
+            </span>
+        </div>
+
+        <div class="statistics-summary-content">
+            <p class="statistics-summary-value"
+               title="@Model.MostUsedTechnologyName">
+                @Model.MostUsedTechnologyName
+            </p>
+
+            <p class="statistics-summary-label">
+                En Çok Kullanılan Teknoloji
+            </p>
+
+            <p class="statistics-summary-description">
+                @Model.MostUsedTechnologyProjectCount projede kullanılıyor
+            </p>
+        </div>
+    </div>
+
+    <div class="statistics-summary-card shadow-sm">
+        <div class="statistics-summary-icon statistics-summary-icon-warning">
+            <span class="material-symbols-outlined">
+                account_tree
+            </span>
+        </div>
+
+        <div class="statistics-summary-content">
+            <p class="statistics-summary-value">
+                @Model.ProjectWithoutTechnologyCount
+            </p>
+
+            <p class="statistics-summary-label">
+                Teknolojisi Olmayan Proje
+            </p>
+
+            <p class="statistics-summary-description">
+                Teknoloji ilişkisi tanımlanmamış proje sayısı
+            </p>
+        </div>
+    </div>
+
+    <div class="statistics-summary-card shadow-sm">
+        <div class="statistics-summary-icon statistics-summary-icon-success">
+            <span class="material-symbols-outlined">
+                mark_email_read
+            </span>
+        </div>
+
+        <div class="statistics-summary-content">
+            <p class="statistics-summary-value">
+                %@Model.MessageReadRate.ToString("0.#")
+            </p>
+
+            <p class="statistics-summary-label">
+                Mesaj Okunma Oranı
+            </p>
+
+            <p class="statistics-summary-description">
+                @Model.ReadMessageCount / @Model.TotalMessageCount mesaj okundu
+            </p>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Proje dağılımı ve teknoloji sıralaması -->
+<div class="statistics-grid">
+
+    <section class="statistics-panel shadow-sm">
+        <div class="statistics-panel-header">
+            <div>
+                <h2 class="statistics-panel-title">
+                    <span class="material-symbols-outlined">
+                        deployed_code
+                    </span>
+
+                    Projelerin Teknoloji Dağılımı
+                </h2>
+
+                <p class="statistics-panel-description">
+                    Her projede kullanılan aktif teknolojileri karşılaştırın.
+                </p>
+            </div>
+
+            <span class="admin-info-badge">
+                @Model.ProjectCount proje
+            </span>
+        </div>
+
+        @if (Model.ProjectTechnologyStatistics.Any())
+        {
+            <div class="admin-table-scroll">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Proje</th>
+                            <th>Teknoloji Sayısı</th>
+                            <th>Teknolojiler</th>
+                            <th class="text-end">İşlem</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var project in Model.ProjectTechnologyStatistics)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="statistics-project-name">
+                                        <span class="statistics-project-order">
+                                            @project.DisplayOrder
+                                        </span>
+
+                                        <div>
+                                            <div class="admin-item-title">
+                                                @project.ProjectName
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="admin-info-badge
+                                                @(project.TechnologyCount == 0
+                                                                                      ? "statistics-project-warning"
+                                                                                      : "")">
+
+                                @project.TechnologyCount teknoloji
+                            </span>
+                        </td>
+
+                                <td>
+                                    <div class="statistics-technology-badges">
+                                @if (project.TechnologyNames.Any())
+                                        {
+                                            @foreach (var technologyName
+                                                                            in project.TechnologyNames)
+                                            {
+                                                <span class="statistics-technology-badge">
+                                                    @technologyName
+                                                </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="statistics-technology-badge
+                                                                     statistics-missing-badge">
+                                                Teknoloji eklenmemiş
+                                            </span>
+                                        }
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="admin-actions justify-content-end">
+                                        <a asp-controller="ProjectTechStacks"
+                                           asp-action="Add"
+                                           asp-route-projectId="@project.ProjectId"
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            <span class="material-symbols-outlined align-middle"
+                                                  style="font-size: 16px;">
+                                                account_tree
+                                            </span>
+
+                                            Yönet
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="dashboard-empty-state">
+                <span class="material-symbols-outlined">
+                    deployed_code
+                </span>
+
+                <div>Henüz proje verisi bulunmuyor.</div>
+
+                <a asp-controller="Project"
+                   asp-action="Create"
+                   class="btn btn-sm btn-primary mt-3">
+                    İlk Projeyi Ekle
+                </a>
+            </div>
+        }
+    </section>
+
+
+    <section class="statistics-panel shadow-sm">
+        <div class="statistics-panel-header">
+            <div>
+                <h2 class="statistics-panel-title">
+                    <span class="material-symbols-outlined">
+                        leaderboard
+                    </span>
+
+                    Teknoloji Kullanım Sıralaması
+                </h2>
+
+                <p class="statistics-panel-description">
+                    Aktif teknolojilerin proje kullanım sayıları.
+                </p>
+            </div>
+
+            <a asp-controller="TechStack"
+               asp-action="Index"
+               class="btn btn-sm btn-outline-primary">
+                Yönet
+            </a>
+        </div>
+
+        <div class="statistics-panel-body">
+            @if (Model.TechnologyUsageStatistics.Any())
+            {
+                <div class="statistics-ranking-list">
+                    @for (var index = 0;
+                                    index < 7;
+                                    index++)
+                    {
+                        var technology =
+                        Model.TechnologyUsageStatistics[index];
+
+                        <div class="statistics-ranking-item">
+                            <span class="statistics-ranking-number">
+                                @(index + 1)
+                            </span>
+
+                            <div class="statistics-ranking-content">
+                                <div class="statistics-ranking-name">
+                                    @technology.Name
+                                </div>
+
+                                <div class="statistics-ranking-projects">
+                                    @if (technology.ProjectNames.Any())
+                                    {
+                                        @string.Join(", ",
+                                        technology.ProjectNames)
+                                                        }
+                            else
+                            {
+                                <text>
+                                    Henüz hiçbir projede kullanılmıyor.
+                                </text>
+                            }
+                        </div>
+                    </div>
+
+                    <span class="statistics-ranking-count
+                                @(technology.ProjectCount == 0
+                                                              ? "statistics-ranking-count-empty"
+                                                              : "")">
+
+                        @technology.ProjectCount proje
+                    </span>
+                </div>
+                                }
+            </div>
+                        }
+                        else
+            {
+                <div class="dashboard-empty-state">
+                    <span class="material-symbols-outlined">
+                        terminal
+                    </span>
+
+                    <div>Henüz aktif teknoloji bulunmuyor.</div>
+                </div>
+            }
+        </div>
+    </section>
+
+</div>
+
+
+<!-- Mesaj grafiği ve mesaj özeti -->
+<div class="statistics-grid">
+
+    <section class="statistics-panel shadow-sm">
+        <div class="statistics-panel-header">
+            <div>
+                <h2 class="statistics-panel-title">
+                    <span class="material-symbols-outlined">
+                        bar_chart
+                    </span>
+
+                    Son 7 Günlük Mesaj Grafiği
+                </h2>
+
+                <p class="statistics-panel-description">
+                    Günlük olarak alınan iletişim mesajlarının dağılımı.
+                </p>
+            </div>
+
+            <span class="admin-info-badge">
+                @Model.LastSevenDaysMessageCount mesaj
+            </span>
+        </div>
+
+        <div class="statistics-panel-body">
+            <div class="statistics-chart">
+                @foreach (var day in Model.DailyMessageStatistics)
+                {
+                    var barHeight = day.MessageCount == 0
+                    ? 2
+                    : Math.Max(
+                    10,
+                    day.MessageCount * 100 /
+                    maximumDailyMessageCount);
+
+                    <div class="statistics-chart-column">
+                        <span class="statistics-chart-value">
+                            @day.MessageCount
+                        </span>
+
+                        <div class="statistics-chart-track">
+                            <div class="statistics-chart-bar
+                                    @(day.MessageCount == 0
+                                                                     ? "statistics-chart-bar-empty"
+                                                                     : "")"
+                             style="--statistics-bar-height: @(barHeight)%;">
+                        </div>
+                    </div>
+
+                        <span class="statistics-chart-day">
+                            @day.DayName
+                        </span>
+
+                        <span class="statistics-chart-date">
+                            @day.Date.ToString("dd.MM")
+                        </span>
+                    </div>
+                                }
+            </div>
+        </div>
+    </section>
+
+
+    <section class="statistics-panel shadow-sm">
+        <div class="statistics-panel-header">
+            <div>
+                <h2 class="statistics-panel-title">
+                    <span class="material-symbols-outlined">
+                        mail
+                    </span>
+
+                    Mesaj Özeti
+                </h2>
+
+                <p class="statistics-panel-description">
+                    Gelen mesajların okunma ve zaman dağılımı.
+                </p>
+            </div>
+
+            <a asp-controller="Message"
+               asp-action="Index"
+               class="btn btn-sm btn-outline-primary">
+                Mesajları Gör
+            </a>
+        </div>
+
+        <div class="statistics-panel-body">
+            <div class="statistics-message-summary">
+
+                <div class="statistics-message-card">
+                    <div class="statistics-message-card-label">
+                        Toplam Mesaj
+                    </div>
+
+                    <p class="statistics-message-card-value">
+                        @Model.TotalMessageCount
+                    </p>
+                </div>
+
+                <div class="statistics-message-card">
+                    <div class="statistics-message-card-label">
+                        Son 7 Gün
+                    </div>
+
+                    <p class="statistics-message-card-value">
+                        @Model.LastSevenDaysMessageCount
+                    </p>
+                </div>
+
+                <div class="statistics-message-card">
+                    <div class="statistics-message-card-label">
+                        Okunan
+                    </div>
+
+                    <p class="statistics-message-card-value">
+                        @Model.ReadMessageCount
+                    </p>
+                </div>
+
+                <div class="statistics-message-card">
+                    <div class="statistics-message-card-label">
+                        Okunmamış
+                    </div>
+
+                    <p class="statistics-message-card-value">
+                        @Model.UnreadMessageCount
+                    </p>
+                </div>
+
+                <div class="statistics-read-rate">
+                    <div>
+                        <div class="fw-semibold">
+                            Mesaj okunma oranı
+                        </div>
+
+                        <div class="small mt-1">
+                            Gelen mesajların ne kadarının incelendiği
+                        </div>
+                    </div>
+
+                    <span class="statistics-read-rate-value">
+                        %@Model.MessageReadRate.ToString("0.#")
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+<!-- İçerik durumu ve özgeçmiş -->
+<div class="statistics-grid statistics-grid-equal">
+
+    <section class="statistics-panel shadow-sm">
+        <div class="statistics-panel-header">
+            <div>
+                <h2 class="statistics-panel-title">
+                    <span class="material-symbols-outlined">
+                        inventory_2
+                    </span>
+
+                    İçerik Durumları
+                </h2>
+
+                <p class="statistics-panel-description">
+                    Aktif ve pasif içerik kayıtlarının dağılımı.
+                </p>
+            </div>
+        </div>
+
+        <div class="statistics-panel-body">
+            <div class="statistics-content-status-grid">
+                @foreach (var content in Model.ContentStatusStatistics)
+                {
+                    <div class="statistics-content-card">
+                        <div class="statistics-content-header">
+                            <span class="statistics-content-icon">
+                                <span class="material-symbols-outlined">
+                                    @content.Icon
+                                </span>
+                            </span>
+
+                            <div>
+                                <div class="statistics-content-title">
+                                    @content.Title
+                                </div>
+
+                                <div class="statistics-content-total">
+                                    Toplam @content.TotalCount kayıt
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="statistics-content-counts">
+                            <div class="statistics-content-count active">
+                                <strong>@content.ActiveCount</strong>
+                                <span>Aktif</span>
+                            </div>
+
+                            <div class="statistics-content-count passive">
+                                <strong>@content.PassiveCount</strong>
+                                <span>Pasif</span>
+                            </div>
+                        </div>
+
+                        <a asp-controller="@content.Controller"
+                           asp-action="@content.Action"
+                           class="statistics-insight-link">
+                            İçerikleri görüntüle
+
+                            <span class="material-symbols-outlined"
+                                  style="font-size: 15px;">
+                                arrow_forward
+                            </span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+
+    <section class="statistics-panel shadow-sm">
+        <div class="statistics-panel-header">
+            <div>
+                <h2 class="statistics-panel-title">
+                    <span class="material-symbols-outlined">
+                        badge
+                    </span>
+
+                    Eğitim ve Deneyim Dağılımı
+                </h2>
+
+                <p class="statistics-panel-description">
+                    Devam eden ve tamamlanan özgeçmiş kayıtları.
+                </p>
+            </div>
+        </div>
+
+        <div class="statistics-panel-body">
+            <div class="statistics-resume-list">
+                @foreach (var resume in Model.ResumeStatusStatistics)
+                {
+                    <div class="statistics-resume-item">
+                        <div class="statistics-resume-header">
+                            <div class="statistics-resume-title">
+                                <span class="material-symbols-outlined">
+                                    @resume.Icon
+                                </span>
+
+                                @resume.Title
+                            </div>
+
+                            <span class="statistics-resume-total">
+                                Toplam @resume.TotalCount
+                            </span>
+                        </div>
+
+                        <div class="statistics-resume-counts">
+                            <div class="statistics-resume-count">
+                                <strong>@resume.CurrentCount</strong>
+                                <span>@resume.CurrentLabel</span>
+                            </div>
+
+                            <div class="statistics-resume-count">
+                                <strong>@resume.CompletedCount</strong>
+                                <span>@resume.CompletedLabel</span>
+                            </div>
+                        </div>
+
+                        <a asp-controller="@resume.Controller"
+                           asp-action="@resume.Action"
+                           class="statistics-insight-link">
+                            Kayıtları görüntüle
+
+                            <span class="material-symbols-outlined"
+                                  style="font-size: 15px;">
+                                arrow_forward
+                            </span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+<!-- Öne çıkan içgörüler -->
+<section class="statistics-panel shadow-sm">
+    <div class="statistics-panel-header">
+        <div>
+            <h2 class="statistics-panel-title">
+                <span class="material-symbols-outlined">
+                    insights
+                </span>
+
+                Öne Çıkan İçgörüler
+            </h2>
+
+            <p class="statistics-panel-description">
+                Portfolyo ve mesaj verilerinden elde edilen önemli sonuçlar.
+            </p>
+        </div>
+    </div>
+
+    <div class="statistics-panel-body">
+        <div class="statistics-insight-grid">
+            @foreach (var insight in Model.Insights)
+            {
+                var insightCssClass = insight.Type switch
+                {
+                    "success" => "statistics-insight-success",
+                    "warning" => "statistics-insight-warning",
+                    "purple" => "statistics-insight-purple",
+                    "neutral" => "statistics-insight-neutral",
+                    _ => ""
+                };
+
+                <div class="statistics-insight-card @insightCssClass">
+                    <span class="statistics-insight-icon">
+                        <span class="material-symbols-outlined">
+                            @insight.Icon
+                        </span>
+                    </span>
+
+                    <div class="statistics-insight-title">
+                        @insight.Title
+                    </div>
+
+                    <div class="statistics-insight-value"
+                         title="@insight.Value">
+                        @insight.Value
+                    </div>
+
+                    <p class="statistics-insight-description">
+                        @insight.Description
+                    </p>
+
+                    @if (!string.IsNullOrWhiteSpace(insight.Controller))
+                    {
+                        @if (insight.UseProjectIdRoute)
+                        {
+                            <a asp-controller="@insight.Controller"
+                               asp-action="@insight.Action"
+                               asp-route-projectId="@insight.RouteId"
+                               class="statistics-insight-link">
+
+                                Detayları görüntüle
+
+                                <span class="material-symbols-outlined"
+                                      style="font-size: 15px;">
+                                    arrow_forward
+                                </span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="@insight.Controller"
+                               asp-action="@insight.Action"
+                               asp-route-id="@insight.RouteId"
+                               class="statistics-insight-link">
+
+                                Detayları görüntüle
+
+                                <span class="material-symbols-outlined"
+                                      style="font-size: 15px;">
+                                    arrow_forward
+                                </span>
+                            </a>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>
