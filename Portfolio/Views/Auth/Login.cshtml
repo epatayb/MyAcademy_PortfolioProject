@@ -1,0 +1,354 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Yönetim Paneline Giriş";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<main class="admin-login-page">
+
+    <!-- Sol tanıtım alanı -->
+    <section class="admin-login-brand">
+
+        <div class="admin-login-grid-pattern"></div>
+        <div class="admin-login-decoration admin-login-decoration-top"></div>
+        <div class="admin-login-decoration admin-login-decoration-bottom"></div>
+
+        <div class="admin-login-brand-content">
+            <div class="admin-login-logo">
+                <span class="admin-login-logo-icon">
+                    <span class="material-symbols-outlined">
+                        terminal
+                    </span>
+                </span>
+
+                <span class="admin-login-logo-text">
+                    Portfolio Admin
+                </span>
+            </div>
+
+            <div class="admin-login-introduction">
+                <h1>
+                    Portfolyonuzu tek noktadan yönetin
+                </h1>
+
+                <p>
+                    Projelerinizi, özgeçmiş bilgilerinizi,
+                    mesajlarınızı ve portfolyo içeriklerinizi
+                    güvenli bir yönetim panelinden kontrol edin.
+                </p>
+
+                <div class="admin-login-features">
+                    <div class="admin-login-feature">
+                        <span class="admin-login-feature-icon">
+                            <span class="material-symbols-outlined">
+                                edit_note
+                            </span>
+                        </span>
+
+                        <div>
+                            <strong>
+                                İçeriklerinizi kolayca güncelleyin
+                            </strong>
+
+                            <span>
+                                Portfolyo bölümlerini tek panelden yönetin.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="admin-login-feature">
+                        <span class="admin-login-feature-icon">
+                            <span class="material-symbols-outlined">
+                                account_tree
+                            </span>
+                        </span>
+
+                        <div>
+                            <strong>
+                                Proje ve teknoloji ilişkilerini yönetin
+                            </strong>
+
+                            <span>
+                                Projelerde kullanılan teknolojileri düzenleyin.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="admin-login-feature">
+                        <span class="admin-login-feature-icon">
+                            <span class="material-symbols-outlined">
+                                monitoring
+                            </span>
+                        </span>
+
+                        <div>
+                            <strong>
+                                Mesajları ve istatistikleri takip edin
+                            </strong>
+
+                            <span>
+                                Gelen mesajları ve içerik analizlerini inceleyin.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-login-authorized-note">
+                <span class="material-symbols-outlined">
+                    admin_panel_settings
+                </span>
+
+                <span>
+                    Bu alan yalnızca yetkili kullanıcıların
+                    erişimine açıktır.
+                </span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Sağ giriş alanı -->
+    <section class="admin-login-form-section">
+
+        <!-- Mobil marka -->
+        <div class="admin-login-mobile-brand">
+            <span class="admin-login-mobile-logo">
+                <span class="material-symbols-outlined">
+                    terminal
+                </span>
+            </span>
+
+            <span>Portfolio Admin</span>
+        </div>
+
+        <div class="admin-login-card">
+            <div class="admin-login-card-header">
+                <span class="admin-login-card-icon">
+                    <span class="material-symbols-outlined">
+                        admin_panel_settings
+                    </span>
+                </span>
+
+                <div>
+                    <h2>Yönetim Paneline Giriş</h2>
+
+                    <p>
+                        Portfolyo içeriklerinizi yönetmek için
+                        hesabınıza giriş yapın.
+                    </p>
+                </div>
+            </div>
+
+            <form asp-controller="Auth"
+                  asp-action="Login"
+                  method="post"
+                  id="adminLoginForm">
+
+                <input asp-for="ReturnUrl"
+                       type="hidden" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="admin-login-alert">
+                </div>
+
+                @if (TempData["SuccessMessage"] is not null)
+                {
+                    <div class="admin-login-success">
+                        <span class="material-symbols-outlined">
+                            check_circle
+                        </span>
+
+                        <span>
+                            @TempData["SuccessMessage"]
+                        </span>
+                    </div>
+                }
+
+                <div class="admin-login-field">
+                    <label asp-for="UserName">
+                        Kullanıcı Adı
+                    </label>
+
+                    <div class="admin-login-input-wrapper">
+                        <span class="admin-login-input-icon material-symbols-outlined">
+                            person
+                        </span>
+
+                        <input asp-for="UserName"
+                               class="admin-login-input"
+                               placeholder="Kullanıcı adınızı girin"
+                               autocomplete="username"
+                               autofocus />
+                    </div>
+
+                    <span asp-validation-for="UserName"
+                          class="admin-login-validation">
+                    </span>
+                </div>
+
+                <div class="admin-login-field">
+                    <label asp-for="Password">
+                        Şifre
+                    </label>
+
+                    <div class="admin-login-input-wrapper">
+                        <span class="admin-login-input-icon material-symbols-outlined">
+                            lock
+                        </span>
+
+                        <input asp-for="Password"
+                               class="admin-login-input admin-login-password-input"
+                               placeholder="Şifrenizi girin"
+                               autocomplete="current-password" />
+
+                        <button type="button"
+                                id="togglePasswordButton"
+                                class="admin-login-password-toggle"
+                                aria-label="Şifreyi göster">
+
+                            <span class="material-symbols-outlined">
+                                visibility
+                            </span>
+                        </button>
+                    </div>
+
+                    <span asp-validation-for="Password"
+                          class="admin-login-validation">
+                    </span>
+                </div>
+
+                <div class="admin-login-options">
+                    <label class="admin-login-checkbox">
+                        <input asp-for="RememberMe" />
+
+                        <span>
+                            Beni hatırla
+                        </span>
+                    </label>
+
+                    <a asp-controller="Auth"
+                       asp-action="ForgotPassword"
+                       class="admin-login-forgot-link">
+                        Şifremi unuttum
+                    </a>
+                </div>
+
+                <button type="submit"
+                        id="loginSubmitButton"
+                        class="admin-login-submit">
+
+                    <span id="loginButtonIcon"
+                          class="material-symbols-outlined">
+                        login
+                    </span>
+
+                    <span id="loginButtonText">
+                        Giriş Yap
+                    </span>
+
+                    <span id="loginButtonSpinner"
+                          class="admin-login-spinner"
+                          hidden>
+                    </span>
+                </button>
+            </form>
+
+            <div class="admin-login-security">
+                <span class="material-symbols-outlined">
+                    verified_user
+                </span>
+
+                <p>
+                    Giriş bilgileriniz güvenli şekilde işlenir.
+                    Yetkisiz erişim denemeleri sınırlandırılır.
+                </p>
+            </div>
+        </div>
+
+        <div class="admin-login-footer">
+            <a asp-controller="Default"
+               asp-action="Index"
+               class="admin-login-back-link">
+
+                <span class="material-symbols-outlined">
+                    arrow_back
+                </span>
+
+                Siteye geri dön
+            </a>
+
+            <span class="admin-login-copyright">
+                © @DateTime.Now.Year Portfolio Admin
+            </span>
+        </div>
+    </section>
+
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const passwordInput =
+                document.getElementById("Password");
+
+            const toggleButton =
+                document.getElementById("togglePasswordButton");
+
+            const toggleIcon =
+                toggleButton.querySelector(
+                    ".material-symbols-outlined"
+                );
+
+            toggleButton.addEventListener("click", function () {
+                const isPassword =
+                    passwordInput.type === "password";
+
+                passwordInput.type =
+                    isPassword ? "text" : "password";
+
+                toggleIcon.textContent =
+                    isPassword
+                        ? "visibility_off"
+                        : "visibility";
+
+                toggleButton.setAttribute(
+                    "aria-label",
+                    isPassword
+                        ? "Şifreyi gizle"
+                        : "Şifreyi göster"
+                );
+            });
+
+
+            const form =
+                document.getElementById("adminLoginForm");
+
+            const submitButton =
+                document.getElementById("loginSubmitButton");
+
+            const buttonIcon =
+                document.getElementById("loginButtonIcon");
+
+            const buttonText =
+                document.getElementById("loginButtonText");
+
+            const spinner =
+                document.getElementById("loginButtonSpinner");
+
+            form.addEventListener("submit", function () {
+                if (!form.checkValidity()) {
+                    return;
+                }
+
+                submitButton.disabled = true;
+                buttonIcon.hidden = true;
+                spinner.hidden = false;
+                buttonText.textContent = "Giriş yapılıyor...";
+            });
+        });
+    </script>
+}
