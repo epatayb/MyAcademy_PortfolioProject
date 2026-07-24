@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Portfolio.Data.Context;
 using Portfolio.Data.Entities;
 using System.Threading.Tasks;
 
 namespace Portfolio.Controllers
 {
+    [AllowAnonymous]
     public class DefaultController : Controller
     {
         private readonly AppDbContext _context;
